@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Background -->
+  <rect width="64" height="64" rx="16" fill="white"/>
+  
+  <!-- Top Swoosh (Blue) -->
+  <path d="M8 24 C 20 10, 44 10, 56 24" stroke="#007BFF" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Bottom Swoosh (Blue) -->
+  <path d="M8 40 C 20 54, 44 54, 56 40" stroke="#007BFF" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- VKS Text (Navy) -->
+  <text x="32" y="39" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="20" fill="#001F3F" letter-spacing="-1">VKS</text>
+</svg>

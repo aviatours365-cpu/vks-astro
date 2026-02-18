@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VKS Hexagon UI Kit</title>
+
+    <!-- 1. External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- 2. Fonts (VKS Brand Book) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 3. Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vks: {
+                            blue: '#007BFF',   /* Primary */
+                            navy: '#001F3F',   /* Secondary */
+                            surface: '#F5F5F7',
+                            dark: '#0B0F19',
+                            border: 'rgba(0, 123, 255, 0.2)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Manrope', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    spacing: {
+                        'hex': '2rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 4. Custom Styles & Hex Logic -->
+    <style>
+        :root {
+            /* Размеры срезов (Chamfer) */
+            --cut-sm: 8px;
+            --cut-md: 16px;
+            --cut-lg: 24px;
+
+            /* Цвета */
+            --primary: #007BFF;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(0, 123, 255, 0.1);
+        }
+
+        html.dark {
+            --bg-glass: rgba(11, 15, 25, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            @apply bg-white text-vks-navy transition-colors duration-500;
+        }
+
+        html.dark body {
+            @apply bg-vks-navy text-white;
+        }
+
+        /* --- HEXAGON CLIPPING MASKS --- */
+
+        /* 1. Инженерный срез (Chamfer) - для кнопок и карточек */
+        .hex-clip-sm {
+            clip-path: polygon(var(--cut-sm) 0, 100% 0,
+                    100% calc(100% - var(--cut-sm)), calc(100% - var(--cut-sm)) 100%,
+                    0 100%, 0 var(--cut-sm));
+        }
+
+        .hex-clip-md {
+            clip-path: polygon(var(--cut-md) 0, 100% 0,
+                    100% calc(100% - var(--cut-md)), calc(100% - var(--cut-md)) 100%,
+                    0 100%, 0 var(--cut-md));
+        }
+
+        /* 2. Чистый шестиугольник (Honeycomb) - для иконок */
+        .hex-pure {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        /* --- COMPONENTS --- */
+
+        /* Стекло (Glassmorphism) */
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+        }
+
+        /* Кнопки */
+        .btn {
+            @apply relative inline-flex items-center justify-center font-display font-bold uppercase tracking-wider text-sm py-3 px-8 transition-all duration-300 hex-clip-sm;
+        }
+
+        .btn-primary {
+            @apply bg-vks-blue text-white hover:brightness-110 active:scale-95 shadow-lg shadow-vks-blue/30;
+        }
+
+        .btn-outline {
+            @apply bg-transparent text-current border border-current hover:bg-vks-blue/10;
+            /* Трюк для бордера с clip-path требует вложенности, здесь упрощенный вариант */
+        }
+
+        /* Inputs */
+        .input-wrapper {
+            @apply relative w-full;
+        }
+
+        .input-field {
+            @apply w-full bg-transparent border-b-2 border-vks-border py-2 text-sm focus:outline-none focus:border-vks-blue transition-colors font-mono;
+        }
+
+        /* Custom Checkbox */
+        .hex-checkbox {
+            @apply appearance-none w-5 h-5 border border-vks-border bg-transparent cursor-pointer transition-colors mr-3;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .hex-checkbox:checked {
+            @apply bg-vks-blue border-vks-blue;
+        }
+
+        /* Animations */
+        @keyframes assemble {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .animate-assemble {
+            animation: assemble 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 3D Canvas Layer */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Background -->
+    <div id="webgl-canvas"></div>
+
+    <!-- Layout Wrapper -->
+    <div class="flex flex-col md:flex-row min-h-screen">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside
+            class="w-full md:w-80 h-auto md:h-screen glass-panel sticky top-0 z-50 flex flex-col justify-between border-r border-vks-border">
+            <div class="p-8">
+                <!-- Logo -->
+                <div class="flex items-center gap-4 mb-12">
+                    <div
+                        class="w-12 h-12 bg-vks-blue hex-pure flex items-center justify-center shadow-lg shadow-vks-blue/40">
+                        <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-display font-extrabold text-2xl tracking-tighter leading-none">VKS</h1>
+                        <span class="font-mono text-[10px] text-vks-blue uppercase tracking-widest">Digital State</span>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="space-y-2">
+                    <a href="#typography"
+                        class="flex items-center gap-3 px-4 py-3 rounded hover:bg-vks-blue/10 transition-colors group">
+                        <div
+                            class="w-1.5 h-1.5 bg-vks-blue rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <span class="font-medium text-sm">01. Typography</span>
+                    </a>
+                    <a href="#components"
+                        class="flex items-center gap-3 px-4 py-3 rounded hover:bg-vks-blue/10 transition-colors group">
+                        <div
+                            class="w-1.5 h-1.5 bg-vks-blue rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <span class="font-medium text-sm">02. Components</span>
+                    </a>
+                    <a href="#grid"
+                        class="flex items-center gap-3 px-4 py-3 rounded hover:bg-vks-blue/10 transition-colors group">
+                        <div
+                            class="w-1.5 h-1.5 bg-vks-blue rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <span class="font-medium text-sm">03. Honeycomb</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="p-8 border-t border-vks-border">
+                <button id="theme-toggle" class="flex items-center gap-4 w-full group">
+                    <div class="w-10 h-5 border border-current rounded-full relative flex items-center px-0.5">
+                        <div
+                            class="w-3.5 h-3.5 bg-current rounded-full transition-transform duration-300 dark:translate-x-full">
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono uppercase tracking-wider opacity-60 group-hover:opacity-100">Light /
+                        Dark</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 p-8 md:p-20 scroll-smooth">
+
+            <!-- SECTION 1: HEADER & TYPO -->
+            <section id="typography" class="mb-24 animate-assemble">
+                <div class="flex items-center gap-2 mb-6">
+                    <span
+                        class="px-2 py-1 bg-vks-blue/10 text-vks-blue text-[10px] font-mono rounded">SYS.VER.2.0</span>
+                </div>
+                <h2 class="font-display font-black text-5xl md:text-7xl mb-8 leading-none uppercase">
+                    Hexagon<br>
+                    <span class="text-vks-blue">Interface Kit</span>
+                </h2>
+                <p class="text-lg opacity-70 max-w-2xl mb-12 border-l-2 border-vks-blue pl-6">
+                    A comprehensive UI library based on the geometric precision of the hexagon.
+                    Merging Swiss Rationalism with Digital State Architecture.
+                </p>
+
+                <!-- Font Demo -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-6 hex-clip-sm">
+                        <div class="text-4xl font-display font-bold mb-2">Aa</div>
+                        <div class="text-xs font-mono opacity-50 uppercase">Manrope / Headlines</div>
+                    </div>
+                    <div class="glass-panel p-6 hex-clip-sm">
+                        <div class="text-4xl font-sans font-normal mb-2">Aa</div>
+                        <div class="text-xs font-mono opacity-50 uppercase">Inter / Body</div>
+                    </div>
+                    <div class="glass-panel p-6 hex-clip-sm">
+                        <div class="text-4xl font-mono font-normal mb-2">Aa</div>
+                        <div class="text-xs font-mono opacity-50 uppercase">JetBrains / Tech</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: COMPONENTS -->
+            <section id="components" class="mb-24">
+                <div class="flex items-end justify-between border-b border-vks-border pb-4 mb-12">
+                    <h3 class="font-display font-bold text-3xl">Control Modules</h3>
+                    <span class="font-mono text-xs opacity-50">02</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                    <!-- Buttons & Inputs -->
+                    <div class="space-y-12">
+                        <!-- Buttons -->
+                        <div>
+                            <h4 class="font-mono text-xs opacity-50 uppercase mb-6">Action Buttons (Hex-Clip)</h4>
+                            <div class="flex flex-wrap gap-4">
+                                <button class="btn btn-primary">Primary</button>
+                                <button class="btn btn-primary opacity-50 cursor-not-allowed">Disabled</button>
+                                <button
+                                    class="btn border border-current hover:text-vks-blue hover:border-vks-blue">Secondary</button>
+                            </div>
+                        </div>
+
+                        <!-- Forms -->
+                        <div>
+                            <h4 class="font-mono text-xs opacity-50 uppercase mb-6">Data Entry</h4>
+                            <div class="max-w-md space-y-6">
+                                <div class="input-wrapper">
+                                    <label class="block text-xs font-bold mb-2 uppercase">System Identity</label>
+                                    <input type="text" class="input-field" placeholder="Enter ID...">
+                                </div>
+                                <div class="flex gap-6">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" class="hex-checkbox" checked>
+                                        <span class="text-sm">Encrypt</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="checkbox" class="hex-checkbox">
+                                        <span class="text-sm">Log Data</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards -->
+                    <div>
+                        <h4 class="font-mono text-xs opacity-50 uppercase mb-6">Content Cards</h4>
+                        <div class="space-y-6">
+
+                            <!-- Card 1: Horizontal -->
+                            <div
+                                class="glass-panel p-6 hex-clip-md flex items-center gap-6 group hover:border-vks-blue transition-colors cursor-pointer">
+                                <div
+                                    class="w-16 h-16 bg-vks-blue/10 text-vks-blue hex-pure flex-shrink-0 flex items-center justify-center group-hover:bg-vks-blue group-hover:text-white transition-colors">
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h5 class="font-display font-bold text-lg">System Audit</h5>
+                                    <p class="text-sm opacity-60">Generate full landscape report.</p>
+                                </div>
+                                <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-vks-blue">
+                                    &rarr;
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Status -->
+                            <div class="glass-panel p-6 hex-clip-md border-l-4 border-l-vks-blue">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="font-mono text-xs text-vks-blue">ACTIVE</span>
+                                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                </div>
+                                <h5 class="font-display font-bold text-lg">Server Load</h5>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1 mt-4">
+                                    <div class="bg-vks-blue h-1 w-2/3"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 3: HONEYCOMB GRID -->
+            <section id="grid" class="mb-24">
+                <div class="flex items-end justify-between border-b border-vks-border pb-4 mb-12">
+                    <h3 class="font-display font-bold text-3xl">Honeycomb Structure</h3>
+                    <span class="font-mono text-xs opacity-50">03</span>
+                </div>
+
+                <div class="flex justify-center py-10">
+                    <div class="relative w-full max-w-lg">
+                        <div class="flex flex-wrap justify-center -ml-4">
+                            <!-- Row 1 -->
+                            <div class="flex">
+                                <div
+                                    class="w-24 h-28 mx-1 glass-panel bg-white/50 dark:bg-black/20 hex-pure flex flex-col items-center justify-center hover:bg-vks-blue hover:text-white transition-all cursor-pointer group">
+                                    <span class="text-2xl font-bold mb-1">01</span>
+                                    <span class="text-[10px] font-mono opacity-50 group-hover:opacity-100">NODE</span>
+                                </div>
+                                <div
+                                    class="w-24 h-28 mx-1 bg-vks-blue hex-pure flex items-center justify-center text-white shadow-xl shadow-vks-blue/20 transform scale-110 z-10">
+                                    <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="w-24 h-28 mx-1 glass-panel bg-white/50 dark:bg-black/20 hex-pure flex flex-col items-center justify-center hover:bg-vks-blue hover:text-white transition-all cursor-pointer group">
+                                    <span class="text-2xl font-bold mb-1">03</span>
+                                    <span class="text-[10px] font-mono opacity-50 group-hover:opacity-100">NODE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row 2 -->
+                        <div class="flex flex-wrap justify-center -mt-6">
+                            <div
+                                class="w-24 h-28 mx-1 glass-panel bg-white/50 dark:bg-black/20 hex-pure flex flex-col items-center justify-center hover:bg-vks-blue hover:text-white transition-all cursor-pointer group">
+                                <span class="text-2xl font-bold mb-1">04</span>
+                                <span class="text-[10px] font-mono opacity-50 group-hover:opacity-100">NODE</span>
+                            </div>
+                            <div
+                                class="w-24 h-28 mx-1 glass-panel bg-white/50 dark:bg-black/20 hex-pure flex flex-col items-center justify-center hover:bg-vks-blue hover:text-white transition-all cursor-pointer group">
+                                <span class="text-2xl font-bold mb-1">05</span>
+                                <span class="text-[10px] font-mono opacity-50 group-hover:opacity-100">NODE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Trigger -->
+                <div class="text-center mt-12">
+                    <button onclick="toggleModal()" class="btn btn-outline">Open Modal Interface</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL COMPONENT -->
+    <div id="modal-overlay"
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="modal-panel"
+            class="w-full max-w-md bg-white dark:bg-vks-dark p-8 hex-clip-md shadow-2xl transform scale-95 transition-transform duration-300 relative">
+            <button onclick="toggleModal()"
+                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center hover:bg-red-500 hover:text-white rounded-full transition-colors">&times;</button>
+
+            <div class="flex justify-center mb-6">
+                <div class="w-16 h-16 bg-vks-blue/10 text-vks-blue hex-pure flex items-center justify-center">
+                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+            </div>
+
+            <h3 class="font-display font-bold text-2xl text-center mb-2">Security Check</h3>
+            <p class="text-center text-sm opacity-60 mb-8">Confirm authentication to access the secure grid.</p>
+
+            <div class="space-y-4">
+                <input type="password" class="input-field text-center text-lg" placeholder="••••••••">
+                <button class="btn btn-primary w-full" onclick="toggleModal()">Authenticate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- Dark Mode ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            updateCanvasColors();
+        });
+
+        // --- Modal Logic ---
+        function toggleModal() {
+            const overlay = document.getElementById('modal-overlay');
+            const panel = document.getElementById('modal-panel');
+
+            if (overlay.classList.contains('opacity-0')) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                panel.classList.remove('scale-95');
+                panel.classList.add('scale-100');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                panel.classList.add('scale-95');
+                panel.classList.remove('scale-100');
+            }
+        }
+
+        // --- Three.js Background ---
+        let scene, camera, renderer, particles;
+        const canvasContainer = document.getElementById('webgl-canvas');
+
+        function init3D() {
+            if (!canvasContainer) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            canvasContainer.appendChild(renderer.domElement);
+
+            // Hexagon Geometry
+            const geometry = new THREE.CircleGeometry(1, 6);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x007BFF,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.1
+            });
+
+            particles = new THREE.Group();
+
+            const gridSize = 15;
+            for (let x = -gridSize; x < gridSize; x++) {
+                for (let y = -gridSize; y < gridSize; y++) {
+                    const mesh = new THREE.Mesh(geometry, material.clone());
+                    // Hex coordinate math
+                    const xPos = x * 3.5 + (y % 2) * 1.75;
+                    const yPos = y * 3;
+
+                    mesh.position.set(xPos, yPos, 0);
+                    mesh.rotation.z = Math.PI / 2;
+                    mesh.scale.set(1.5, 1.5, 1.5);
+                    particles.add(mesh);
+                }
+            }
+            scene.add(particles);
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Rotation
+                particles.rotation.z += 0.0005;
+
+                // Gentle Wave
+                const time = Date.now() * 0.001;
+                particles.children.forEach((p, i) => {
+                    p.position.z = Math.sin(time + p.position.x * 0.2) * 2;
+                });
+
+                renderer.render(scene, camera);
+            };
+            animate();
+        }
+
+        function updateCanvasColors() {
+            if (!particles) return;
+            const isDark = html.classList.contains('dark');
+            const color = isDark ? 0xFFFFFF : 0x007BFF;
+            const opacity = isDark ? 0.05 : 0.1;
+
+            particles.children.forEach(p => {
+                p.material.color.setHex(color);
+                p.material.opacity = opacity;
+            });
+        }
+
+        // Run
+        init3D();
+
+        // Resize
+        window.addEventListener('resize', () => {
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        });
+    </script>
+</body>
+
+</html>

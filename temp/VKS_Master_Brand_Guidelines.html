@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VKS Master Brand Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 
+         * VKS BRAND SYSTEM v3.0
+         * Swiss Rationalism / Digital State Architecture 
+         * Strict Asymmetry / Optical Tension
+         */
+
+        :root {
+            /* COLORS */
+            --c-blue: #007BFF;
+            --c-navy: #001F3F;
+            --c-navy-dark: #001226;
+            --c-surface: #F5F5F7;
+            --c-white: #FFFFFF;
+            --c-success: #28A745;
+            --c-error: #DC3545;
+            --c-line: rgba(0, 31, 63, 0.1);
+
+            /* TYPE */
+            --f-disp: 'Manrope', sans-serif;
+            --f-body: 'Inter', sans-serif;
+            --f-mono: 'JetBrains Mono', monospace;
+
+            /* SPACING (4px Base) */
+            --s-1: 4px;
+            --s-2: 8px;
+            --s-3: 12px;
+            --s-4: 16px;
+            --s-6: 24px;
+            --s-8: 32px;
+            --s-12: 48px;
+            --s-16: 64px;
+            --s-20: 80px;
+            --s-32: 128px;
+
+            /* LAYOUT */
+            --w-sidebar: 320px;
+            --grid-col: 1fr;
+            --grid-gap: 24px;
+        }
+
+        /* RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-white);
+            color: var(--c-navy);
+            font-family: var(--f-body);
+            font-size: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* THE LENS (Structural Divider) */
+        .lens-line {
+            position: fixed;
+            left: var(--w-sidebar);
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--c-line);
+            z-index: 100;
+        }
+
+        /* TYPOGRAPHY */
+        .display-xl {
+            font-family: var(--f-disp);
+            font-weight: 800;
+            font-size: 80px;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--s-16);
+            color: var(--c-navy);
+        }
+
+        .h1 {
+            font-family: var(--f-disp);
+            font-weight: 700;
+            font-size: 48px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--s-8);
+            padding-top: var(--s-16);
+        }
+
+        .h2 {
+            font-family: var(--f-disp);
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 1.2;
+            margin-bottom: var(--s-6);
+            margin-top: var(--s-12);
+        }
+
+        .label {
+            font-family: var(--f-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8899AA;
+            display: block;
+            margin-bottom: var(--s-2);
+        }
+
+        p {
+            max-width: 60ch;
+            margin-bottom: var(--s-4);
+            color: #334455;
+        }
+
+        /* LAYOUT STRUCTURE */
+        aside {
+            width: var(--w-sidebar);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            padding: var(--s-8);
+            background: var(--c-surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        main {
+            margin-left: var(--w-sidebar);
+            flex: 1;
+            padding: var(--s-20) 8%;
+            /* 8% padding for dynamic breath */
+            position: relative;
+        }
+
+        /* NAV */
+        .nav-logo {
+            width: 80px;
+            display: block;
+            margin-bottom: var(--s-16);
+        }
+
+        .nav-list a {
+            display: block;
+            text-decoration: none;
+            color: var(--c-navy);
+            font-family: var(--f-mono);
+            font-size: 14px;
+            padding: var(--s-2) 0;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .nav-list a:hover {
+            opacity: 1;
+            color: var(--c-blue);
+        }
+
+        .nav-list a.active {
+            opacity: 1;
+            font-weight: 500;
+            color: var(--c-blue);
+        }
+
+        .nav-list a::before {
+            content: "0" counter(nav) ". ";
+            counter-increment: nav;
+            font-size: 10px;
+            opacity: 0.5;
+            margin-right: 4px;
+        }
+
+        .nav-list {
+            counter-reset: nav;
+        }
+
+        /* GRID SYSTEM (CSS Grid for Content) */
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-gap);
+            margin-bottom: var(--s-12);
+        }
+
+        .col-3 {
+            grid-column: span 3;
+        }
+
+        .col-4 {
+            grid-column: span 4;
+        }
+
+        .col-6 {
+            grid-column: span 6;
+        }
+
+        .col-12 {
+            grid-column: span 12;
+        }
+
+        /* CONSTANTS & VISUALS */
+        .swatch {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            height: 160px;
+            margin-bottom: var(--s-2);
+            position: relative;
+        }
+
+        .swatch-label {
+            font-family: var(--f-mono);
+            font-size: 12px;
+            margin-top: var(--s-2);
+        }
+
+        /* UI ELEMENTS hard */
+        .btn-core {
+            display: inline-flex;
+            height: 48px;
+            padding: 0 32px;
+            align-items: center;
+            background: var(--c-blue);
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            /* Strict functional radius */
+            border: none;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+
+        .btn-core:hover {
+            background: #0060CA;
+        }
+
+        .btn-core:active {
+            transform: translateY(1px);
+        }
+
+        .btn-core:focus {
+            outline: 2px solid #80BDFF;
+            outline-offset: 2px;
+        }
+
+        .btn-disabled {
+            background: #E0E0E0;
+            color: #999;
+            pointer-events: none;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--c-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-blue);
+            border-radius: 4px;
+        }
+
+        /* don't grid */
+        .dont-wrap {
+            position: relative;
+            border: 1px solid var(--c-error);
+            padding: var(--s-8);
+        }
+
+        .dont-wrap::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(to top left, transparent 48%, var(--c-error) 49%, var(--c-error) 51%, transparent 52%),
+                linear-gradient(to top right, transparent 48%, var(--c-error) 49%, var(--c-error) 51%, transparent 52%);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .dont-marker {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--c-error);
+            color: white;
+            font-family: var(--f-mono);
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        /* UTILS */
+        .box-outline {
+            border: 1px solid var(--c-line);
+            padding: var(--s-4);
+        }
+
+        .mono-val {
+            font-family: var(--f-mono);
+            font-size: 13px;
+            color: #555;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .grid-line-demo {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: var(--w-sidebar);
+            right: 0;
+            z-index: -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            padding: 0 8%;
+            pointer-events: none;
+        }
+
+        .grid-line-demo span {
+            border-right: 1px solid rgba(0, 123, 255, 0.03);
+            border-left: 1px solid rgba(0, 123, 255, 0.03);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LENS LINE -->
+    <div class="lens-line"></div>
+
+    <!-- BACKGROUND GRID (Visual Tension) -->
+    <div class="grid-line-demo">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <div>
+            <img src="logo.png" alt="VKS Logo" class="nav-logo">
+            <div class="label">BRAND INSTRUMENT</div>
+            <div style="font-family: var(--f-disp); font-weight: 800; font-size: 20px; line-height: 1.1;">
+                MASTER<br>GUIDELINES
+            </div>
+
+            <nav style="margin-top: var(--s-16);">
+                <div class="label" style="margin-bottom: var(--s-4);">INDEX</div>
+                <div class="nav-list">
+                    <a href="#dna">Brand DNA</a>
+                    <a href="#logo">Logo System</a>
+                    <a href="#color">Color System</a>
+                    <a href="#type">Typography</a>
+                    <a href="#grid">Layout & Grid</a>
+                    <a href="#ui">UI Components</a>
+                    <a href="#prod">Production</a>
+                </div>
+            </nav>
+        </div>
+
+        <div style="font-family: var(--f-mono); font-size: 11px; opacity: 0.5;">
+            SRC: VKS_BrandBook_Official.md<br>
+            VER: 2.0 (2025)<br>
+            AGENCY: GOV-TECH
+        </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main>
+
+        <!-- SECTION 0: DNA -->
+        <section id="dna" style="min-height: 50vh;">
+            <div class="label">00. PHILOSOPHY</div>
+            <h1 class="display-xl">Digital State<br><span style="color: var(--c-blue);">Architecture.</span></h1>
+
+            <div class="grid-12">
+                <div class="col-6">
+                    <p class="h2" style="margin-top:0;">The Lens_</p>
+                    <p>We are not just an IT company. We build the digital infrastructure of the state. Our style is
+                        <strong>Swiss Rationalism</strong> aligned with the "Lens" metaphor: focus, clarity, and the
+                        cutting of noise.</p>
+                </div>
+                <div class="col-6 box-outline">
+                    <div class="label">KEY TRAITS</div>
+                    <ul style="list-style: none; font-family: var(--f-mono); font-size: 14px; line-height: 2;">
+                        <li>[x] ENGINEERING PRECISION</li>
+                        <li>[x] DATA DYNAMICS</li>
+                        <li>[x] NO DECORATION</li>
+                        <li>[x] HIGH FUNCTION</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: LOGO -->
+        <section id="logo">
+            <div class="label">01. LOGO SYSTEM</div>
+            <h2 class="h1">Construction &<br>Safe Zone</h2>
+
+            <div class="grid-12">
+                <div class="col-12" style="border: 1px solid var(--c-navy); padding: var(--s-8); position: relative;">
+                    <!-- SVG TECHNICAL DRAWING -->
+                    <div
+                        style="position: absolute; top: 12px; left: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--c-blue);">
+                        FIG 1.0 - CLEAR SPACE</div>
+
+                    <svg width="100%" height="300" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid meet">
+                        <!-- Grid lines -->
+                        <defs>
+                            <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,123,255,0.1)"
+                                    stroke-width="0.5" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#smallGrid)" />
+
+                        <!-- Safe Zone Box (dashed) -->
+                        <rect x="100" y="50" width="400" height="200" fill="rgba(0,123,255,0.02)" stroke="#007BFF"
+                            stroke-width="1" stroke-dasharray="5,5" />
+
+                        <!-- Measurement Lines -->
+                        <line x1="100" y1="20" x2="200" y2="20" stroke="#007BFF" stroke-width="1"
+                            marker-end="url(#arrow)" marker-start="url(#arrow)" />
+                        <text x="150" y="15" text-anchor="middle" fill="#007BFF" font-family="JetBrains Mono"
+                            font-size="12">2X</text>
+
+                        <!-- Pseudo Logo (Using Text for SVG representation to mimic structure described) -->
+                        <text x="300" y="180" text-anchor="middle" font-family="Manrope" font-weight="800"
+                            font-size="100" fill="#001F3F">VKS</text>
+
+                        <!-- X Height Indicator -->
+                        <line x1="510" y1="108" x2="510" y2="180" stroke="#007BFF" stroke-width="1" />
+                        <text x="520" y="150" fill="#007BFF" font-family="JetBrains Mono" font-size="12">X</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="grid-12" style="margin-top: var(--s-12);">
+                <div class="col-4">
+                    <p><strong>The 2X Rule.</strong> The logo must always be surrounded by clear space equal to twice
+                        the height of the letter "V" (X).</p>
+                    <div class="label" style="margin-top: 24px;">SCALABILITY</div>
+                    <div class="mono-val">Digital Min: 100px</div>
+                    <div class="mono-val">Print Min: 25mm</div>
+                </div>
+                <div class="col-8">
+                    <div class="label" style="color: var(--c-error);">DON'TS (STRICT PROHIBITION)</div>
+                    <div class="grid-12" style="margin-top: var(--s-4);">
+                        <div class="col-4 dont-wrap">
+                            <span class="dont-marker">NO SHADOW</span>
+                            <div style="font-weight: 800; font-size: 32px; text-shadow: 4px 4px 6px rgba(0,0,0,0.5);">
+                                VKS</div>
+                        </div>
+                        <div class="col-4 dont-wrap">
+                            <span class="dont-marker">NO OUTLINE</span>
+                            <div
+                                style="font-weight: 800; font-size: 32px; -webkit-text-stroke: 1px black; color: white;">
+                                VKS</div>
+                        </div>
+                        <div class="col-4 dont-wrap">
+                            <span class="dont-marker">NO LOW CONTRAST</span>
+                            <div style="background: #333; padding: 10px;">
+                                <div style="font-weight: 800; font-size: 32px; color: #007BFF;">VKS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COLOR -->
+        <section id="color" style="margin-top: var(--s-16);">
+            <div class="label">02. CHROMATIC DATA</div>
+            <h2 class="h1">Color Tokens</h2>
+
+            <div class="grid-12">
+                <!-- PRIMARY -->
+                <div class="col-4">
+                    <div class="swatch" style="background: var(--c-blue);"></div>
+                    <div style="font-weight: 700;">Azure Blue</div>
+                    <div class="mono-val">HEX: #007BFF (PMS 2935C)</div>
+                    <div class="mono-val">--color-primary-main</div>
+                </div>
+                <!-- NAVY -->
+                <div class="col-4">
+                    <div class="swatch" style="background: var(--c-navy);"></div>
+                    <div style="font-weight: 700;">Deep Navy</div>
+                    <div class="mono-val">HEX: #001F3F (PMS 289C)</div>
+                    <div class="mono-val">--color-text-primary</div>
+                </div>
+                <!-- WHITE -->
+                <div class="col-4">
+                    <div class="swatch" style="background: var(--c-white); border-color: #eee;"></div>
+                    <div style="font-weight: 700;">Pure White</div>
+                    <div class="mono-val">HEX: #FFFFFF</div>
+                    <div class="mono-val">--color-bg-base</div>
+                </div>
+            </div>
+
+            <div class="grid-12" style="margin-top: var(--s-8);">
+                <div class="col-12">
+                    <div class="label">SEMANTIC ROLES</div>
+                </div>
+                <!-- SURFACE -->
+                <div class="col-3">
+                    <div class="swatch" style="height: 60px; background: var(--c-surface);"></div>
+                    <div class="mono-val">Surface (#F5F5F7)</div>
+                </div>
+                <!-- SUCCESS -->
+                <div class="col-3">
+                    <div class="swatch" style="height: 60px; background: var(--c-success);"></div>
+                    <div class="mono-val">Success (#28A745)</div>
+                </div>
+                <!-- ERROR -->
+                <div class="col-3">
+                    <div class="swatch" style="height: 60px; background: var(--c-error);"></div>
+                    <div class="mono-val">Error (#DC3545)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TYPOGRAPHY -->
+        <section id="type" style="margin-top: var(--s-16);">
+            <div class="label">03. TYPOGRAPHY</div>
+            <h2 class="h1">Manrope + Inter</h2>
+
+            <div style="border-top: 1px solid var(--c-navy); padding-top: var(--s-8);">
+                <div class="grid-12"
+                    style="align-items: baseline; margin-bottom: var(--s-4); border-bottom: 1px solid #eee; padding-bottom: var(--s-4);">
+                    <div class="col-3 label">H1 / DISPLAY</div>
+                    <div class="col-9 display-xl" style="font-size: 64px; margin:0;">Digital State</div>
+                    <div class="col-12 mono-val">Manrope Bold 64px / 110% LH / -2% Tracking</div>
+                </div>
+
+                <div class="grid-12"
+                    style="align-items: baseline; margin-bottom: var(--s-4); border-bottom: 1px solid #eee; padding-bottom: var(--s-4);">
+                    <div class="col-3 label">H2 / SECTION</div>
+                    <div class="col-9 h1" style="font-size: 48px; margin:0; padding:0;">Architecture</div>
+                    <div class="col-12 mono-val">Manrope Bold 48px / 120% LH / -1% Tracking</div>
+                </div>
+
+                <div class="grid-12"
+                    style="align-items: baseline; margin-bottom: var(--s-4); border-bottom: 1px solid #eee; padding-bottom: var(--s-4);">
+                    <div class="col-3 label">H3 / SUBHEAD</div>
+                    <div class="col-9 h2" style="font-size: 32px; margin:0; padding:0;">Engineering Focus</div>
+                    <div class="col-12 mono-val">Manrope SemiBold 32px / 130% LH</div>
+                </div>
+
+                <div class="grid-12" style="align-items: baseline;">
+                    <div class="col-3 label">P1 / BODY</div>
+                    <div class="col-6">
+                        <p style="font-size: 20px;">The interface of the digital state must be transparent, efficient,
+                            and reliable.</p>
+                        <p style="font-size: 16px;">(Body Base) We do not sell; we inform. Our design language removes
+                            the unnecessary to reveal the essential data structures underneath.</p>
+                    </div>
+                    <div class="col-12 mono-val">Inter Medium 20px (Lead) / Inter Regular 16px (Base)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: UI & COMPONENTS -->
+        <section id="ui" style="margin-top: var(--s-16); padding-bottom: var(--s-16);">
+            <div class="label">04. INTERFACE</div>
+            <h2 class="h1">Strict Components</h2>
+
+            <div class="grid-12">
+                <div class="col-6 box-outline">
+                    <div class="label">BUTTONS (RADIUS 4PX)</div>
+                    <div style="display: flex; gap: 16px; margin-top: 24px;">
+                        <button class="btn-core">Primary Action</button>
+                        <button class="btn-core" style="background:#0050a0;">Hover</button> <!-- visual sim -->
+                        <button class="btn-core btn-disabled">Disabled</button>
+                    </div>
+                </div>
+
+                <div class="col-6 box-outline">
+                    <div class="label">ICONOGRAPHY (1.5PX STROKE)</div>
+                    <div style="display: flex; gap: 24px; margin-top: 24px;">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                </path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-12" style="margin-top: var(--s-8);">
+                <div class="col-12">
+                    <div class="label">GRID SYSTEM (12 COL)</div>
+                    <p>Desktop: 1440px / Margin 80px / Gutter 24px</p>
+                    <p>Mobile: 375px / Margin 16px / Gutter 16px</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

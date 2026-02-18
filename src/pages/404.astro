@@ -1,0 +1,58 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Button from "@/components/ui/Button.astro";
+import heroBg from "@/assets/hero-bg.svg";
+---
+
+<RootLayout title="404 — Страница не найдена">
+  <Header />
+
+  <main
+    class="relative min-h-screen flex items-center justify-center overflow-hidden bg-white pt-20"
+  >
+    {/* Background Pattern (Same as Hero) */}
+    <div class="absolute inset-0 z-0">
+      <img
+        src={heroBg.src}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover opacity-30 select-none pointer-events-none"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-white/80 via-white/50 to-transparent pointer-events-none"
+      >
+      </div>
+    </div>
+
+    <div
+      class="container relative z-10 flex flex-col items-center text-center space-y-8"
+    >
+      <h1
+        class="font-display font-black text-[12rem] leading-none text-navy/5 select-none animate-pulse"
+      >
+        404
+      </h1>
+
+      <div class="space-y-6 -mt-12">
+        <h2
+          class="font-display font-bold text-4xl md:text-5xl text-navy uppercase tracking-tight"
+        >
+          Страница не найдена
+        </h2>
+        <p class="font-sans text-lg text-navy/60 max-w-md mx-auto">
+          Возможно, она была перемещена или удалена. <br />
+          Попробуйте вернуться на главную.
+        </p>
+
+        <Button
+          href="/"
+          variant="primary"
+          size="lg"
+          className="rounded-full uppercase shadow-xl"
+        >
+          На главную
+        </Button>
+      </div>
+    </div>
+  </main>
+</RootLayout>

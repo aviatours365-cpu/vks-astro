@@ -1,0 +1,16 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Hero from "@/components/sections/Hero.astro";
+import { SITE } from "@/lib/constants";
+---
+
+<RootLayout
+  title={`${SITE.name} — Инженерные системы и цифровая инфраструктура`}
+  description="Проектируем и внедряем комплексные ИТ-решения: от серверной инфраструктуры до систем безопасности. VKS Group — ваш надежный технологический партнер."
+>
+  <Header />
+  <main>
+    <Hero />
+  </main>
+</RootLayout>

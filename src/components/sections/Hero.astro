@@ -1,0 +1,147 @@
+---
+import Button from "@/components/ui/Button.astro";
+import heroBg from "@/assets/hero-bg.svg";
+---
+
+<section
+  class="relative min-h-screen flex items-center overflow-hidden bg-white pt-20"
+>
+  <div class="absolute inset-0 z-0 select-none">
+    <img
+      id="hero-bg"
+      src={heroBg.src}
+      alt="Hero Background"
+      class="absolute inset-0 w-full h-full object-cover scale-110"
+    />
+
+    <!-- Light Gradient Overlay for Text Readability (Left Side Only) -->
+    <div
+      class="absolute inset-y-0 left-0 w-full md:w-[70%] bg-gradient-to-r from-white/95 via-white/80 to-transparent pointer-events-none"
+    >
+    </div>
+
+    <!-- Flickering Effect Overlay -->
+    <!-- Positioned to match the blue hexagon in the generated image (approximate, needs manual tuning based on image) -->
+    <div
+      class="absolute top-[48%] right-[18%] -translate-y-1/2 w-[220px] h-[220px] bg-blue/40 blur-[50px] rounded-full animate-pulse-fast hidden md:block"
+      style="animation: flicker 3s infinite;"
+    >
+    </div>
+
+    <style>
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 0.5;
+          transform: scale(1) translateY(-50%);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.1) translateY(-50%);
+        }
+        25% {
+          opacity: 0.4;
+        }
+        75% {
+          opacity: 0.9;
+        }
+      }
+    </style>
+  </div>
+
+  <div
+    class="container relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+  >
+    {/* Text Content (Left) */}
+    <div class="space-y-12 pt-12 md:pt-0">
+      <div class="space-y-8">
+        <h1
+          class="font-display font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] md:leading-[0.9] text-navy uppercase tracking-tight break-words hyphens-auto"
+        >
+          ПРОЕКТИРУЕМ <br />
+          ИНФРАСТРУКТУРУ <br />
+          БУДУЩЕГО
+        </h1>
+        <p
+          class="font-sans text-navy/80 text-xl md:text-2xl font-light leading-normal max-w-[50ch]"
+        >
+          Проектируем и внедряем ИТ-системы любого масштаба. Инженерная точность
+          и безопасность данных.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <Button
+          variant="primary"
+          size="lg"
+          href="/contact"
+          className="rounded-full uppercase shadow-[0_4px_20px_rgba(0,123,255,0.4)] hover:shadow-[0_6px_25px_rgba(0,123,255,0.5)]"
+        >
+          Начать проект
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          href="/services"
+          className="rounded-full uppercase bg-transparent border-navy text-navy hover:bg-navy/5"
+        >
+          Наши услуги
+        </Button>
+      </div>
+    </div>
+
+    {/* Visual Placeholder (Right) - Empty for now, background does the work */}
+    <div class="hidden md:block h-full min-h-[400px]">
+      {/* Can place a 3D model or specific graphic here later */}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const heroBg = document.getElementById("hero-bg");
+
+  if (heroBg) {
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    // Linear interpolation for smoothness
+    const lerp = (start, end, factor) => start + (end - start) * factor;
+
+    const animate = () => {
+      if (window.innerWidth >= 768) {
+        // Smoothly interpolate towards target
+        const diffX = targetX - currentX;
+        const diffY = targetY - currentY;
+
+        // Stop updating if very close to target to save resources
+        if (Math.abs(diffX) > 0.1 || Math.abs(diffY) > 0.1) {
+          currentX = lerp(currentX, targetX, 0.05);
+          currentY = lerp(currentY, targetY, 0.05);
+          heroBg.style.transform = `scale(1.1) translate(${-currentX}px, ${-currentY}px)`;
+        }
+      } else {
+        // Reset on mobile
+        heroBg.style.transform = "scale(1.1) translate(0, 0)";
+      }
+      requestAnimationFrame(animate);
+    };
+
+    // Start animation loop
+    animate();
+
+    // Track mouse on WINDOW to avoid twitching when crossing element boundaries (like the header)
+    window.addEventListener("mousemove", (e) => {
+      if (window.innerWidth < 768) return;
+
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+
+      // Sensitivity (0.01)
+      const sensitivity = 0.01;
+      targetX = (clientX - innerWidth / 2) * sensitivity;
+      targetY = (clientY - innerHeight / 2) * sensitivity;
+    });
+  }
+</script>

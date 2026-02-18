@@ -1,0 +1,323 @@
+---
+import { cn } from "@/utils/cn";
+import { SITE, NAV_LINKS } from "@/lib/constants";
+import Button from "@/components/ui/Button.astro";
+import logo from "@/assets/logo.png";
+import heroBg from "@/assets/hero-bg.svg";
+
+interface Props {
+  className?: string;
+}
+
+const { className } = Astro.props;
+
+const MENU_LINKS = [
+  { label: "Услуги", href: "/uslugi" },
+  { label: "Продукты", href: "/products" },
+  { label: "Контакты", href: "/kontakty" },
+];
+---
+
+<header
+  id="main-header"
+  class={cn(
+    "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-2 bg-white/70 backdrop-blur-md",
+    className,
+  )}
+>
+  <div class="container flex h-16 items-center justify-between">
+    {/* Logo */}
+    <a href="/" class="group flex items-center gap-2">
+      <img src={logo.src} alt="VKS Logo" class="h-10 w-auto object-contain" />
+    </a>
+
+    {/* Desktop Menu */}
+    <nav class="hidden md:flex items-center gap-12">
+      {
+        MENU_LINKS.map((link) => (
+          <a
+            href={link.href}
+            class="font-display text-xs font-bold uppercase tracking-[0.1em] text-navy/80 hover:text-blue transition-colors relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-blue after:transition-all hover:after:w-full"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <Button
+        href="/contact"
+        variant="outline"
+        size="md"
+        className="h-10 px-8 rounded-full uppercase text-xs font-bold tracking-[0.1em] shadow-none hover:shadow-[0_0_20px_rgba(0,123,255,0.4)]"
+      >
+        Обсудить проект
+      </Button>
+    </nav>
+
+    {/* Mobile Menu Trigger */}
+    <button
+      id="menu-toggle"
+      class="md:hidden flex items-center gap-3 text-navy hover:text-blue transition-colors group relative z-50"
+      aria-label="Toggle Menu"
+    >
+      <div class="w-7 h-7 flex items-center justify-center relative">
+        <!-- Burger Icon -->
+        <svg
+          id="icon-burger"
+          class="w-7 h-7 absolute inset-0 transition-opacity duration-300 ease-in-out"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 6H20"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+          <path
+            d="M4 12H20"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+          <path
+            d="M4 18H20"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+
+        <!-- Close Icon (Standard X) -->
+        <svg
+          id="icon-close"
+          class="w-7 h-7 absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out text-white"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 6L18 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+          <path
+            d="M6 18L18 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <span
+        class="font-display text-sm uppercase tracking-widest hidden sm:block group-hover:text-blue transition-colors"
+      >
+        МЕНЮ
+      </span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col justify-between px-8 pt-24 pb-12 overflow-hidden"
+      style="background-color: #001F3F;"
+    >
+      <!-- Background Pattern (Echoing Hero) -->
+      <img
+        src={heroBg.src}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none"
+      />
+
+      <!-- Gradient Overlay for better text contrast -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-navy/50 to-navy/90 pointer-events-none"
+      >
+      </div>
+
+      <nav class="flex-grow flex flex-col justify-center gap-6 relative z-10">
+        {
+          MENU_LINKS.map((link, index) => (
+            <a
+              href={link.href}
+              class="mobile-link font-display text-[24px] font-bold uppercase tracking-tight text-white hover:text-blue transition-colors translate-y-8 opacity-0"
+              style={`transition-delay: ${100 + index * 50}ms`}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div
+        class="flex flex-col gap-8 mobile-link translate-y-8 opacity-0 relative z-10 w-full"
+        style="transition-delay: 300ms"
+      >
+        <!-- Social Icons Row -->
+        <div class="flex items-center justify-between px-2">
+          <!-- Mail -->
+          <a
+            href="mailto:info@vksgroup.by"
+            class="text-white hover:text-blue transition-colors p-2"
+            aria-label="Email"
+          >
+            <svg
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M22 6L12 13L2 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <!-- Telegram -->
+          <a
+            href="#"
+            class="text-white hover:text-blue transition-colors p-2"
+            aria-label="Telegram"
+          >
+            <svg
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.5 2L2 9.5L9 12.5L12 20.5L15.5 15L21.5 2Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <!-- Viber -->
+          <a
+            href="#"
+            class="text-white hover:text-blue transition-colors p-2"
+            aria-label="Viber"
+          >
+            <svg
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.4 17.5C21.1 19.1 19.5 20.2 18 20.3C15 20.4 12 19.4 9.5 17.5C7.2 15.6 5.4 13.2 4.1 10.5C3 8.3 2.7 5.7 3.6 3.4C4 2.3 5 1.5 6.2 1.5H6.9C7.8 1.5 8.7 2.1 9 2.9L9.8 4.7C10.1 5.3 10 6.1 9.5 6.6L8.6 7.6C8.5 7.7 8.4 7.9 8.5 8.1C9 9.2 9.7 10.2 10.6 11.1C11.5 12 12.5 12.7 13.6 13.2C13.8 13.3 14 13.2 14.1 13.1L15.1 12.2C15.6 11.7 16.4 11.6 17 11.9L18.8 12.7C19.6 13 20.2 13.9 20.2 14.8V15.5C20.2 16.2 19.9 16.9 19.4 17.4L21.4 17.5Z"
+              ></path>
+            </svg>
+          </a>
+          <!-- WhatsApp -->
+          <a
+            href="#"
+            class="text-white hover:text-blue transition-colors p-2"
+            aria-label="WhatsApp"
+          >
+            <svg
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+
+        <Button
+          href="tel:+375291234567"
+          size="lg"
+          className="w-full justify-center rounded-full uppercase shadow-lg bg-blue text-white hover:bg-blue-hover border-none"
+        >
+          Позвонить
+        </Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  // Runs on initial load and after every navigation
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("Header script loaded");
+    const header = document.getElementById("main-header");
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const iconBurger = document.getElementById("icon-burger");
+    const iconClose = document.getElementById("icon-close");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
+    const body = document.body;
+
+    let isMenuOpen = false;
+
+    const toggleMenu = () => {
+      isMenuOpen = !isMenuOpen;
+
+      if (isMenuOpen) {
+        mobileMenu?.classList.remove("translate-x-full");
+        body.style.overflow = "hidden";
+
+        // Swap Icons
+        iconBurger?.classList.add("opacity-0");
+        iconClose?.classList.remove("opacity-0");
+
+        // Animate Links
+        setTimeout(() => {
+          mobileLinks.forEach((link) => {
+            link.classList.remove("translate-y-8", "opacity-0");
+          });
+        }, 100);
+      } else {
+        mobileMenu?.classList.add("translate-x-full");
+        body.style.overflow = "";
+
+        // Swap Icons
+        iconBurger?.classList.remove("opacity-0");
+        iconClose?.classList.add("opacity-0");
+
+        // Reset Links
+        mobileLinks.forEach((link) => {
+          link.classList.add("translate-y-8", "opacity-0");
+        });
+      }
+    };
+
+    // Remove existing listener to prevent duplicates if cleanup failed
+    menuToggle?.removeEventListener("click", toggleMenu);
+    menuToggle?.addEventListener("click", toggleMenu);
+
+    const handleScroll = () => {
+      if (!header) return;
+
+      if (window.scrollY > 10) {
+        header.classList.add(
+          "bg-white/90",
+          "backdrop-blur-md",
+          "shadow-sm",
+          "py-1",
+        );
+        header.classList.remove("py-2");
+      } else {
+        header.classList.remove(
+          "bg-white/90",
+          "backdrop-blur-md",
+          "shadow-sm",
+          "py-1",
+        );
+        header.classList.add("py-2");
+      }
+    };
+
+    window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Init
+  });
+</script>

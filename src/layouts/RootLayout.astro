@@ -1,0 +1,51 @@
+---
+import "@/styles/main.css";
+// import { ClientRouter } from "astro:transitions"; // Removed for file:// compatibility
+import { SITE } from "@/lib/constants";
+import favicon from "@/assets/favicon.svg";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = SITE.name, description = SITE.description } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, SITE.url);
+---
+
+<!doctype html>
+<html lang="ru" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href={favicon.src} />
+
+    <!-- Fonts (preconnect) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <!-- View Transitions (SPA-like navigation) removed for file:// compatibility -->
+    <!-- <ClientRouter /> -->
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-white text-navy antialiased">
+    <slot />
+  </body>
+</html>

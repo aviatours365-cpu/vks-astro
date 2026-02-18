@@ -1,0 +1,54 @@
+/* ── Font Imports (Google Fonts CDN — replace with self-hosted woff2 later) ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@700;800;900&subset=cyrillic&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── VKS Brand Color Tokens ── */
+    --c-blue: #007BFF;
+    --c-blue-hover: #0060CA;
+    --c-navy: #001F3F;
+    --c-navy-dark: #001226;
+    --c-surface: #F5F5F7;
+    --c-white: #FFFFFF;
+    --c-line: rgba(0, 31, 63, 0.1);
+    --c-success: #28A745;
+    --c-error: #DC3545;
+  }
+
+  html {
+    font-family: 'Inter', sans-serif;
+    color: var(--c-navy);
+    background-color: var(--c-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── Selection ── */
+  ::selection {
+    background-color: var(--c-blue);
+    color: var(--c-white);
+  }
+
+  /* ── Focus Ring (Accessibility) ── */
+  :focus-visible {
+    outline: 2px solid var(--c-blue);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* ── Reusable component classes will be defined here ── */
+}
+
+@layer utilities {
+  /* ── Custom utilities will be defined here ── */
+}
