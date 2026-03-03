@@ -1,0 +1,59 @@
+---
+import { cn } from "@/utils/cn";
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  full: string;
+  className?: string;
+}
+
+const { icon, title, description, full, className } = Astro.props;
+
+// Format text seamlessly to avoid line breaks (continuous paragraph)
+const textSuffix = full.startsWith(",") ? full : " " + full;
+---
+
+<div class="group relative w-full h-[320px] md:h-[340px] z-10 hover:z-50">
+  <div
+    class={cn(
+      "absolute top-0 left-0 w-full bg-white rounded-xl p-8 lg:p-10 border border-[#e1e1e1] overflow-hidden",
+      "transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-top",
+      "group-hover:shadow-[0_16px_40px_rgba(0,123,255,0.12)] group-hover:border-transparent group-hover:scale-[1.03] group-hover:-translate-y-2",
+      "min-h-full max-h-[320px] md:max-h-[340px] group-hover:max-h-[800px]",
+      className,
+    )}
+  >
+    {/* Hexagon Icon */}
+    <div
+      class="relative w-max overflow-hidden rounded-md mb-6 transition-transform duration-500 ease-out after:content-[''] after:absolute after:top-0 after:-left-[150%] after:w-[150%] after:h-[150%] after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:-skew-x-[20deg] group-hover:after:animate-[shine_1s_ease-out_forwards]"
+    >
+      <Icon
+        name={icon as any}
+        size={64}
+        class="text-blue transition-colors duration-500"
+      />
+    </div>
+
+    {/* Title */}
+    <h3
+      class="font-display font-bold text-xl uppercase tracking-wider text-navy mb-4 transition-colors duration-500 group-hover:text-blue pr-8"
+    >
+      {title}
+    </h3>
+
+    {/* Single Continuous Text Block */}
+    <p
+      class="font-sans text-[15px] text-navy/60 leading-relaxed font-light mb-0"
+    >
+      {description}
+      <span
+        class="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      >
+        {textSuffix}
+      </span>
+    </p>
+  </div>
+</div>

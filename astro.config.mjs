@@ -5,9 +5,12 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
     site: 'https://vksgroup.by',
-    base: './', // Enable relative paths for file:// protocol support
+    base: '/', // Enable relative paths for file:// protocol support
     output: 'static',
     compressHTML: true,
+    build: {
+        inlineStylesheets: 'always',
+    },
 
     prefetch: {
         prefetchAll: true,

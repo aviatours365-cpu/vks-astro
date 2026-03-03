@@ -1,0 +1,165 @@
+---
+import { NAV_LINKS, CONTACTS } from "@/lib/constants";
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  class?: string;
+}
+---
+
+{/* Mobile Menu Trigger */}
+<button
+  id="menu-toggle"
+  class="md:hidden flex items-center gap-3 text-navy hover:text-blue transition-colors group relative z-50"
+  aria-label="Toggle Menu"
+>
+  <div class="w-7 h-7 flex items-center justify-center relative">
+    <Icon
+      name="burger"
+      class="w-7 h-7 absolute inset-0 transition-opacity duration-300 ease-in-out"
+    />
+    <Icon
+      name="close"
+      class="w-7 h-7 absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out text-white"
+    />
+  </div>
+  <span
+    class="font-display text-sm uppercase tracking-widest hidden sm:block group-hover:text-blue transition-colors"
+  >
+    МЕНЮ
+  </span>
+</button>
+
+{/* Mobile Menu Overlay */}
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden bg-[#0a1128] text-white overflow-y-auto"
+>
+  <div class="flex flex-col h-full px-6 pt-24 pb-12 w-full max-w-sm mx-auto">
+    {/* Navigation */}
+    <div
+      class="flex flex-col gap-6 mb-auto mobile-link translate-y-8 opacity-0"
+      style="transition-delay: 100ms"
+    >
+      <h4
+        class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
+      >
+        Навигация
+      </h4>
+      <nav class="flex flex-col gap-4">
+        {
+          NAV_LINKS.map((link) => (
+            <a
+              href={link.href}
+              class="text-white/90 hover:text-white transition-colors duration-300 font-light text-[18px]"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    {/* Phones & Contacts */}
+    <div
+      class="flex flex-col gap-10 mt-12 mb-12 mobile-link translate-y-8 opacity-0"
+      style="transition-delay: 200ms"
+    >
+      {/* Phones */}
+      <div class="flex flex-col gap-6">
+        <h4
+          class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
+        >
+          Телефоны
+        </h4>
+        <ul class="flex flex-col gap-4">
+          {
+            CONTACTS.phones.map((phone) => (
+              <li class="flex items-baseline gap-3">
+                <span class="text-[10px] text-white/40 uppercase tracking-widest font-semibold w-9 shrink-0">
+                  {phone.label}
+                </span>
+                <a
+                  href={`tel:${phone.value.replace(/[^+\d]/g, "")}`}
+                  class="text-white/90 hover:text-white transition-colors text-[16px] font-light tracking-wide whitespace-nowrap"
+                >
+                  {phone.value}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Contacts */}
+      <div class="flex flex-col gap-6 border-t border-white/10 pt-8">
+        <h4
+          class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
+        >
+          Контакты
+        </h4>
+        <div class="flex flex-col gap-6">
+          <div>
+            <p
+              class="text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+            >
+              Офис
+            </p>
+            <address
+              class="not-italic text-white/90 text-[15px] font-light leading-[1.6]"
+            >
+              {CONTACTS.address.full.join(", ")}
+            </address>
+          </div>
+          <div>
+            <p
+              class="text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+            >
+              Email
+            </p>
+            <a
+              href={`mailto:${CONTACTS.email}`}
+              class="text-white/90 hover:text-white transition-colors text-[15px] font-light"
+            >
+              {CONTACTS.email}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Social Icons */}
+    <div
+      class="flex items-center gap-4 mobile-link translate-y-8 opacity-0 border-t border-white/10 pt-8"
+      style="transition-delay: 300ms"
+    >
+      <a
+        href="https://t.me/vksgroup"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+        aria-label="Telegram"
+      >
+        <Icon name="telegram" size={18} class="fill-current" />
+      </a>
+      <a
+        href="https://wa.me/79990000000"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+        aria-label="WhatsApp"
+      >
+        <Icon name="whatsapp" size={18} class="fill-current" />
+      </a>
+      <a
+        href="viber://chat?number=+79990000000"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+        aria-label="Viber"
+      >
+        <Icon name="viber" size={18} class="fill-current" />
+      </a>
+    </div>
+  </div>
+</div>

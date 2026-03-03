@@ -1,0 +1,199 @@
+---
+import { SITE, NAV_LINKS, SERVICES, CONTACTS } from "@/lib/constants";
+import Icon from "@/components/ui/Icon.astro";
+import { Image } from "astro:assets";
+import logo from "@/assets/logo.webp";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="bg-[#0a1128] text-white pt-16 xl:pt-24 pb-8 mt-auto relative border-t border-white/5"
+>
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      {/* Upper Section: Grid Layout */}
+      <div
+        class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-12 gap-y-12 lg:gap-y-0 mb-16 xl:mb-24"
+      >
+        {/* Column 1: Brand & Socials (Spans 2 on Mobile) */}
+        <div class="col-span-2 lg:col-span-1 flex flex-col order-1">
+          <a href="/" class="inline-block mb-8">
+            <Image
+              src={logo}
+              alt="VKS Logo"
+              width={160}
+              height={40}
+              class="h-8 lg:h-9 w-auto opacity-90 brightness-0 invert"
+              loading="lazy"
+            />
+          </a>
+          <p
+            class="text-white/50 text-[13px] lg:text-[14px] leading-relaxed mb-8 pr-4 lg:pr-8 font-light"
+          >
+            {SITE.description}
+          </p>
+          <div class="flex items-center gap-4">
+            <a
+              href="https://t.me/vksgroup"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+              aria-label="Telegram"
+            >
+              <Icon name="telegram" size={18} class="fill-current" />
+            </a>
+            <a
+              href="https://wa.me/79990000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+              aria-label="WhatsApp"
+            >
+              <Icon name="whatsapp" size={18} class="fill-current" />
+            </a>
+            <a
+              href="viber://chat?number=+79990000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+              aria-label="Viber"
+            >
+              <Icon name="viber" size={18} class="fill-current" />
+            </a>
+          </div>
+        </div>
+
+        {/* Column 2: Navigation (Col 1 on Mobile Row 2) */}
+        <div class="col-span-1 flex flex-col order-2">
+          <h4
+            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+          >
+            Навигация
+          </h4>
+          <ul class="flex flex-col gap-4">
+            {
+              NAV_LINKS.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-white/80 hover:text-white inline-block transition-colors duration-300 font-light text-[13px] lg:text-[15px]"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        {/* Column 3: Phones (Col 2 on Mobile Row 2) */}
+        <div class="col-span-1 flex flex-col order-3">
+          <h4
+            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+          >
+            Телефоны
+          </h4>
+          <ul class="flex flex-col gap-4">
+            {
+              CONTACTS.phones.map((phone) => (
+                <li class="flex items-baseline gap-2 xl:gap-3">
+                  <span class="text-[9px] lg:text-[10px] text-white/40 uppercase tracking-widest font-semibold w-9 lg:w-10 shrink-0">
+                    {phone.label}
+                  </span>
+                  <a
+                    href={`tel:${phone.value.replace(/[^+\d]/g, "")}`}
+                    class="text-white/90 hover:text-white transition-colors text-[13px] lg:text-[15px] font-light tracking-wide whitespace-nowrap"
+                  >
+                    {phone.value}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        {
+          /* Column 4: Contacts (Spans 2 on Mobile Row 3 with top border to separate) */
+        }
+        <div
+          class="col-span-2 lg:col-span-1 flex flex-col order-4 pt-8 lg:pt-0 border-t border-white/5 lg:border-none mt-2 lg:mt-0"
+        >
+          <h4
+            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+          >
+            Контакты
+          </h4>
+          <div class="flex flex-col gap-6 lg:gap-8">
+            <div>
+              <p
+                class="text-[9px] lg:text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+              >
+                Офис
+              </p>
+              <address
+                class="not-italic text-white/90 text-[13px] lg:text-[15px] font-light leading-[1.6]"
+              >
+                {CONTACTS.address.full.join(", ")}
+              </address>
+            </div>
+            <div>
+              <p
+                class="text-[9px] lg:text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+              >
+                Email
+              </p>
+              <a
+                href={`mailto:${CONTACTS.email}`}
+                class="text-white/90 hover:text-white transition-colors text-[13px] lg:text-[15px] font-light"
+              >
+                {CONTACTS.email}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Lower Section: Copyright & Legal */}
+      <div
+        class="pt-8 pb-4 border-t border-white/10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6"
+      >
+        <div class="flex flex-col gap-3">
+          <p class="text-white/40 text-[11px] lg:text-xs tracking-wide">
+            &copy; {currentYear}
+            {SITE.name}. Все права защищены.
+          </p>
+          <div
+            class="flex flex-wrap gap-x-4 gap-y-2 text-white/30 text-[9px] lg:text-[10px] tracking-[0.15em] uppercase"
+          >
+            {
+              CONTACTS.requisites.map((req, index) => (
+                <span class="flex items-center gap-4">
+                  <span>{req}</span>
+                  {index < CONTACTS.requisites.length - 1 && (
+                    <span class="w-[3px] h-[3px] rounded-full bg-white/10 hidden sm:block" />
+                  )}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6 lg:gap-8 shrink-0">
+          <a
+            href="/privacy"
+            class="text-white/40 hover:text-white transition-colors text-[11px] lg:text-xs tracking-wide"
+          >
+            Политика конфиденциальности
+          </a>
+          <a
+            href="/cookie"
+            class="text-white/40 hover:text-white transition-colors text-[11px] lg:text-xs tracking-wide"
+          >
+            Cookie
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

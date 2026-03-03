@@ -63,15 +63,22 @@ export default {
                 'fast': '100ms',
                 'normal': '200ms',
             },
-            
+
             keyframes: {
                 shine: {
                     '0%': { left: '-100%' },
                     '100%': { left: '100%' },
-                }
+                },
+                flicker: {
+                    '0%, 100%': { opacity: '0.5', transform: 'scale(1) translateY(-50%)' },
+                    '25%': { opacity: '0.4' },
+                    '50%': { opacity: '0.8', transform: 'scale(1.1) translateY(-50%)' },
+                    '75%': { opacity: '0.9' },
+                },
             },
             animation: {
                 shine: 'shine 1s',
+                flicker: 'flicker 3s infinite',
             },
         },
     },

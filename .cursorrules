@@ -1,0 +1,65 @@
+# VKS-site — AI Coding Rules (Cursor / Copilot / Antigravity)
+# Прочитай ARCHITECTURE.md перед любой работой.
+
+## Проект
+- Astro 5 static site (`output: 'static'`), Tailwind CSS 3, TypeScript
+- Цель: Lighthouse 100/100, FCP < 0.8s, LCP < 1.5s, 0ms TBT
+
+## Жёсткие запреты (НИКОГДА не делать)
+- ❌ НЕ загружать шрифты/стили/скрипты с внешних CDN (Google Fonts, cdnjs, unpkg)
+- ❌ НЕ использовать `<script is:inline>` — только bundled `<script>`
+- ❌ НЕ использовать `<style>` внутри компонентов — только Tailwind классы или `@layer` в `main.css`
+- ❌ НЕ использовать `@import` в CSS
+- ❌ НЕ создавать файлы > 200 строк — декомпозировать
+- ❌ НЕ создавать папки кроме `layout/`, `sections/`, `ui/` внутри `components/`
+- ❌ НЕ использовать относительные пути между модулями — только `@/` алиасы
+- ❌ НЕ использовать хардкоженные цвета (`#007BFF`) — только CSS-переменные через Tailwind
+- ❌ НЕ использовать хардкоженные строки в шаблонах — выносить в `lib/constants.ts`
+- ❌ НЕ добавлять зависимости без явного запроса пользователя
+- ❌ НЕ использовать `<img>` — только Astro `<Image>` из `astro:assets`
+- ❌ НЕ создавать `middleware.ts` (проект static, middleware не работает)
+- ❌ НЕ хранить временные файлы в репозитории (lighthouse-отчёты, ТЗ, тесты)
+
+## Обязательные паттерны (ВСЕГДА делать)
+- ✅ Каждый компонент ОБЯЗАН иметь `interface Props`
+- ✅ Каждая страница ОБЯЗАНА использовать `PageLayout` из `@/layouts/PageLayout.astro`
+- ✅ Все изображения через `<Image>` с `loading="lazy"` (кроме hero-блока — `loading="eager"`)
+- ✅ Шрифты — только self-hosted woff2 в `src/assets/fonts/` + `@font-face` в `main.css`
+- ✅ Анимации — только через `keyframes` в `tailwind.config.mjs`
+- ✅ Условная стилизация — через `cn()` из `@/utils/cn`
+- ✅ Текстовый контент услуг → Content Collections (MDX)
+- ✅ Навигация, контакты, метаданные → `lib/constants.ts`
+
+## Структура компонентов
+```
+components/
+├── layout/    → Каркас: Header, Footer, MobileMenu
+├── sections/  → Полноэкранные секции: Hero, Services, UnderConstruction
+└── ui/        → Кирпичики: Button, Icon, ServiceCard
+```
+
+## Зависимости компонентов
+```
+pages → PageLayout (ОБЯЗАТЕЛЬНО)
+sections → ui (можно)
+layout → ui (можно)
+ui → ничего (самостоятельные)
+sections ↛ layout (ЗАПРЕЩЕНО)
+ui ↛ sections (ЗАПРЕЩЕНО)
+```
+
+## Performance-бюджет
+| Метрика | Бюджет |
+|---------|--------|
+| HTML (gzip) | < 15 KB |
+| CSS (inline) | < 20 KB |
+| JS (total) | < 10 KB |
+| Изображения | WebP, < 50 KB каждое |
+| Шрифты | woff2, self-hosted |
+| Внешние запросы | 0 (кроме аналитики) |
+
+## Перед коммитом
+1. `npm run build` — 0 ошибок, 0 warnings
+2. Все файлы < 200 строк
+3. Нет `<style>`, `<script is:inline>`, хардкоженных цветов
+4. Все импорты через `@/`

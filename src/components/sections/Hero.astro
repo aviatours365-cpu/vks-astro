@@ -1,17 +1,20 @@
 ---
 import Button from "@/components/ui/Button.astro";
-import heroBg from "@/assets/hero-bg.svg";
+import { Image } from "astro:assets";
+import heroBg from "@/assets/hero-bg.webp";
 ---
 
 <section
   class="relative min-h-screen flex items-center overflow-hidden bg-white pt-20"
 >
   <div class="absolute inset-0 z-0 select-none">
-    <img
+    <Image
       id="hero-bg"
-      src={heroBg.src}
+      src={heroBg}
       alt="Hero Background"
       class="absolute inset-0 w-full h-full object-cover scale-110"
+      loading="eager"
+      fetchpriority="high"
     />
 
     <!-- Light Gradient Overlay for Text Readability (Left Side Only) -->
@@ -23,30 +26,9 @@ import heroBg from "@/assets/hero-bg.svg";
     <!-- Flickering Effect Overlay -->
     <!-- Positioned to match the blue hexagon in the generated image (approximate, needs manual tuning based on image) -->
     <div
-      class="absolute top-[48%] right-[18%] -translate-y-1/2 w-[220px] h-[220px] bg-blue/40 blur-[50px] rounded-full animate-pulse-fast hidden md:block"
-      style="animation: flicker 3s infinite;"
+      class="absolute top-[48%] right-[18%] -translate-y-1/2 w-[220px] h-[220px] bg-blue/40 blur-[50px] rounded-full animate-flicker hidden md:block"
     >
     </div>
-
-    <style>
-      @keyframes flicker {
-        0%,
-        100% {
-          opacity: 0.5;
-          transform: scale(1) translateY(-50%);
-        }
-        50% {
-          opacity: 0.8;
-          transform: scale(1.1) translateY(-50%);
-        }
-        25% {
-          opacity: 0.4;
-        }
-        75% {
-          opacity: 0.9;
-        }
-      }
-    </style>
   </div>
 
   <div
@@ -74,7 +56,7 @@ import heroBg from "@/assets/hero-bg.svg";
         <Button
           variant="primary"
           size="lg"
-          href="/contact"
+          href="/kontakty"
           className="rounded-full uppercase shadow-[0_4px_20px_rgba(0,123,255,0.4)] hover:shadow-[0_6px_25px_rgba(0,123,255,0.5)]"
         >
           Начать проект
@@ -82,7 +64,7 @@ import heroBg from "@/assets/hero-bg.svg";
         <Button
           variant="outline"
           size="lg"
-          href="/services"
+          href="/uslugi"
           className="rounded-full uppercase bg-transparent border-navy text-navy hover:bg-navy/5"
         >
           Наши услуги
@@ -97,7 +79,7 @@ import heroBg from "@/assets/hero-bg.svg";
   </div>
 </section>
 
-<script is:inline>
+<script>
   const heroBg = document.getElementById("hero-bg");
 
   if (heroBg) {
@@ -107,7 +89,8 @@ import heroBg from "@/assets/hero-bg.svg";
     let targetY = 0;
 
     // Linear interpolation for smoothness
-    const lerp = (start, end, factor) => start + (end - start) * factor;
+    const lerp = (start: number, end: number, factor: number) =>
+      start + (end - start) * factor;
 
     const animate = () => {
       if (window.innerWidth >= 768) {

@@ -28,9 +28,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
 
-    <!-- Fonts (preconnect) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts: self-hosted via @font-face in main.css -->
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -45,7 +43,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
 
     <slot name="head" />
   </head>
-  <body class="min-h-screen bg-white text-navy antialiased">
+  <body class="min-h-screen bg-white text-navy antialiased flex flex-col">
     <slot />
   </body>
 </html>

@@ -1,5 +1,7 @@
 ---
 import RootLayout from "./RootLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
 
 interface Props {
   title?: string;
@@ -10,31 +12,9 @@ const { title, description } = Astro.props;
 ---
 
 <RootLayout title={title} description={description}>
-  <!-- Header (Step 2) -->
-  <header
-    class="sticky top-0 z-50 border-b border-line bg-white/80 backdrop-blur-md"
-  >
-    <div class="container flex h-16 items-center justify-between">
-      <a href="/" class="font-display text-xl font-bold text-navy">
-        VKS Group
-      </a>
-      <nav class="hidden md:flex items-center gap-8">
-        <slot name="nav" />
-      </nav>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main id="main-content">
+  <Header />
+  <main>
     <slot />
   </main>
-
-  <!-- Footer (Step 2) -->
-  <footer class="border-t border-line bg-navy text-white">
-    <div class="container py-12">
-      <p class="text-sm opacity-60">
-        &copy; {new Date().getFullYear()} VKS Group. Все права защищены.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </RootLayout>

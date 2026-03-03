@@ -1,0 +1,68 @@
+---
+import Button from "@/components/ui/Button.astro";
+import heroBg from "@/assets/hero-bg.webp";
+import { Image } from "astro:assets";
+
+interface Props {
+  title?: string;
+  description?: string;
+  bgText?: string;
+}
+
+const {
+  title = "Страница находится в разработке",
+  description = "Скоро здесь появится новая информация.\nВозвращайтесь немного позже.",
+  bgText = "404",
+} = Astro.props;
+---
+
+<main
+  class="relative flex-grow flex items-center justify-center overflow-hidden bg-white pt-20 pb-12"
+>
+  {/* Background Pattern (Same as Hero) */}
+  <div class="absolute inset-0 z-0">
+    <Image
+      src={heroBg}
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover opacity-30 select-none pointer-events-none"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-white/80 via-white/50 to-transparent pointer-events-none"
+    >
+    </div>
+  </div>
+
+  <div
+    class="container relative z-10 flex flex-col items-center text-center space-y-8"
+  >
+    <div
+      class="font-display font-black text-[12rem] leading-none text-navy/5 select-none animate-pulse"
+    >
+      {bgText}
+    </div>
+
+    <div class="space-y-6 -mt-12">
+      <h1
+        class="font-display font-bold text-4xl md:text-5xl text-navy uppercase tracking-tight"
+      >
+        {title}
+      </h1>
+      <p
+        class="font-sans text-lg text-navy/60 max-w-md mx-auto whitespace-pre-line"
+      >
+        {description}
+      </p>
+
+      <div class="pt-4">
+        <Button
+          href="/"
+          variant="primary"
+          size="lg"
+          className="rounded-full uppercase shadow-xl"
+        >
+          На главную
+        </Button>
+      </div>
+    </div>
+  </div>
+</main>
