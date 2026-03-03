@@ -12,12 +12,21 @@ function processFile(filePath) {
 
     let content = fs.readFileSync(filePath, 'utf-8');
 
-    // --- 1. Convert module scripts to defer (CORS fix for file://) ---
-    // Module scripts require CORS which fails on file://, but defer scripts work fine
-    content = content.replace(/<script([^>]*) type="module"([^>]*)>/g, '<script$1 defer$2>');
+    // --- 1. Convert module scripts to defer + wrap in IIFE ---
+    // Module scripts have their own scope; defer scripts share global scope.
+    // Wrap content in IIFE to prevent "Identifier already declared" errors.
+    content = content.replace(
+        /<script([^>]*) type="module"([^>]*)>([\s\S]*?)<\/script>/g,
+        (match, pre, post, body) => {
+            const wrapped = body.trim() ? `(function(){${body}})();` : body;
+            return `<script${pre} defer${post}>${wrapped}</script>`;
+        }
+    );
 
     // --- 2. Fix ALL asset paths from absolute to relative ---
-    content = content.replace(/(src|href)="\/(\.\/)?\/?_astro\//g, '$1="./_astro/');
+    // Covers src=, href=, and url() in inline CSS
+    content = content.replace(/(src|href)="\/(\.\/)?\/??_astro\//g, '$1="./_astro/');
+    content = content.replace(/url\(\/(\.\/)?_astro\//g, 'url(./_astro/');
 
     // Fix favicon
     content = content.replace(/href="\/favicon/g, 'href="./favicon');
@@ -26,22 +35,17 @@ function processFile(filePath) {
     content = content.replace(/src="\/assets\//g, 'src="./assets/');
 
     // --- 3. Convert absolute navigation links to relative ---
-    // Only converts to ./page/index.html if the page actually exists in dist/
-    // Otherwise points to ./404.html so the user sees the error page
     content = content.replace(/href="\/([a-zA-Z][a-zA-Z0-9_-]*)"/g, (match, pageName) => {
-        // Skip _astro and other asset dirs
         if (pageName.startsWith('_')) return match;
 
-        // Check if page exists in dist (either as dir/index.html or as .html)
         const dirPath = path.join(distDir, pageName, 'index.html');
-        const filePath = path.join(distDir, `${pageName}.html`);
+        const htmlPath = path.join(distDir, `${pageName}.html`);
 
         if (fs.existsSync(dirPath)) {
             return `href="./${pageName}/index.html"`;
-        } else if (fs.existsSync(filePath)) {
+        } else if (fs.existsSync(htmlPath)) {
             return `href="./${pageName}.html"`;
         } else {
-            // Page doesn't exist — link to 404
             return `href="./404.html"`;
         }
     });
