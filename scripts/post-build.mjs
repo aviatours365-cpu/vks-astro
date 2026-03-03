@@ -12,9 +12,9 @@ function processFile(filePath) {
 
     let content = fs.readFileSync(filePath, 'utf-8');
 
-    // --- 1. Strip module scripts (CORS fix for file://) ---
-    // Must run FIRST, before path fixes, to avoid fixing paths in scripts we're removing
-    content = content.replace(/<script[^>]*type="module"[^>]*>[\s\S]*?<\/script>/g, '');
+    // --- 1. Convert module scripts to defer (CORS fix for file://) ---
+    // Module scripts require CORS which fails on file://, but defer scripts work fine
+    content = content.replace(/<script([^>]*) type="module"([^>]*)>/g, '<script$1 defer$2>');
 
     // --- 2. Fix ALL asset paths from absolute to relative ---
     content = content.replace(/(src|href)="\/(\.\/)?\/?_astro\//g, '$1="./_astro/');
