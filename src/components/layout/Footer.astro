@@ -2,7 +2,7 @@
 import { SITE, NAV_LINKS, CONTACTS } from "@/lib/constants";
 import Icon from "@/components/ui/Icon.astro";
 import { Image } from "astro:assets";
-import logo from "@/assets/logo.webp";
+import logoWhite from "@/assets/logo-white.png";
 
 const currentYear = new Date().getFullYear();
 ---
@@ -20,11 +20,12 @@ const currentYear = new Date().getFullYear();
         <div class="col-span-2 lg:col-span-1 flex flex-col order-1">
           <a href="/" class="inline-block mb-8">
             <Image
-              src={logo}
+              src={logoWhite}
               alt="VKS Logo"
-              width={160}
-              height={40}
-              class="h-8 lg:h-9 w-auto opacity-90 brightness-0 invert"
+              width={400}
+              height={100}
+              quality={90}
+              class="h-8 lg:h-9 w-auto"
               loading="lazy"
             />
           </a>
