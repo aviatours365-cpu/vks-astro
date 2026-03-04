@@ -1,5 +1,6 @@
 ---
 import { NAV_LINKS, CONTACTS } from "@/lib/constants";
+import { url } from "@/utils/url";
 import Icon from "@/components/ui/Icon.astro";
 
 interface Props {
@@ -50,7 +51,7 @@ interface Props {
         {
           NAV_LINKS.map((link) => (
             <a
-              href={link.href}
+              href={url(link.href)}
               class="text-white/90 hover:text-white transition-colors duration-300 font-light text-[18px]"
             >
               {link.label}

@@ -1,5 +1,6 @@
 ---
 import { cn } from "@/utils/cn";
+import { url } from "@/utils/url";
 import { NAV_LINKS } from "@/lib/constants";
 import Button from "@/components/ui/Button.astro";
 import MobileMenu from "@/components/layout/MobileMenu.astro";
@@ -32,7 +33,7 @@ const { className } = Astro.props;
   <div class="container mx-auto px-4 md:px-6 relative">
     <div class="max-w-7xl mx-auto flex h-16 items-center justify-between">
       {/* Logo */}
-      <a href="/" class="group flex items-center gap-2">
+      <a href={url("/")} class="group flex items-center gap-2">
         <Image
           src={logo}
           alt="VKS Logo"
@@ -46,7 +47,7 @@ const { className } = Astro.props;
         {
           NAV_LINKS.map((link) => (
             <a
-              href={link.href}
+              href={url(link.href)}
               class="font-display text-xs font-bold uppercase tracking-[0.1em] text-navy/80 hover:text-blue transition-colors relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-blue after:transition-all hover:after:w-full"
             >
               {link.label}
@@ -54,7 +55,7 @@ const { className } = Astro.props;
           ))
         }
         <Button
-          href="/kontakty"
+          href={url("/kontakty")}
           variant="outline"
           size="md"
           className="h-10 px-8 rounded-full uppercase text-xs font-bold tracking-[0.1em]"

@@ -1,5 +1,6 @@
 ---
 import Button from "@/components/ui/Button.astro";
+import { url } from "@/utils/url";
 import { Image } from "astro:assets";
 import heroBg from "@/assets/hero-bg.webp";
 ---
@@ -56,7 +57,7 @@ import heroBg from "@/assets/hero-bg.webp";
         <Button
           variant="primary"
           size="lg"
-          href="/kontakty"
+          href={url("/kontakty")}
           className="rounded-full uppercase"
         >
           Начать проект
