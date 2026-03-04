@@ -3,9 +3,11 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
+const isGitHubPages = !!process.env.GITHUB_ACTIONS;
+
 export default defineConfig({
-    site: 'https://vksgroup.by',
-    base: '/', // Enable relative paths for file:// protocol support
+    site: isGitHubPages ? 'https://aviatours365-cpu.github.io' : 'https://vksgroup.by',
+    base: isGitHubPages ? '/vks-astro/' : '/',
     output: 'static',
     compressHTML: true,
     build: {
