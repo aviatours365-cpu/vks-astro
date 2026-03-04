@@ -1,6 +1,10 @@
 ---
 import ServiceCard from "@/components/ui/ServiceCard.astro";
-import { SERVICES } from "@/lib/constants";
+import { getCollection } from "astro:content";
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <section id="services" class="py-16 md:py-32 bg-white relative overflow-hidden">
@@ -16,12 +20,12 @@ import { SERVICES } from "@/lib/constants";
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
       >
         {
-          SERVICES.map((service) => (
+          services.map((s) => (
             <ServiceCard
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              full={service.full}
+              icon={s.data.icon}
+              title={s.data.title}
+              description={s.data.description}
+              full={s.data.full}
             />
           ))
         }
