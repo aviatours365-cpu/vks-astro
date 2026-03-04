@@ -8,7 +8,7 @@ export const SITE = {
     name: 'VKS Group',
     url: 'https://vksgroup.by',
     locale: 'ru-BY',
-    description: 'VKS Group — Инженерные системы и цифровая инфраструктура',
+    description: 'Проектируем и внедряем ИТ-системы любого масштаба. Инженерная точность и безопасность данных.',
 } as const;
 
 export const NAV_LINKS = [
@@ -38,7 +38,12 @@ export const CONTACTS = {
         'УНП 193201443',
         'ОКПО 502685295000',
         'ОКЭД 46510'
-    ]
+    ],
+    socials: [
+        { name: 'telegram' as const, label: 'Telegram', href: 'https://t.me/vksgroup' },
+        { name: 'whatsapp' as const, label: 'WhatsApp', href: 'https://wa.me/375173709191' },
+        { name: 'viber' as const, label: 'Viber', href: 'viber://chat?number=+375173709191' },
+    ],
 } as const;
 
 export const OG_DEFAULTS = {

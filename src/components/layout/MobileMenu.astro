@@ -133,33 +133,19 @@ interface Props {
       class="flex items-center gap-4 mobile-link translate-y-8 opacity-0 border-t border-white/10 pt-8"
       style="transition-delay: 300ms"
     >
-      <a
-        href="https://t.me/vksgroup"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
-        aria-label="Telegram"
-      >
-        <Icon name="telegram" size={18} class="fill-current" />
-      </a>
-      <a
-        href="https://wa.me/79990000000"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
-        aria-label="WhatsApp"
-      >
-        <Icon name="whatsapp" size={18} class="fill-current" />
-      </a>
-      <a
-        href="viber://chat?number=+79990000000"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
-        aria-label="Viber"
-      >
-        <Icon name="viber" size={18} class="fill-current" />
-      </a>
+      {
+        CONTACTS.socials.map((social) => (
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+            aria-label={social.label}
+          >
+            <Icon name={social.name} size={18} class="fill-current" />
+          </a>
+        ))
+      }
     </div>
   </div>
 </div>
