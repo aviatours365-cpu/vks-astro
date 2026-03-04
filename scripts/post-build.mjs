@@ -2,6 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Skip in CI — post-build is only needed for local file:// protocol
+if (process.env.CI) {
+    console.log('⏭ Skipping post-build in CI environment (not needed for server deployment)');
+    process.exit(0);
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

@@ -21,11 +21,11 @@ const Tag = href ? "a" : "button";
 
 const variants = {
   primary:
-    "bg-navy text-white hover:bg-navy-dark shadow-[0_4px_14px_0_rgba(0,118,255,0.39)] hover:shadow-[0_6px_20px_rgba(0,118,255,0.23)] hover:scale-[1.02] active:scale-[0.98] border border-transparent relative overflow-hidden after:content-[''] after:absolute after:top-0 after:-left-[100%] after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:skew-x-[-15deg] hover:after:animate-shine",
+    "bg-navy text-white hover:bg-navy-dark shadow-[0_4px_14px_0_rgba(0,118,255,0.39)] hover:shadow-[0_6px_20px_rgba(0,118,255,0.23)] hover:-translate-y-0.5 active:translate-y-0 border border-transparent relative overflow-hidden after:content-[''] after:absolute after:top-0 after:-left-[100%] after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:skew-x-[-15deg] hover:after:animate-shine",
   outline:
-    "border border-navy text-navy hover:bg-navy/5 hover:shadow-[0_0_15px_rgba(0,31,63,0.1)] hover:scale-[1.02] active:scale-[0.98]",
+    "border border-navy text-navy hover:bg-navy/5 hover:shadow-[0_0_15px_rgba(0,31,63,0.1)] hover:-translate-y-0.5 active:translate-y-0",
   ghost:
-    "bg-transparent text-navy hover:bg-surface hover:scale-[1.02] active:scale-[0.98]",
+    "bg-transparent text-navy hover:bg-surface hover:-translate-y-0.5 active:translate-y-0",
 };
 
 const sizes = {
