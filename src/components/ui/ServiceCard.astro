@@ -15,9 +15,6 @@ const { icon, title, description, full, className } = Astro.props;
 const textSuffix = full.startsWith(",") ? full : " " + full;
 ---
 
-{
-  /* Mobile: relative flow, click to expand with smooth animation. Desktop: absolute overlay, hover */
-}
 <div
   class={cn(
     "service-card group relative w-full z-10 hover:z-50",
@@ -52,46 +49,14 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
       {title}
     </h3>
 
-    {/* Text Block */}
+    {/* Single continuous paragraph — no text breaks */}
     <p
-      class="font-sans text-[15px] text-navy/60 leading-relaxed font-light mb-0"
+      class="service-card-text font-sans text-[15px] text-navy/60 leading-relaxed font-light mb-0"
     >
-      {description}
-      <span
-        class="service-card-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] inline-block max-h-0 md:max-h-none overflow-hidden opacity-0 md:group-hover:opacity-100 md:group-hover:max-h-[400px]"
+      {description}<span
+        class="service-card-full md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300"
+        >{textSuffix}</span
       >
-        {textSuffix}
-      </span>
     </p>
   </div>
 </div>
-
-<script>
-  document.querySelectorAll(".service-card").forEach((card) => {
-    if (window.innerWidth >= 768) return;
-
-    const inner = card.querySelector(".service-card-inner") as HTMLElement;
-    const fullText = card.querySelector(".service-card-full") as HTMLElement;
-    let isOpen = false;
-
-    card.addEventListener("click", () => {
-      isOpen = !isOpen;
-
-      if (isOpen) {
-        fullText.style.maxHeight = fullText.scrollHeight + "px";
-        fullText.style.opacity = "1";
-        inner?.classList.add(
-          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
-          "border-transparent",
-        );
-      } else {
-        fullText.style.maxHeight = "0px";
-        fullText.style.opacity = "0";
-        inner?.classList.remove(
-          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
-          "border-transparent",
-        );
-      }
-    });
-  });
-</script>

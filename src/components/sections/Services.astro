@@ -29,3 +29,63 @@ import { SERVICES } from "@/lib/constants";
     </div>
   </div>
 </section>
+
+<script>
+  const section = document.getElementById("services");
+  if (section && window.innerWidth < 768) {
+    // Hide full text on mobile initially
+    section.querySelectorAll(".service-card-full").forEach((el: Element) => {
+      (el as HTMLElement).style.display = "none";
+    });
+
+    section.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest(".service-card") as HTMLElement;
+      if (!card) return;
+
+      const inner = card.querySelector(".service-card-inner") as HTMLElement;
+      const textEl = card.querySelector(".service-card-text") as HTMLElement;
+      const fullEl = card.querySelector(".service-card-full") as HTMLElement;
+      if (!textEl || !fullEl) return;
+
+      const isOpen = fullEl.style.display !== "none";
+      const startHeight = textEl.offsetHeight;
+
+      if (isOpen) {
+        // Close: measure → hide → animate from old to new
+        fullEl.style.display = "none";
+        const endHeight = textEl.offsetHeight;
+        textEl.style.height = startHeight + "px";
+        textEl.style.overflow = "hidden";
+        textEl.animate(
+          [{ height: startHeight + "px" }, { height: endHeight + "px" }],
+          { duration: 400, easing: "cubic-bezier(0.25, 1, 0.5, 1)" },
+        ).onfinish = () => {
+          textEl.style.height = "";
+          textEl.style.overflow = "";
+        };
+        inner?.classList.remove(
+          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
+          "border-transparent",
+        );
+      } else {
+        // Open: show → measure → animate from old to new
+        fullEl.style.display = "inline";
+        const endHeight = textEl.offsetHeight;
+        textEl.style.height = startHeight + "px";
+        textEl.style.overflow = "hidden";
+        textEl.animate(
+          [{ height: startHeight + "px" }, { height: endHeight + "px" }],
+          { duration: 400, easing: "cubic-bezier(0.25, 1, 0.5, 1)" },
+        ).onfinish = () => {
+          textEl.style.height = "";
+          textEl.style.overflow = "";
+        };
+        inner?.classList.add(
+          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
+          "border-transparent",
+        );
+      }
+    });
+  }
+</script>
