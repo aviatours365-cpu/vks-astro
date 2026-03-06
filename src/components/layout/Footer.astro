@@ -15,7 +15,7 @@ const currentYear = new Date().getFullYear();
     <div class="mx-auto max-w-7xl">
       {/* Upper Section: Grid Layout */}
       <div
-        class="mb-16 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] lg:gap-x-10 lg:gap-y-0 xl:mb-24"
+        class="mb-16 grid grid-cols-[0.8fr_1.2fr] gap-x-6 gap-y-12 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] lg:gap-x-10 lg:gap-y-0 xl:mb-24"
       >
         {/* Column 1: Brand & Socials */}
         <div class="order-1 col-span-2 flex flex-col lg:col-span-1">
@@ -91,7 +91,7 @@ const currentYear = new Date().getFullYear();
                   </span>
                   <a
                     href={`tel:${phone.value.replace(/[^\+\d]/g, "")}`}
-                    class="text-[12px] font-light tracking-wide text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
+                    class="whitespace-nowrap text-[12px] font-light tracking-wide text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
                   >
                     {phone.value}
                   </a>
