@@ -90,7 +90,7 @@ const { className } = Astro.props;
     }
   };
 
-  document.addEventListener("astro:page-load", () => {
+  const initHeader = () => {
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
     const burgerIcon = menuToggle?.querySelector("svg:first-of-type");
@@ -130,5 +130,15 @@ const { className } = Astro.props;
       isScrollAttached = true;
     }
     handleScroll();
-  });
+  };
+
+  // Run on first load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeader);
+  } else {
+    initHeader();
+  }
+
+  // Support for Astro View Transitions (if re-enabled in the future)
+  document.addEventListener("astro:page-load", initHeader);
 </script>
