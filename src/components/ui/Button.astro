@@ -1,12 +1,17 @@
 ---
 import { cn } from "@/utils/cn";
 
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+interface Props
+  extends
+    Omit<HTMLAttributes<"a">, "type">,
+    Omit<HTMLAttributes<"button">, "type"> {
   variant?: "primary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   href?: string;
   className?: string; // Additional classes for consumer
-  [key: string]: any; // Allow other HTML attributes
+  type?: "button" | "submit" | "reset";
 }
 
 const {

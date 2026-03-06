@@ -2,26 +2,33 @@
 import ServiceCard from "@/components/ui/ServiceCard.astro";
 import { getCollection } from "astro:content";
 
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---
 
-<section id="services" class="py-16 md:py-32 bg-white relative overflow-hidden">
-  <div class="container mx-auto px-4 md:px-6 relative z-10">
-    <div class="max-w-7xl mx-auto">
+<section id="services" class="relative overflow-hidden bg-white py-16 md:py-32">
+  <div class="container relative z-10 mx-auto px-4 md:px-6">
+    <div class="mx-auto max-w-7xl">
       <h2
-        class="font-display text-[32px] md:text-5xl font-bold uppercase tracking-tight text-navy mb-10 md:mb-16"
+        class="mb-10 font-display text-[32px] font-bold uppercase tracking-tight text-navy md:mb-16 md:text-5xl"
       >
-        Наши услуги
+        {title}
       </h2>
 
       <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
       >
         {
           services.map((s) => (
             <ServiceCard
+              slug={s.id}
               icon={s.data.icon}
               title={s.data.title}
               description={s.data.description}
@@ -33,63 +40,3 @@ const services = (await getCollection("services")).sort(
     </div>
   </div>
 </section>
-
-<script>
-  const section = document.getElementById("services");
-  if (section && window.innerWidth < 768) {
-    // Hide full text on mobile initially
-    section.querySelectorAll(".service-card-full").forEach((el: Element) => {
-      (el as HTMLElement).style.display = "none";
-    });
-
-    section.addEventListener("click", (e: Event) => {
-      const target = e.target as HTMLElement;
-      const card = target.closest(".service-card") as HTMLElement;
-      if (!card) return;
-
-      const inner = card.querySelector(".service-card-inner") as HTMLElement;
-      const textEl = card.querySelector(".service-card-text") as HTMLElement;
-      const fullEl = card.querySelector(".service-card-full") as HTMLElement;
-      if (!textEl || !fullEl) return;
-
-      const isOpen = fullEl.style.display !== "none";
-      const startHeight = textEl.offsetHeight;
-
-      if (isOpen) {
-        // Close: measure → hide → animate from old to new
-        fullEl.style.display = "none";
-        const endHeight = textEl.offsetHeight;
-        textEl.style.height = startHeight + "px";
-        textEl.style.overflow = "hidden";
-        textEl.animate(
-          [{ height: startHeight + "px" }, { height: endHeight + "px" }],
-          { duration: 400, easing: "cubic-bezier(0.25, 1, 0.5, 1)" },
-        ).onfinish = () => {
-          textEl.style.height = "";
-          textEl.style.overflow = "";
-        };
-        inner?.classList.remove(
-          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
-          "border-transparent",
-        );
-      } else {
-        // Open: show → measure → animate from old to new
-        fullEl.style.display = "inline";
-        const endHeight = textEl.offsetHeight;
-        textEl.style.height = startHeight + "px";
-        textEl.style.overflow = "hidden";
-        textEl.animate(
-          [{ height: startHeight + "px" }, { height: endHeight + "px" }],
-          { duration: 400, easing: "cubic-bezier(0.25, 1, 0.5, 1)" },
-        ).onfinish = () => {
-          textEl.style.height = "";
-          textEl.style.overflow = "";
-        };
-        inner?.classList.add(
-          "shadow-[0_8px_24px_rgba(0,123,255,0.1)]",
-          "border-transparent",
-        );
-      }
-    });
-  }
-</script>

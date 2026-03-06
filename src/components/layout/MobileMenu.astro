@@ -1,5 +1,5 @@
 ---
-import { NAV_LINKS, CONTACTS } from "@/lib/constants";
+import { NAV_LINKS, CONTACTS, UI } from "@/lib/constants";
 import { url } from "@/utils/url";
 import Icon from "@/components/ui/Icon.astro";
 
@@ -11,48 +11,48 @@ interface Props {
 {/* Mobile Menu Trigger */}
 <button
   id="menu-toggle"
-  class="md:hidden flex items-center gap-3 text-navy hover:text-blue transition-colors group relative z-50"
+  class="group relative z-50 flex items-center gap-3 text-navy transition-colors hover:text-blue md:hidden"
   aria-label="Toggle Menu"
 >
-  <div class="w-7 h-7 flex items-center justify-center relative">
+  <div class="relative flex h-7 w-7 items-center justify-center">
     <Icon
       name="burger"
-      class="w-7 h-7 absolute inset-0 transition-opacity duration-300 ease-in-out"
+      class="absolute inset-0 h-7 w-7 transition-opacity duration-300 ease-in-out"
     />
     <Icon
       name="close"
-      class="w-7 h-7 absolute inset-0 opacity-0 transition-opacity duration-300 ease-in-out text-white"
+      class="absolute inset-0 h-7 w-7 text-white opacity-0 transition-opacity duration-300 ease-in-out"
     />
   </div>
   <span
-    class="font-display text-sm uppercase tracking-widest hidden sm:block group-hover:text-blue transition-colors"
+    class="hidden font-display text-sm uppercase tracking-widest transition-colors group-hover:text-blue sm:block"
   >
-    МЕНЮ
+    {UI.menu}
   </span>
 </button>
 
 {/* Mobile Menu Overlay */}
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-40 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden bg-[#0a1128] text-white overflow-y-auto"
+  class="fixed inset-0 z-40 translate-x-full transform overflow-y-auto bg-[#0a1128] text-white transition-transform duration-500 ease-in-out md:hidden"
 >
-  <div class="flex flex-col h-full px-6 pt-24 pb-12 w-full max-w-sm mx-auto">
+  <div class="mx-auto flex h-full w-full max-w-sm flex-col px-6 pb-12 pt-24">
     {/* Navigation */}
     <div
-      class="flex flex-col gap-6 mb-auto mobile-link translate-y-8 opacity-0"
+      class="mobile-link mb-auto flex translate-y-8 flex-col gap-6 opacity-0"
       style="transition-delay: 100ms"
     >
       <h4
         class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
       >
-        Навигация
+        {UI.navigation}
       </h4>
       <nav class="flex flex-col gap-4">
         {
           NAV_LINKS.map((link) => (
             <a
               href={url(link.href)}
-              class="text-white/90 hover:text-white transition-colors duration-300 font-light text-[18px]"
+              class="text-[18px] font-light text-white/90 transition-colors duration-300 hover:text-white"
             >
               {link.label}
             </a>
@@ -63,7 +63,7 @@ interface Props {
 
     {/* Phones & Contacts */}
     <div
-      class="flex flex-col gap-10 mt-12 mb-12 mobile-link translate-y-8 opacity-0"
+      class="mobile-link mb-12 mt-12 flex translate-y-8 flex-col gap-10 opacity-0"
       style="transition-delay: 200ms"
     >
       {/* Phones */}
@@ -71,18 +71,18 @@ interface Props {
         <h4
           class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
         >
-          Телефоны
+          {UI.phones}
         </h4>
         <ul class="flex flex-col gap-4">
           {
             CONTACTS.phones.map((phone) => (
               <li class="flex items-baseline gap-3">
-                <span class="text-[10px] text-white/40 uppercase tracking-widest font-semibold w-9 shrink-0">
+                <span class="w-9 shrink-0 text-[10px] font-semibold uppercase tracking-widest text-white/40">
                   {phone.label}
                 </span>
                 <a
                   href={`tel:${phone.value.replace(/[^+\d]/g, "")}`}
-                  class="text-white/90 hover:text-white transition-colors text-[16px] font-light tracking-wide whitespace-nowrap"
+                  class="whitespace-nowrap text-[16px] font-light tracking-wide text-white/90 transition-colors hover:text-white"
                 >
                   {phone.value}
                 </a>
@@ -97,30 +97,30 @@ interface Props {
         <h4
           class="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30"
         >
-          Контакты
+          {UI.contacts}
         </h4>
         <div class="flex flex-col gap-6">
           <div>
             <p
-              class="text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+              class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/40"
             >
-              Офис
+              {UI.office}
             </p>
             <address
-              class="not-italic text-white/90 text-[15px] font-light leading-[1.6]"
+              class="text-[15px] font-light not-italic leading-[1.6] text-white/90"
             >
               {CONTACTS.address.full.join(", ")}
             </address>
           </div>
           <div>
             <p
-              class="text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+              class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/40"
             >
-              Email
+              {UI.email}
             </p>
             <a
               href={`mailto:${CONTACTS.email}`}
-              class="text-white/90 hover:text-white transition-colors text-[15px] font-light"
+              class="text-[15px] font-light text-white/90 transition-colors hover:text-white"
             >
               {CONTACTS.email}
             </a>
@@ -131,7 +131,7 @@ interface Props {
 
     {/* Social Icons */}
     <div
-      class="flex items-center gap-4 mobile-link translate-y-8 opacity-0 border-t border-white/10 pt-8"
+      class="mobile-link flex translate-y-8 items-center gap-4 border-t border-white/10 pt-8 opacity-0"
       style="transition-delay: 300ms"
     >
       {
@@ -140,7 +140,7 @@ interface Props {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all duration-300"
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/50 transition-all duration-300 hover:bg-white/10 hover:text-white"
             aria-label={social.label}
           >
             <Icon name={social.name} size={18} class="fill-current" />

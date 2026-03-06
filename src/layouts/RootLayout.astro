@@ -1,17 +1,48 @@
 ---
 import "@/styles/main.css";
 // import { ClientRouter } from "astro:transitions"; // Removed for file:// compatibility
-import { SITE } from "@/lib/constants";
+import { SITE, CONTACTS } from "@/lib/constants";
 import favicon from "@/assets/favicon.svg";
 
 interface Props {
   title?: string;
   description?: string;
+  schemaData?: Record<string, any>;
 }
 
-const { title = SITE.name, description = SITE.description } = Astro.props;
+const {
+  title = SITE.name,
+  description = SITE.description,
+  schemaData,
+} = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, SITE.url);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Base Organization Schema for all pages
+const baseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE.name,
+  url: Astro.site?.toString() || SITE.url,
+  logo: new URL(favicon.src, Astro.site || SITE.url).toString(),
+  description: SITE.description,
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: CONTACTS.phones[0].value,
+    contactType: "customer service",
+    email: CONTACTS.email,
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: 'ул. Казинца, 11a, БЦ "Гермес", A806',
+    addressLocality: "Минск",
+    addressCountry: "BY",
+  },
+  sameAs: CONTACTS.socials.map((s) => s.href),
+};
+
+// If a page provides its own schema (e.g., Article, ItemList), combine them
+const jsonLdSchemas = schemaData ? [baseSchema, schemaData] : [baseSchema];
 ---
 
 <!doctype html>
@@ -41,9 +72,15 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <!-- View Transitions (SPA-like navigation) removed for file:// compatibility -->
     <!-- <ClientRouter /> -->
 
+    <!-- Schema.org JSON-LD -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLdSchemas)}
+    />
+
     <slot name="head" />
   </head>
-  <body class="min-h-screen bg-white text-navy antialiased flex flex-col">
+  <body class="flex min-h-screen flex-col bg-white text-navy antialiased">
     <slot />
   </body>
 </html>

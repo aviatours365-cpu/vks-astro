@@ -1,5 +1,5 @@
 ---
-import { SITE, NAV_LINKS, CONTACTS } from "@/lib/constants";
+import { SITE, NAV_LINKS, CONTACTS, UI } from "@/lib/constants";
 import { url } from "@/utils/url";
 import Icon from "@/components/ui/Icon.astro";
 import { Image } from "astro:assets";
@@ -9,29 +9,29 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer
-  class="bg-[#0a1128] text-white pt-16 xl:pt-24 pb-8 mt-auto relative border-t border-white/5"
+  class="relative mt-auto border-t border-white/5 bg-[#0a1128] pb-8 pt-16 text-white xl:pt-24"
 >
-  <div class="container mx-auto px-4 md:px-6 relative z-10">
-    <div class="max-w-7xl mx-auto">
+  <div class="container relative z-10 mx-auto px-4 md:px-6">
+    <div class="mx-auto max-w-7xl">
       {/* Upper Section: Grid Layout */}
       <div
-        class="grid grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] gap-x-6 lg:gap-x-10 gap-y-12 lg:gap-y-0 mb-16 xl:mb-24"
+        class="mb-16 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] lg:gap-x-10 lg:gap-y-0 xl:mb-24"
       >
         {/* Column 1: Brand & Socials */}
-        <div class="col-span-2 lg:col-span-1 flex flex-col order-1">
-          <a href={url("/")} class="inline-block mb-8 group">
+        <div class="order-1 col-span-2 flex flex-col lg:col-span-1">
+          <a href={url("/")} class="group mb-8 inline-block">
             <Image
               src={logoWhite}
               alt="VKS Logo"
               width={400}
               height={100}
               quality={90}
-              class="h-8 lg:h-9 w-auto opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+              class="h-8 w-auto opacity-90 transition-opacity duration-300 group-hover:opacity-100 lg:h-9"
               loading="lazy"
             />
           </a>
           <p
-            class="text-white/50 text-[13px] lg:text-[14px] leading-relaxed mb-8 pr-4 lg:pr-8 font-light"
+            class="mb-8 pr-4 text-[13px] font-light leading-relaxed text-white/50 lg:pr-8 lg:text-[14px]"
           >
             {SITE.description}
           </p>
@@ -42,7 +42,7 @@ const currentYear = new Date().getFullYear();
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-blue/20 hover:border-blue/40 hover:text-white transition-all duration-300"
+                  class="hover:bg-blue/20 hover:border-blue/40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/40 transition-all duration-300 hover:text-white"
                   aria-label={social.label}
                 >
                   <Icon name={social.name} size={18} class="fill-current" />
@@ -53,11 +53,11 @@ const currentYear = new Date().getFullYear();
         </div>
 
         {/* Column 2: Navigation */}
-        <div class="col-span-1 flex flex-col order-2">
+        <div class="order-2 col-span-1 flex flex-col">
           <h4
-            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
           >
-            Навигация
+            {UI.navigation}
           </h4>
           <ul class="flex flex-col gap-4">
             {
@@ -65,7 +65,7 @@ const currentYear = new Date().getFullYear();
                 <li>
                   <a
                     href={url(link.href)}
-                    class="text-white/50 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 font-light text-[13px] lg:text-[14px]"
+                    class="inline-block text-[13px] font-light text-white/50 transition-all duration-300 hover:translate-x-1 hover:text-white lg:text-[14px]"
                   >
                     {link.label}
                   </a>
@@ -76,22 +76,22 @@ const currentYear = new Date().getFullYear();
         </div>
 
         {/* Column 3: Phones */}
-        <div class="col-span-1 flex flex-col order-3">
+        <div class="order-3 col-span-1 flex flex-col">
           <h4
-            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
           >
-            Телефоны
+            {UI.phones}
           </h4>
           <ul class="flex flex-col gap-4">
             {
               CONTACTS.phones.map((phone) => (
                 <li class="flex items-baseline gap-2 xl:gap-3">
-                  <span class="text-[9px] lg:text-[10px] text-white/40 uppercase tracking-widest font-semibold w-9 lg:w-10 shrink-0">
+                  <span class="w-9 shrink-0 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:w-10 lg:text-[10px]">
                     {phone.label}
                   </span>
                   <a
                     href={`tel:${phone.value.replace(/[^\+\d]/g, "")}`}
-                    class="text-white/50 hover:text-white transition-all duration-300 text-[12px] lg:text-[14px] font-light tracking-wide"
+                    class="text-[12px] font-light tracking-wide text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
                   >
                     {phone.value}
                   </a>
@@ -103,35 +103,35 @@ const currentYear = new Date().getFullYear();
 
         {/* Column 4: Contacts */}
         <div
-          class="col-span-2 lg:col-span-1 flex flex-col order-4 pt-8 lg:pt-0 border-t border-white/5 lg:border-none mt-2 lg:mt-0"
+          class="order-4 col-span-2 mt-2 flex flex-col border-t border-white/5 pt-8 lg:col-span-1 lg:mt-0 lg:border-none lg:pt-0"
         >
           <h4
-            class="font-display text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6 lg:mb-8"
+            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
           >
-            Контакты
+            {UI.contacts}
           </h4>
           <div class="flex flex-col gap-6 lg:gap-4">
             <div>
               <p
-                class="text-[9px] lg:text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+                class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
               >
-                Офис
+                {UI.office}
               </p>
               <address
-                class="not-italic text-white/50 text-[13px] lg:text-[14px] font-light leading-[1.6]"
+                class="text-[13px] font-light not-italic leading-[1.6] text-white/50 lg:text-[14px]"
               >
                 {CONTACTS.address.full.join(", ")}
               </address>
             </div>
             <div>
               <p
-                class="text-[9px] lg:text-[10px] text-white/40 mb-2 uppercase tracking-widest font-semibold"
+                class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
               >
-                Email
+                {UI.email}
               </p>
               <a
                 href={`mailto:${CONTACTS.email}`}
-                class="text-white/50 hover:text-white transition-all duration-300 text-[13px] lg:text-[14px] font-light"
+                class="text-[13px] font-light text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
               >
                 {CONTACTS.email}
               </a>
@@ -142,27 +142,27 @@ const currentYear = new Date().getFullYear();
 
       {/* Lower Section: Copyright & Legal */}
       <div
-        class="pt-8 pb-4 border-t border-white/10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6"
+        class="flex flex-col items-start justify-between gap-6 border-t border-white/10 pb-4 pt-8 lg:flex-row lg:items-center"
       >
         <div class="flex flex-col gap-3">
-          <p class="text-white/40 text-[11px] lg:text-xs tracking-wide">
+          <p class="text-[11px] tracking-wide text-white/40 lg:text-xs">
             &copy; {currentYear}
-            {SITE.name}. Все права защищены.
+            {SITE.name}. {UI.allRightsReserved}
           </p>
         </div>
 
-        <div class="flex items-center gap-6 lg:gap-8 shrink-0">
+        <div class="flex shrink-0 items-center gap-6 lg:gap-8">
           <a
             href={url("/privacy")}
-            class="text-white/30 hover:text-white transition-all duration-300 text-[11px] lg:text-xs tracking-wide"
+            class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
           >
-            Политика конфиденциальности
+            {UI.privacyPolicy}
           </a>
           <a
             href={url("/cookie")}
-            class="text-white/30 hover:text-white transition-all duration-300 text-[11px] lg:text-xs tracking-wide"
+            class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
           >
-            Cookie
+            {UI.cookiePolicy}
           </a>
         </div>
       </div>

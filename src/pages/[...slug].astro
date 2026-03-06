@@ -1,0 +1,28 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { getCollection, render } from "astro:content";
+
+// Dynamically generate paths for all content in the 'legal' collection
+export async function getStaticPaths() {
+  const legalEntries = await getCollection("legal");
+  return legalEntries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<PageLayout title={entry.data.title}>
+  <main class="flex-grow bg-white py-24 md:py-32">
+    <div class="container mx-auto px-4 md:px-6">
+      <div
+        class="prose-navy prose mx-auto max-w-3xl prose-h1:font-display prose-h1:text-3xl prose-h1:font-bold prose-h1:uppercase prose-a:text-blue hover:prose-a:text-navy"
+      >
+        <Content />
+      </div>
+    </div>
+  </main>
+</PageLayout>

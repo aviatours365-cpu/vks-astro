@@ -26,12 +26,12 @@ const { className } = Astro.props;
   }
   <div
     id="header-bg"
-    class="absolute inset-0 bg-white/70 backdrop-blur-md transition-all duration-300 -z-10"
+    class="absolute inset-0 -z-10 bg-white/70 backdrop-blur-md transition-all duration-300"
   >
   </div>
 
-  <div class="container mx-auto px-4 md:px-6 relative">
-    <div class="max-w-7xl mx-auto flex h-16 items-center justify-between">
+  <div class="container relative mx-auto px-4 md:px-6">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between">
       {/* Logo */}
       <a href={url("/")} class="group flex items-center gap-2">
         <Image
@@ -43,12 +43,12 @@ const { className } = Astro.props;
       </a>
 
       {/* Desktop Menu */}
-      <nav class="hidden md:flex items-center gap-12">
+      <nav class="hidden items-center gap-12 md:flex">
         {
           NAV_LINKS.map((link) => (
             <a
               href={url(link.href)}
-              class="font-display text-xs font-bold uppercase tracking-[0.1em] text-navy/80 hover:text-blue transition-colors relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-blue after:transition-all hover:after:w-full"
+              class="text-navy/80 relative font-display text-xs font-bold uppercase tracking-[0.1em] transition-colors after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-blue after:transition-all after:content-[''] hover:text-blue hover:after:w-full"
             >
               {link.label}
             </a>
@@ -58,7 +58,7 @@ const { className } = Astro.props;
           href={url("/kontakty")}
           variant="outline"
           size="md"
-          className="h-10 px-8 rounded-full uppercase text-xs font-bold tracking-[0.1em]"
+          className="h-10 rounded-full px-8 text-xs font-bold uppercase tracking-[0.1em]"
         >
           Обсудить проект
         </Button>
@@ -71,43 +71,11 @@ const { className } = Astro.props;
 </header>
 
 <script>
-  const header = document.getElementById("main-header");
-  const headerBg = document.getElementById("header-bg");
-  const menuToggle = document.getElementById("menu-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
-  const burgerIcon = menuToggle?.querySelector("svg:first-of-type");
-  const closeIcon = menuToggle?.querySelector("svg:last-of-type");
-  const mobileLinks = document.querySelectorAll(".mobile-link");
-
-  let isMenuOpen = false;
-
-  const toggleMenu = () => {
-    isMenuOpen = !isMenuOpen;
-
-    if (isMenuOpen) {
-      mobileMenu?.classList.remove("translate-x-full");
-      document.body.style.overflow = "hidden";
-      burgerIcon?.classList.add("opacity-0");
-      closeIcon?.classList.remove("opacity-0");
-      setTimeout(() => {
-        mobileLinks.forEach((link) => {
-          link.classList.remove("translate-y-8", "opacity-0");
-        });
-      }, 100);
-    } else {
-      mobileMenu?.classList.add("translate-x-full");
-      document.body.style.overflow = "";
-      burgerIcon?.classList.remove("opacity-0");
-      closeIcon?.classList.add("opacity-0");
-      mobileLinks.forEach((link) => {
-        link.classList.add("translate-y-8", "opacity-0");
-      });
-    }
-  };
-
-  menuToggle?.addEventListener("click", toggleMenu);
+  let isScrollAttached = false;
 
   const handleScroll = () => {
+    const header = document.getElementById("main-header");
+    const headerBg = document.getElementById("header-bg");
     if (!header || !headerBg) return;
     if (window.scrollY > 10) {
       header.classList.add("py-1");
@@ -122,6 +90,45 @@ const { className } = Astro.props;
     }
   };
 
-  window.addEventListener("scroll", handleScroll);
-  handleScroll();
+  document.addEventListener("astro:page-load", () => {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const burgerIcon = menuToggle?.querySelector("svg:first-of-type");
+    const closeIcon = menuToggle?.querySelector("svg:last-of-type");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
+
+    let isMenuOpen = false;
+
+    const toggleMenu = () => {
+      isMenuOpen = !isMenuOpen;
+
+      if (isMenuOpen) {
+        mobileMenu?.classList.remove("translate-x-full");
+        document.body.style.overflow = "hidden";
+        burgerIcon?.classList.add("opacity-0");
+        closeIcon?.classList.remove("opacity-0");
+        setTimeout(() => {
+          mobileLinks.forEach((link) => {
+            link.classList.remove("translate-y-8", "opacity-0");
+          });
+        }, 100);
+      } else {
+        mobileMenu?.classList.add("translate-x-full");
+        document.body.style.overflow = "";
+        burgerIcon?.classList.remove("opacity-0");
+        closeIcon?.classList.add("opacity-0");
+        mobileLinks.forEach((link) => {
+          link.classList.add("translate-y-8", "opacity-0");
+        });
+      }
+    };
+
+    menuToggle?.addEventListener("click", toggleMenu);
+
+    if (!isScrollAttached) {
+      window.addEventListener("scroll", handleScroll);
+      isScrollAttached = true;
+    }
+    handleScroll();
+  });
 </script>
