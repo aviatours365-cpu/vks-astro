@@ -30,7 +30,7 @@ const solutions = (await getCollection("solutions")).sort(
 ---
 
 <section class="relative bg-surface py-16 md:py-24">
-  <div class="mx-auto max-w-7xl">
+  <div class="container mx-auto max-w-7xl px-4 md:px-6">
     <div class="mb-10 max-w-3xl md:mb-16">
       <h2
         class="font-display text-[32px] font-bold uppercase tracking-tight text-navy md:text-5xl"
@@ -174,18 +174,24 @@ const solutions = (await getCollection("solutions")).sort(
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", () => {
         const isExp = trigger.getAttribute("aria-expanded") === "true";
+        const wrapper = trigger.closest(".editorial-accordion");
+
         triggers.forEach((t) => {
           if (t === trigger) return;
+          const otherWrapper = t.closest(".editorial-accordion");
           t.setAttribute("aria-expanded", "false");
           if (t.nextElementSibling)
             (t.nextElementSibling as HTMLElement).style.cssText =
               "grid-template-rows: 0fr; opacity: 0;";
           t.querySelector(".editorial-chevron")?.classList.remove("rotate-180");
-          t.classList.remove(
-            "border-transparent",
-            "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
-          );
-          t.classList.add("border-[#e1e1e1]");
+
+          if (otherWrapper) {
+            otherWrapper.classList.remove(
+              "border-transparent",
+              "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
+            );
+            otherWrapper.classList.add("border-[#e1e1e1]");
+          }
         });
 
         trigger.setAttribute("aria-expanded", String(!isExp));
@@ -197,12 +203,15 @@ const solutions = (await getCollection("solutions")).sort(
         trigger
           .querySelector(".editorial-chevron")
           ?.classList.toggle("rotate-180", !isExp);
-        trigger.classList.toggle("border-transparent", !isExp);
-        trigger.classList.toggle(
-          "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
-          !isExp,
-        );
-        trigger.classList.toggle("border-[#e1e1e1]", isExp);
+
+        if (wrapper) {
+          wrapper.classList.toggle("border-transparent", !isExp);
+          wrapper.classList.toggle(
+            "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
+            !isExp,
+          );
+          wrapper.classList.toggle("border-[#e1e1e1]", isExp);
+        }
       });
     });
   };

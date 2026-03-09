@@ -7,9 +7,11 @@ interface Props {
 const { product, index } = Astro.props;
 ---
 
-<div class="editorial-accordion mb-3">
+<div
+  class={`editorial-accordion mb-3 overflow-hidden rounded-xl border bg-white transition-all duration-300 ${index === 0 ? "border-transparent shadow-[0_8px_30px_rgba(0,123,255,0.12)]" : "border-[#e1e1e1] hover:border-transparent hover:shadow-[0_8px_30px_rgba(0,123,255,0.12)]"}`}
+>
   <button
-    class={`editorial-trigger group flex w-full items-center gap-4 rounded-xl border bg-white px-5 py-5 text-left transition-all duration-300 ${index === 0 ? "border-transparent shadow-[0_8px_30px_rgba(0,123,255,0.12)]" : "border-[#e1e1e1] hover:border-transparent hover:shadow-[0_8px_30px_rgba(0,123,255,0.12)]"}`}
+    class="editorial-trigger group flex w-full items-center gap-4 px-5 py-5 text-left transition-all duration-300"
     aria-expanded={index === 0 ? "true" : "false"}
   >
     <div
