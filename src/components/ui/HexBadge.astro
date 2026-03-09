@@ -1,0 +1,60 @@
+---
+import { cn } from "@/utils/cn";
+
+export interface Props {
+  count: number;
+  label?: string;
+  className?: string;
+  size?: "sm" | "md";
+}
+
+const { count, label, className, size = "md" } = Astro.props;
+
+const hexPath =
+  "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z";
+
+const sizes = {
+  sm: "h-12 w-12",
+  md: "h-16 w-16",
+};
+
+const fontSizes = {
+  sm: "text-[14px]",
+  md: "text-[15px]",
+};
+---
+
+<div class={cn("flex flex-col items-center justify-center", className)}>
+  <div
+    class={cn(
+      "relative flex items-center justify-center text-blue",
+      sizes[size],
+      label ? "mb-2" : "",
+    )}
+  >
+    <svg
+      viewBox="0 0 24 24"
+      class="absolute inset-0 h-full w-full rotate-90 drop-shadow-sm"
+    >
+      <path d={hexPath} class="fill-white"></path>
+      <path
+        d={hexPath}
+        fill="transparent"
+        class="stroke-current"
+        stroke-width="1"></path>
+    </svg>
+
+    <span
+      class={cn("relative z-10 font-semibold leading-none", fontSizes[size])}
+    >
+      {count}+
+    </span>
+  </div>
+  {
+    label && (
+      <span class="text-[9px] font-bold uppercase leading-none tracking-[0.1em] text-navy">
+        {label}
+      </span>
+    )
+  }
+</div>

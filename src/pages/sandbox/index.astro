@@ -1,0 +1,74 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import Solutions from "@/components/sections/Solutions.astro";
+import ConceptB_Underline from "@/components/sandbox/ConceptB_Underline.astro";
+import MapSection from "@/components/sections/MapSection.astro";
+
+const SITE_TITLE = "Дизайн-песочница | VKS";
+const SITE_DESCRIPTION =
+  "Тестовая страница для обкатки 3-х концептов дизайна продуктового блока.";
+---
+
+<PageLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <div class="relative min-h-screen bg-surface pb-32 pt-32">
+    <!-- Разделитель -->
+    <div class="my-24 border-t border-line"></div>
+
+    <!-- Концепт A: Editorial Scroll -->
+    <div class="container mx-auto mb-12 px-4 md:px-6">
+      <div class="mb-12 text-center">
+        <span
+          class="text-navy/30 mb-4 inline-block font-display text-[10px] font-bold uppercase tracking-[0.2em]"
+          >Концепт A</span
+        >
+        <h2 class="font-display text-heading-2 text-navy">Editorial Scroll</h2>
+        <p class="text-navy/60 mx-auto mt-2 max-w-xl text-[15px] font-light">
+          Иммерсивное чтение с боковой навигацией. На мобильных — аккордеон.
+        </p>
+      </div>
+    </div>
+    <Solutions />
+
+    <!-- Разделитель -->
+    <div class="my-32 border-t border-dashed border-line"></div>
+
+    <!-- Концепт B: Горизонтальные табы -->
+    <div class="container mx-auto mb-12 px-4 md:px-6">
+      <div class="mb-12 text-center">
+        <span
+          class="bg-blue/10 mb-4 inline-block rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-blue"
+          >Концепт B</span
+        >
+        <h2 class="font-display text-heading-2 text-navy">
+          Chip Cluster & Panels
+        </h2>
+        <p class="text-navy/60 mx-auto mt-2 max-w-2xl">
+          Технологичный B2B-подход. Навигация в виде "облака" компактных тегов
+          решает проблему длинных названий, давая быстрый доступ ко всем
+          разделам. Контент разделен на две логические зоны: "Суть" (теория с
+          кнопкой) и функциональная панель "Факты" (практика с буллетами).
+        </p>
+      </div>
+    </div>
+    <ConceptB_Underline />
+
+    <!-- Разделитель -->
+    <div class="my-32 border-t border-dashed border-line"></div>
+
+    <!-- Концепт Интерактивной Карты -->
+    <MapSection
+      titleHTML="Масштаб <br />Внедрений"
+      descriptionHTML="Мы реализуем проекты национального уровня во всех регионах страны. <br /> От построения ИТ-инфраструктуры до защиты государственных контуров."
+      counters={[
+        { target: 500, suffix: "+", labelHTML: "Реализованных<br />проектов" },
+        { target: 15, labelHTML: "Лет успешной<br />экспертизы" },
+        {
+          target: 50,
+          suffix: "+",
+          labelHTML: "Сертифицированных<br />инженеров",
+        },
+        { target: 30, suffix: "+", labelHTML: "Вендоров<br />партнеров" },
+      ]}
+    />
+  </div>
+</PageLayout>

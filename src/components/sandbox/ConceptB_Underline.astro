@@ -1,0 +1,235 @@
+---
+// d:\Projects\vks-site\src\components\sandbox\ConceptB_Accordion.astro
+import { SANDBOX_PRODUCTS } from "./data";
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<section class="container mx-auto mb-24 px-4 md:px-6">
+  <div class="mb-12">
+    <span
+      class="bg-blue/10 mb-4 inline-block rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-blue"
+    >
+      Концепт B v3
+    </span>
+    <h2 class="mb-4 font-display text-heading-2 text-navy">
+      Cinematic Accordion
+    </h2>
+    <p class="text-navy/60 max-w-2xl text-[15px]">
+      Awwwards-уровень взаимодействия. Горизонтальный аккордеон превращает
+      навигацию в исследование. Узкие панели (слайсы) эстетично скрывают массив
+      контента. При клике Flexbox-анимация плавно раскрывает карточку,
+      демонстрируя швейцарскую типографику и чистую верстку внутри.
+    </p>
+  </div>
+
+  {/* Desktop Cinematic Accordion (Hidden on mobile) */}
+  <div
+    class="hidden min-h-[640px] w-full overflow-hidden rounded-2xl border border-[#e1e1e1] bg-[#f8f9fa] shadow-sm lg:flex xl:h-[640px]"
+    id="c2-accordion"
+  >
+    {
+      SANDBOX_PRODUCTS.map((product: any, index: number) => (
+        <div
+          class={`c2-slice group relative flex h-full cursor-pointer flex-col border-r border-[#e1e1e1] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] last:border-r-0 ${
+            index === 0
+              ? "c2-expanded w-[55%] bg-white xl:w-[60%]"
+              : "w-[6.42%] hover:bg-[#f1f3f5] xl:w-[5.71%]"
+          }`}
+          data-index={index}
+        >
+          {/* Vertical Collapsed State Label */}
+          <div
+            class={`c2-collapsed-content absolute left-0 top-0 flex h-full w-full flex-col items-center pt-8 transition-opacity duration-500 ${index === 0 ? "pointer-events-none opacity-0" : "opacity-100"}`}
+          >
+            <span class="text-navy/20 group-hover:text-blue/50 font-display text-3xl font-bold transition-colors">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div class="mt-8 flex flex-1 items-start justify-center overflow-hidden">
+              <span
+                class="text-navy/50 font-display text-[13px] font-bold uppercase tracking-[0.15em] transition-colors group-hover:text-navy"
+                style="writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;"
+              >
+                {product.title}
+              </span>
+            </div>
+          </div>
+
+          {/* Expanded Content Area */}
+          <div
+            class={`c2-expanded-content absolute left-0 top-0 h-full w-full p-8 transition-all delay-100 duration-700 lg:p-12 ${index === 0 ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-8 opacity-0"}`}
+          >
+            <div class="flex h-full w-full max-w-full flex-col">
+              {/* Header inside Expanded */}
+              <div class="mb-10 flex w-full flex-shrink-0 items-start justify-between">
+                {/* Number & Title Group */}
+                <div class="flex items-start gap-5">
+                  <span class="font-display text-[72px] font-bold leading-none tracking-tight text-navy xl:text-[80px]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div class="pt-2">
+                    <p class="text-navy/40 mb-2 font-display text-[10px] font-bold uppercase tracking-[0.2em]">
+                      Направление
+                    </p>
+                    <h3 class="font-display text-2xl font-bold uppercase tracking-tight text-navy lg:text-3xl">
+                      {product.title}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Thematic Hexagon Icon */}
+                <div class="relative mt-2 flex h-14 w-14 shrink-0 items-center justify-center text-blue xl:h-16 xl:w-16">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="absolute inset-0"
+                  >
+                    <path
+                      d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                      stroke="currentColor"
+                      stroke-width="0.8"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="relative z-10 flex items-center justify-center">
+                    <Icon name={product.icon as any} size={24} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid 2Cols: Left Text, Right Features */}
+              <div class="grid min-h-0 w-full flex-1 grid-cols-1 gap-8 xl:grid-cols-12">
+                {/* Description & Button */}
+                <div class="flex flex-col pr-4 xl:col-span-6">
+                  <p class="text-navy/60 font-sans text-[15px] font-normal leading-relaxed mix-blend-multiply">
+                    {product.description}
+                  </p>
+
+                  <div class="mt-8 shrink-0">
+                    <a
+                      href="/contacts"
+                      class="inline-flex items-center justify-center rounded-full bg-navy px-8 py-3.5 font-display text-[12px] font-bold uppercase tracking-widest text-white transition-all hover:bg-blue hover:shadow-brand"
+                    >
+                      Обсудить проект
+                    </a>
+                  </div>
+                </div>
+
+                {/* Features Box */}
+                <div class="xl:col-span-6">
+                  <div class="flex flex-col rounded-2xl border border-[#e1e1e1]/50 bg-[#f8f9fa] p-8">
+                    <p class="text-navy/50 mb-8 shrink-0 border-b border-[#e1e1e1] pb-4 font-display text-[11px] font-bold uppercase tracking-widest">
+                      Ключевые возможности
+                    </p>
+                    <ul class="flex flex-col gap-y-4">
+                      {product.features.map((feature: any) => (
+                        <li class="flex items-start gap-4">
+                          <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
+                          <span class="text-navy/80 text-[14px] leading-snug">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* Mobile Vertical Accordion (Fallback) */}
+  <div class="flex flex-col gap-4 lg:hidden">
+    <!-- Mobile implementation skipped conceptually to focus on Desktop Red Dot style first, 
+         but technically it would be a list of cards that expand downwards -->
+    <div
+      class="text-navy/60 rounded-xl border border-[#e1e1e1] bg-[#f8f9fa] p-8 text-center"
+    >
+      Для мобильных устройств данный концепт использует стандартный вертикальный
+      аккордеон. Основной фокус креатива направлен на Desktop-взаимодействие
+      (см. с компьютера).
+    </div>
+  </div>
+</section>
+
+<script>
+  const initAccordion = () => {
+    const slices = document.querySelectorAll(".c2-slice");
+    if (!slices.length) return;
+
+    // Use empty strings to let Tailwind classes handle the responsive widths
+    const collapsedWidth = "";
+    const expandedWidth = "";
+
+    slices.forEach((s) => {
+      s.addEventListener("click", () => {
+        // If already expanded, do nothing
+        if (s.classList.contains("c2-expanded")) return;
+
+        // Reset all slices
+        slices.forEach((s) => {
+          s.classList.remove(
+            "c2-expanded",
+            "bg-white",
+            "w-[55%]",
+            "xl:w-[60%]",
+          );
+          (s as HTMLElement).style.width = collapsedWidth;
+          s.classList.add("hover:bg-[#f1f3f5]", "w-[6.42%]", "xl:w-[5.71%]");
+
+          // Show vertical text
+          const collapsedContent = s.querySelector(".c2-collapsed-content");
+          if (collapsedContent) {
+            collapsedContent.classList.remove(
+              "opacity-0",
+              "pointer-events-none",
+            );
+            collapsedContent.classList.add("opacity-100");
+          }
+
+          // Hide expanded content
+          const expandedContent = s.querySelector(".c2-expanded-content");
+          if (expandedContent) {
+            expandedContent.classList.remove("opacity-100", "translate-x-0");
+            expandedContent.classList.add(
+              "opacity-0",
+              "translate-x-8",
+              "pointer-events-none",
+            );
+          }
+        });
+
+        // Expand clicked slice
+        s.classList.add("c2-expanded", "bg-white", "w-[55%]", "xl:w-[60%]");
+        s.classList.remove("hover:bg-[#f1f3f5]", "w-[6.42%]", "xl:w-[5.71%]");
+        (s as HTMLElement).style.width = expandedWidth;
+
+        // Hide vertical text
+        const activeCollapsed = s.querySelector(".c2-collapsed-content");
+        if (activeCollapsed) {
+          activeCollapsed.classList.remove("opacity-100");
+          activeCollapsed.classList.add("opacity-0", "pointer-events-none");
+        }
+
+        // Show expanded text (delay added by CSS class transition-all duration-700 delay-100)
+        const activeExpanded = s.querySelector(".c2-expanded-content");
+        if (activeExpanded) {
+          activeExpanded.classList.remove(
+            "opacity-0",
+            "translate-x-8",
+            "pointer-events-none",
+          );
+          activeExpanded.classList.add("opacity-100", "translate-x-0");
+        }
+      });
+    });
+  };
+
+  initAccordion();
+  document.addEventListener("astro:page-load", initAccordion);
+</script>

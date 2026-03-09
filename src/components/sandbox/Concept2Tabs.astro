@@ -1,0 +1,144 @@
+---
+import { SANDBOX_PRODUCTS } from "./data";
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<section class="container mx-auto mb-24 px-4 md:px-6">
+  <div class="flex flex-col items-center">
+    {/* Horizontal Tabs Nav */}
+    <div class="hide-scrollbar mb-4 w-full overflow-x-auto pb-4">
+      <div class="flex min-w-max gap-2 px-2 lg:justify-center" id="c2-tabs-nav">
+        {
+          SANDBOX_PRODUCTS.map((product, index) => (
+            <button
+              class={`c2-tab-btn rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${index === 0 ? "bg-navy text-white shadow-brand-lg" : "text-navy/60 hover:bg-navy/5 border border-line bg-white"}`}
+              data-target={`c2-content-${product.id}`}
+            >
+              {product.title}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* Content Area */}
+    <div
+      class="relative min-h-[600px] w-full max-w-5xl overflow-hidden rounded-[2rem] border border-line bg-white p-8 shadow-sm lg:p-16"
+    >
+      {/* Abstract Background Element */}
+      <div
+        class="from-blue/5 pointer-events-none absolute right-0 top-0 h-full w-1/2 rounded-tr-[2rem] bg-gradient-to-bl to-transparent"
+      >
+      </div>
+      <div
+        class="bg-blue/10 pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full blur-3xl"
+      >
+      </div>
+
+      {
+        SANDBOX_PRODUCTS.map((product, index) => (
+          <div
+            id={`c2-content-${product.id}`}
+            class={`c2-tab-content absolute inset-8 transition-all duration-500 ease-in-out lg:inset-16 ${index === 0 ? "z-10 translate-y-0 opacity-100" : "pointer-events-none -z-10 translate-y-8 opacity-0"}`}
+          >
+            <div class="max-w-2xl">
+              <span class="bg-blue/10 mb-6 inline-block rounded-md px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue">
+                Core Solution
+              </span>
+              <h3 class="mb-6 font-display text-heading-2 text-navy">
+                {product.title}
+              </h3>
+              <p class="text-navy/70 mb-12 text-body-lead">
+                {product.description}
+              </p>
+
+              <div class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+                {product.features.map((feature) => (
+                  <div class="flex items-start gap-4">
+                    <div class="bg-blue/10 mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-blue">
+                      <Icon name="check" size={14} />
+                    </div>
+                    <span class="text-navy/80 text-sm font-medium">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <button class="mt-12 rounded-full bg-navy px-8 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-blue">
+                Получить расчет
+              </button>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  const initConcept2 = () => {
+    const tabs = document.querySelectorAll(".c2-tab-btn");
+    const contents = document.querySelectorAll(".c2-tab-content");
+
+    if (!tabs.length || !contents.length) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        // Reset all tabs
+        tabs.forEach((t) => {
+          t.classList.remove("bg-navy", "text-white", "shadow-brand-lg");
+          t.classList.add("bg-white", "text-navy/60", "border", "border-line");
+        });
+
+        // Hide all contents
+        contents.forEach((c) => {
+          c.classList.remove("opacity-100", "translate-y-0", "z-10");
+          c.classList.add(
+            "opacity-0",
+            "translate-y-8",
+            "pointer-events-none",
+            "-z-10",
+          );
+        });
+
+        // Activate clicked tab
+        tab.classList.add("bg-navy", "text-white", "shadow-brand-lg");
+        tab.classList.remove(
+          "bg-white",
+          "text-navy/60",
+          "border",
+          "border-line",
+        );
+
+        // Show target content
+        const targetId = tab.getAttribute("data-target");
+        if (!targetId) return;
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+          targetContent.classList.remove(
+            "opacity-0",
+            "translate-y-8",
+            "pointer-events-none",
+            "-z-10",
+          );
+          targetContent.classList.add("opacity-100", "translate-y-0", "z-10");
+        }
+      });
+    });
+  };
+
+  initConcept2();
+  document.addEventListener("astro:page-load", initConcept2);
+</script>

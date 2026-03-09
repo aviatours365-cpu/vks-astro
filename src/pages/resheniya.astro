@@ -1,0 +1,17 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import UnderConstruction from "@/components/sections/UnderConstruction.astro";
+//import Solutions from "@/components/sections/Solutions.astro";
+import { SITE } from "@/lib/constants";
+---
+
+<PageLayout
+  title={`Решения | ${SITE.name}`}
+  description="Комплексные ИТ-решения для вашего бизнеса: серверное оборудование, системы хранения данных, сетевое оборудование, облачные решения и многое другое."
+>
+  <UnderConstruction
+    title="Раздел Решения  в разработке"
+    description={"Скоро здесь появится описание наших компетенций.\nВозвращайтесь немного позже."}
+    bgText="DEV"
+  />
+</PageLayout>

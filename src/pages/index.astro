@@ -2,6 +2,8 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 import Services from "@/components/sections/Services.astro";
+import Solutions from "@/components/sections/Solutions.astro";
+import MapSection from "@/components/sections/MapSection.astro";
 import { SITE } from "@/lib/constants";
 ---
 
@@ -17,5 +19,26 @@ import { SITE } from "@/lib/constants";
     secondaryButtonText="Наши услуги"
     secondaryButtonHref="#services"
   />
-  <Services title="Наши услуги" />
+  <Services
+    title="Наши услуги"
+    subtitle="Полный спектр ИТ-услуг: от аудита и проектирования до внедрения и круглосуточной поддержки."
+  />
+  <Solutions
+    title="Комплексные ИТ-решения"
+    subtitle="Мы создаем надежную цифровую и инженерную инфраструктуру, которая становится фундаментом для роста и безопасности вашего бизнеса."
+  />
+  <MapSection
+    titleHTML="Масштаб <br />Внедрений"
+    descriptionHTML="Мы реализуем проекты национального уровня во всех регионах страны. <br /> От построения ИТ-инфраструктуры до защиты государственных контуров."
+    counters={[
+      { target: 500, suffix: "+", labelHTML: "Реализованных<br />проектов" },
+      { target: 15, labelHTML: "Лет успешной<br />экспертизы" },
+      {
+        target: 50,
+        suffix: "+",
+        labelHTML: "Сертифицированных<br />инженеров",
+      },
+      { target: 30, suffix: "+", labelHTML: "Вендоров<br />партнеров" },
+    ]}
+  />
 </PageLayout>

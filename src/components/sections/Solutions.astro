@@ -1,0 +1,216 @@
+---
+import { getCollection } from "astro:content";
+import Icon from "@/components/ui/Icon.astro";
+import SolutionCard from "@/components/ui/SolutionCard.astro";
+import SolutionAccordion from "@/components/ui/SolutionAccordion.astro";
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  labels?: {
+    directions: string;
+    solution: string;
+    features: string;
+  };
+}
+
+const {
+  title = "Решения",
+  subtitle,
+  labels = {
+    directions: "Направления",
+    solution: "Решение",
+    features: "Ключевые возможности",
+  },
+} = Astro.props;
+
+const solutions = (await getCollection("solutions")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section class="relative bg-surface py-16 md:py-24">
+  <div class="mx-auto max-w-7xl">
+    <div class="mb-10 max-w-3xl md:mb-16">
+      <h2
+        class="font-display text-[32px] font-bold uppercase tracking-tight text-navy md:text-5xl"
+      >
+        {title}
+      </h2>
+      {
+        subtitle && (
+          <p class="text-navy/70 mt-4 font-sans text-[16px] leading-relaxed md:text-[18px]">
+            {subtitle}
+          </p>
+        )
+      }
+    </div>
+
+    {/* ── DESKTOP: Split-Screen ── */}
+    <div class="relative hidden gap-16 lg:flex xl:gap-20">
+      {/* Left Column — Sticky Nav */}
+      <div class="relative w-[280px] shrink-0 self-stretch">
+        <div class="sticky top-28 h-max">
+          <div
+            class="overflow-hidden rounded-xl border border-[#e1e1e1] bg-white"
+          >
+            <div class="border-b border-[#e1e1e1] px-6 py-4">
+              <h4
+                class="text-navy/30 font-display text-[10px] font-bold uppercase tracking-[0.2em]"
+              >
+                {labels.directions}
+              </h4>
+            </div>
+            <nav class="flex flex-col p-2" id="editorial-nav">
+              {
+                solutions.map((item, index: number) => (
+                  <a
+                    href={`#ea-${item.id}`}
+                    class={`editorial-nav-item group/nav flex items-center gap-3.5 rounded-lg px-4 py-3.5 transition-all duration-300 ${index === 0 ? "bg-navy text-white shadow-brand" : "text-navy/60 hover:bg-surface hover:text-navy"}`}
+                    data-target={`ea-${item.id}`}
+                  >
+                    <Icon
+                      name={item.data.icon as any}
+                      size={20}
+                      class={`shrink-0 transition-colors duration-300 ${index === 0 ? "text-white" : "text-navy/30 group-hover/nav:text-blue"}`}
+                    />
+                    <span class="font-display text-[11px] font-bold uppercase tracking-[0.05em]">
+                      {item.data.title}
+                    </span>
+                  </a>
+                ))
+              }
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column — Content */}
+      <div class="min-w-0 flex-1" id="editorial-content">
+        {
+          solutions.map((item, index: number) => (
+            <SolutionCard
+              product={{ id: item.id, ...item.data }}
+              index={index}
+              labels={labels}
+            />
+          ))
+        }
+      </div>
+    </div>
+
+    {/* ── MOBILE: Accordion ── */}
+    <div class="lg:hidden">
+      {
+        solutions.map((item, index: number) => (
+          <SolutionAccordion
+            product={{ id: item.id, ...item.data }}
+            index={index}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const initDesktopSpy = () => {
+    const sections = document.querySelectorAll(".editorial-section");
+    const navItems = document.querySelectorAll(".editorial-nav-item");
+    if (!sections.length || !navItems.length) return;
+
+    const setActive = (id: string | null) => {
+      navItems.forEach((item) => {
+        const isActive = item.getAttribute("data-target") === id;
+        const icon = item.querySelector("svg");
+        const a = "bg-navy text-white shadow-brand".split(" ");
+        const r = "text-navy/60 hover:bg-surface hover:text-navy".split(" ");
+
+        item.classList[isActive ? "add" : "remove"](...a);
+        item.classList[isActive ? "remove" : "add"](...r);
+        if (icon) {
+          icon.classList[isActive ? "add" : "remove"]("text-white");
+          icon.classList[isActive ? "remove" : "add"](
+            "text-navy/30",
+            "group-hover/nav:text-blue",
+          );
+        }
+      });
+
+      // Synchronize the right side card hover effect
+      sections.forEach((section) => {
+        const card = section.firstElementChild;
+        if (card) {
+          if (section.getAttribute("id") === id) {
+            card.classList.add("is-active");
+          } else {
+            card.classList.remove("is-active");
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(
+          (e) => e.isIntersecting && setActive(e.target.getAttribute("id")),
+        );
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    navItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const href = item.getAttribute("href");
+        if (href)
+          document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+  };
+
+  const initMobileAccordion = () => {
+    const triggers = document.querySelectorAll(".editorial-trigger");
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const isExp = trigger.getAttribute("aria-expanded") === "true";
+        triggers.forEach((t) => {
+          if (t === trigger) return;
+          t.setAttribute("aria-expanded", "false");
+          if (t.nextElementSibling)
+            (t.nextElementSibling as HTMLElement).style.cssText =
+              "grid-template-rows: 0fr; opacity: 0;";
+          t.querySelector(".editorial-chevron")?.classList.remove("rotate-180");
+          t.classList.remove(
+            "border-transparent",
+            "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
+          );
+          t.classList.add("border-[#e1e1e1]");
+        });
+
+        trigger.setAttribute("aria-expanded", String(!isExp));
+        const panel = trigger.nextElementSibling as HTMLElement;
+        if (panel)
+          panel.style.cssText = !isExp
+            ? "grid-template-rows: 1fr; opacity: 1;"
+            : "grid-template-rows: 0fr; opacity: 0;";
+        trigger
+          .querySelector(".editorial-chevron")
+          ?.classList.toggle("rotate-180", !isExp);
+        trigger.classList.toggle("border-transparent", !isExp);
+        trigger.classList.toggle(
+          "shadow-[0_8px_30px_rgba(0,123,255,0.12)]",
+          !isExp,
+        );
+        trigger.classList.toggle("border-[#e1e1e1]", isExp);
+      });
+    });
+  };
+
+  const initEditorial = () => {
+    initDesktopSpy();
+    initMobileAccordion();
+  };
+  initEditorial();
+  document.addEventListener("astro:page-load", initEditorial);
+</script>

@@ -1,0 +1,56 @@
+---
+import { cn } from "@/utils/cn";
+import MapTooltip from "./MapTooltip.astro";
+
+export interface Props {
+  x: number;
+  y: number;
+  city: string;
+  projects?: number;
+  color?: "blue" | "indigo" | "sky" | "cyan";
+  className?: string;
+}
+
+const { x, y, city, projects, color = "blue", className } = Astro.props;
+
+const hexColors = {
+  blue: "text-blue-500",
+  indigo: "text-indigo-500",
+  sky: "text-sky-400",
+  cyan: "text-cyan-400",
+};
+
+const hexPath =
+  "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z";
+---
+
+<div
+  class={cn("absolute z-20 hover:z-[60] group", className)}
+  style={`left: ${x}%; top: ${y}%;`}
+>
+  {/* Точка на карте (Гексагон) */}
+  <div
+    class={cn(
+      "absolute w-7 h-7 -translate-x-1/2 -translate-y-1/2 cursor-pointer flex items-center justify-center z-30 transition-shadow duration-300 group-hover:drop-shadow-md",
+      hexColors[color],
+    )}
+  >
+    <svg
+      viewBox="0 0 24 24"
+      class="absolute inset-0 h-full w-full rotate-90 animate-ping opacity-60"
+    >
+      <path d={hexPath} class="fill-current"></path>
+    </svg>
+
+    <svg
+      viewBox="0 0 24 24"
+      class="absolute inset-0 h-full w-full rotate-90 drop-shadow-sm"
+    >
+      <path d={hexPath} class="fill-current"></path>
+      <path d={hexPath} fill="transparent" stroke="white" stroke-width="1.5"
+      ></path>
+    </svg>
+  </div>
+
+  <MapTooltip city={city} projects={projects} />
+</div>

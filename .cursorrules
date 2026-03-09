@@ -1,67 +1,66 @@
-# VKS-site — AI Coding Rules (Cursor / Copilot / Antigravity)
-# Прочитай ARCHITECTURE.md перед любой работой.
+# VKS-Group AI Developer Guidelines
 
-## Проект
-- Astro 5 static site (`output: 'static'`), Tailwind CSS 3, TypeScript
-- Цель: Lighthouse 100/100, FCP < 0.8s, LCP < 1.5s, 0ms TBT
+You are an expert AI software engineer, specifically tuned for Astro 5, Tailwind CSS, TypeScript, and strict MPA (Multi-Page Application) static architectures. You prioritize performance (Zero-JS by default), maintainability, and clean UI components over rapid, messy prototyping. 
 
-## Жёсткие запреты (НИКОГДА не делать)
-- ❌ НЕ загружать шрифты/стили/скрипты с внешних CDN (Google Fonts, cdnjs, unpkg)
-- ❌ НЕ использовать `<script is:inline>` — только bundled `<script>`
-- ❌ НЕ использовать `<style>` внутри компонентов — только Tailwind классы или `@layer` в `main.css`
-- ❌ НЕ использовать `@import` в CSS
-- ❌ НЕ создавать файлы > 200 строк — декомпозировать
-- ❌ НЕ создавать папки кроме `layout/`, `sections/`, `ui/` внутри `components/`
-- ❌ НЕ использовать относительные пути между модулями — только `@/` алиасы
-- ❌ НЕ использовать хардкоженные цвета (`#007BFF`) — только CSS-переменные через Tailwind
-- ❌ НЕ использовать хардкоженные строки в шаблонах — выносить в `lib/constants.ts`
-- ❌ НЕ использовать хардкоженные `href="/path"` — всегда через `url()` из `@/utils/url`
-- ❌ НЕ добавлять зависимости без явного запроса пользователя
-- ❌ НЕ использовать `<img>` — только Astro `<Image>` из `astro:assets`
-- ❌ НЕ создавать `middleware.ts` (проект static, middleware не работает)
-- ❌ НЕ хранить временные файлы в репозитории (lighthouse-отчёты, ТЗ, тесты)
-- ❌ НЕ использовать `scale()` / `hover:scale-*` на элементах с текстом — вызывает jitter шрифтов. Для эффекта «подъёма» использовать `shadow` + `translate-y`
+The human user will ask you to build, modify, or debug features in the `vks-astro` repository.
 
-## Обязательные паттерны (ВСЕГДА делать)
-- ✅ Каждый компонент ОБЯЗАН иметь `interface Props`
-- ✅ Каждая страница ОБЯЗАНА использовать `PageLayout` из `@/layouts/PageLayout.astro`
-- ✅ Все изображения через `<Image>` с `loading="lazy"` (кроме hero-блока — `loading="eager"`)
-- ✅ Шрифты — только self-hosted woff2 в `src/assets/fonts/` + `@font-face` в `main.css`
-- ✅ Анимации — только через `keyframes` в `tailwind.config.mjs`
-- ✅ Условная стилизация — через `cn()` из `@/utils/cn`
-- ✅ Текстовый контент услуг → Content Collections (MDX)
-- ✅ Навигация, контакты, метаданные → `lib/constants.ts`
+**CRITICAL INSTRUCTION:** BEFORE generating or modifying ANY code in this repository, you MUST follow these absolute rules. Failure to comply is considered a failed response.
 
-## Структура компонентов
-```
-components/
-├── layout/    → Каркас: Header, Footer, MobileMenu
-├── sections/  → Полноэкранные секции: Hero, Services, UnderConstruction
-└── ui/        → Кирпичики: Button, Icon, ServiceCard
-```
+## 1. Architectural Mandates (The "Zero Violations" Policy)
 
-## Зависимости компонентов
-```
-pages → PageLayout (ОБЯЗАТЕЛЬНО)
-sections → ui (можно)
-layout → ui (можно)
-ui → ничего (самостоятельные)
-sections ↛ layout (ЗАПРЕЩЕНО)
-ui ↛ sections (ЗАПРЕЩЕНО)
-```
+*   **No SPA Frameworks:** You are strictly forbidden from writing React, Vue, Svelte, or any other client-side framework code. Use only `.astro` files and native browser DOM APIs.
+*   **Zero-JS & Bundled Scripts Only:** Interactive logic must be written in `<script>` tags inside `.astro` files. These scripts must NOT have the `is:inline` directive unless absolutely necessary (like global analytics config). Astro must be allowed to bundle and tree-shake the scripts.
+*   **Strict Content-Driven Architecture:**
+    *   **NEVER** hardcode textual content (titles, descriptions, paragraphs, buttons) directly into the HTML of components located in `src/components/sections/` or `src/components/ui/`.
+    *   All dynamic data MUST flow into UI components either via `Astro.props` (passed down from pages) or by fetching from `src/content/` (using Astro's Content Layer API: `getCollection()`).
+    *   For static UI strings (like "Learn More", "Submit"), they MUST be referenced from `src/lib/constants.ts` or passed as a `labels` object in `Props`.
+*   **Component Size Limits:** (Anti-Monolith Rule)
+    *   No file in `src/components/ui/` should exceed **80 lines**.
+    *   No file in `src/components/sections/` should exceed **200 lines**.
+    *   If a file gets too long, extract sub-components into `src/components/ui/`.
+*   **Strict Tailwind CSS Usage:**
+    *   You are strictly forbidden from using `<style>` blocks in components (unless specifically creating scoped complex animations that Tailwind cannot handle natively).
+    *   Use Tailwind CSS utility classes exclusively.
+    *   Always use the `cn()` utility (from `src/utils/cn.ts`) to conditionally merge tailwind classes (it wraps `clsx` and `tailwind-merge`).
+*   **Image Restrictions:**
+    *   NEVER use the raw HTML `<img>` tag.
+    *   You MUST use `<Picture>` or `<Image>` from `astro:assets` for all non-SVG media to prevent CLS and ensure optimization.
+    *   In the Hero section (LCP element), you MUST use `<Picture formats={['avif', 'webp']} loading="eager" />`.
+    *   Every image MUST have an `alt` attribute. No exceptions.
 
-## Performance-бюджет
-| Метрика | Бюджет |
-|---------|--------|
-| HTML (gzip) | < 15 KB |
-| CSS (inline) | < 20 KB |
-| JS (total) | < 10 KB |
-| Изображения | WebP, < 50 KB каждое |
-| Шрифты | woff2, self-hosted |
-| Внешние запросы | 0 (кроме аналитики) |
+## 2. Component Hierarchy Rules
 
-## Перед коммитом
-1. `npm run build` — 0 ошибок, 0 warnings
-2. Все файлы < 200 строк
-3. Нет `<style>`, `<script is:inline>`, хардкоженных цветов
-4. Все импорты через `@/`
+You must respect the Directory Hierarchy DAG (Directed Acyclic Graph):
+1.  **`src/pages/`**: File-based routing. Responsible for data fetching (`getCollection`), SEO meta tags, and passing data to the PageLayout.
+2.  **`src/layouts/`**: (`PageLayout.astro`, `RootLayout.astro`). Only pages import from here.
+3.  **`src/components/layout/`**: Structural components (`Header`, `Footer`).
+4.  **`src/components/sections/`**: Main content blocks (e.g., `Hero.astro`, `Solutions.astro`). They orchestrate `ui/` components.
+5.  **`src/components/ui/`**: "Dumb" presentational components (e.g., `Button.astro`, `Icon.astro`). They MUST declare a TypeScript `interface Props`.
+
+*Forbidden dependency paths:*
+*   `ui` -> `sections` (UI cannot depend on complex sections)
+*   `sections` -> `layout` (Sections cannot depend on Header/Footer wrappers)
+
+## 3. Mandatory Quality Gates (Automated Testing for AI)
+
+Whenever the user asks you to write code or complete a task, you CANNOT say "I am done" until you have executed the following verification scripts in your terminal tool and verified there are **zero errors**.
+
+You must run these explicitly:
+
+1.  **Typescript & Schema Validation:**
+    `npm run astro check`
+    *(Ensures all Zod schemas in `src/content/config.ts` are respected and Props are typed correctly. You must fix all TS errors.)*
+
+2.  **Linting & Anti-Monolith Checks:**
+    `npm run lint`
+    *(Runs ESLint and Stylelint. If you receive a "max-lines" or "max-lines-per-function" warning, you MUST refactor your code before concluding the task.)*
+
+3.  **Tailwind Class Sorting & Formatting:**
+    `npm run format`
+    *(Runs Prettier to format the file and auto-sort the Tailwind classes. You must run this before showing the final result to the user to prevent merge conflicts.)*
+
+4.  **Static Build Verification:**
+    `npm run build`
+    *(Ensure the SSG process completes successfully without any missing prop, missing collection, or unresolved path errors.)*
+
+If any of these commands fail, you MUST proactively fix the errors without asking the user for permission. Only present the result to the user when the build is perfectly clean.

@@ -24,4 +24,15 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { services, legal };
+const solutions = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/solutions" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    icon: z.string(),
+    order: z.number().default(0),
+    features: z.array(z.string()),
+  }),
+});
+
+export const collections = { services, legal, solutions };

@@ -1,0 +1,70 @@
+---
+import { SANDBOX_PRODUCTS } from "./data";
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<section class="container mx-auto mb-32 px-4 md:px-6">
+  {/* CSS Grid for Bento Layout */}
+  <div
+    class="grid auto-rows-[300px] grid-cols-1 gap-6 md:grid-cols-2 lg:auto-rows-[380px] lg:grid-cols-3"
+  >
+    {
+      SANDBOX_PRODUCTS.map((product: any, index: number) => {
+        // Logic for varying box sizes in the grid
+        let gridClass = "";
+        if (index === 0) {
+          gridClass = "md:col-span-2 lg:col-span-2 row-span-1"; // Huge wide box for flagship service
+        } else if (index === 1) {
+          gridClass = "md:col-span-1 lg:col-span-1 row-span-2"; // Tall box
+        } else if (index === 4) {
+          gridClass = "md:col-span-2 lg:col-span-2 row-span-1"; // Wide lower box
+        } else {
+          gridClass = "col-span-1 row-span-1"; // Standard square box
+        }
+
+        return (
+          <article
+            class={`group relative flex flex-col overflow-hidden rounded-[2rem] border border-line bg-white p-8 shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-brand-lg ${gridClass}`}
+          >
+            {/* Subtle Background Elements */}
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white to-surface" />
+            <div class="bg-blue/[0.03] group-hover:bg-blue/[0.08] pointer-events-none absolute -bottom-8 -right-8 h-48 w-48 rounded-full blur-2xl transition-colors duration-500" />
+
+            <Icon
+              name={product.icon}
+              size={120}
+              class="text-navy/[0.03] group-hover:text-navy/[0.06] pointer-events-none absolute -bottom-6 -right-6 transition-all duration-500 group-hover:scale-110"
+            />
+
+            {/* Content */}
+            <div class="relative z-10 flex h-full flex-col">
+              <div
+                class={`mb-6 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${index === 0 ? "bg-navy text-white" : "bg-surface text-navy"}`}
+              >
+                <Icon name={product.icon || "check"} size={22} />
+              </div>
+
+              <h3
+                class={`mb-3 font-display text-navy ${index === 0 ? "text-heading-2" : "text-heading-3"}`}
+              >
+                {product.title}
+              </h3>
+
+              <p class="text-navy/60 mb-auto max-w-sm text-sm font-medium leading-relaxed">
+                {product.shortDesc}
+              </p>
+
+              {/* Read More Button (Appears on Hover) */}
+              <div class="mt-8 overflow-hidden">
+                <span class="inline-flex translate-y-8 items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                  Узнать больше
+                  <Icon name="arrow-right" size={14} />
+                </span>
+              </div>
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>

@@ -1,0 +1,94 @@
+---
+interface Props {
+  product: any;
+  index: number;
+  labels: {
+    solution: string;
+    features: string;
+  };
+}
+
+const { product, index, labels } = Astro.props;
+---
+
+<article
+  id={`ea-${product.id}`}
+  class="editorial-section scroll-mt-24 pb-10 pt-4"
+>
+  <div
+    class="group relative transform-gpu overflow-hidden rounded-xl border border-[#e1e1e1] bg-white transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform hover:-translate-y-1 hover:border-transparent hover:shadow-[0_20px_50px_rgba(0,123,255,0.15)] [&.is-active]:-translate-y-1 [&.is-active]:border-transparent [&.is-active]:shadow-[0_20px_50px_rgba(0,123,255,0.15)]"
+  >
+    <div
+      class="pointer-events-none absolute right-8 top-8 select-none overflow-hidden rounded-md after:absolute after:-left-[150%] after:top-0 after:h-[150%] after:w-[150%] after:-skew-x-[20deg] after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:content-[''] group-hover:after:animate-[shine_1s_ease-out_forwards] group-[.is-active]:after:animate-[shine_1s_ease-out_forwards] lg:right-10 lg:top-10"
+    >
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="text-blue transition-colors duration-500"
+      >
+        <path
+          d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+          stroke="currentColor"
+          stroke-width="0.8"
+          fill="none"
+          stroke-linejoin="round"
+          stroke-linecap="round"></path>
+        <text
+          x="12"
+          y="12"
+          text-anchor="middle"
+          dominant-baseline="central"
+          fill="currentColor"
+          font-family="Manrope, sans-serif"
+          font-size="7.5"
+          font-weight="700"
+        >
+          {String(index + 1).padStart(2, "0")}
+        </text>
+      </svg>
+    </div>
+
+    <div class="backface-hidden relative transform-gpu p-8 lg:p-10">
+      <p
+        class="text-navy/25 mb-3 font-display text-[10px] font-bold uppercase tracking-[0.2em]"
+      >
+        {labels.solution}
+      </p>
+
+      <h3
+        class="mb-4 pr-20 font-display text-[22px] font-bold uppercase tracking-tight text-navy transition-colors duration-500 group-hover:text-blue group-[.is-active]:text-blue"
+      >
+        {product.title}
+      </h3>
+
+      <p
+        class="text-navy/60 mb-10 max-w-[600px] font-sans text-[15px] font-normal leading-relaxed"
+      >
+        {product.description}
+      </p>
+
+      <div class="border-t border-[#e1e1e1] pt-6">
+        <p
+          class="text-navy/25 mb-5 font-display text-[9px] font-bold uppercase tracking-[0.2em]"
+        >
+          {labels.features}
+        </p>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
+          {
+            product.features.map((feature: string) => (
+              <div class="flex items-start gap-3">
+                <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
+                <span class="text-navy/55 text-[13px] font-normal leading-snug">
+                  {feature}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,315 @@
+---
+import { SANDBOX_PRODUCTS } from "./data";
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<section class="container mx-auto mb-24 px-4 md:px-6">
+  {/* DESKTOP VIEW: Split Screen */}
+  <div class="relative hidden items-start gap-12 lg:flex xl:gap-24">
+    {/* Left Column: Sticky Nav */}
+    <div class="w-[30%] shrink-0">
+      <div class="sticky top-32 pt-4">
+        <h3 class="mb-8 font-display text-heading-3 text-navy">Направления</h3>
+        <nav class="relative flex flex-col gap-2" id="concept1-nav">
+          {/* Subtle connecting line */}
+          <div
+            class="bg-line/60 absolute bottom-4 left-[15px] top-4 z-0 w-[2px] rounded-full"
+          >
+          </div>
+
+          {
+            SANDBOX_PRODUCTS.map((product, index) => (
+              <a
+                href={`#c1-${product.id}`}
+                class={`nav-item group relative z-10 flex items-center gap-4 py-4 pr-4 transition-all duration-300 ${index === 0 ? "text-navy" : "text-navy/50 hover:text-navy/80"}`}
+                data-target={`c1-${product.id}`}
+              >
+                <div class="nav-indicator relative flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-white text-blue shadow-md ring-2 ring-blue transition-all duration-300">
+                  <div class="inner-dot h-2 w-2 scale-100 rounded-full bg-current opacity-100 transition-all duration-300" />
+                </div>
+                <span class="text-base font-semibold tracking-wide transition-all">
+                  {product.title}
+                </span>
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </div>
+
+    {/* Right Column: Scrolling Cards */}
+    <div class="flex w-[70%] flex-col gap-16" id="concept1-content">
+      {
+        SANDBOX_PRODUCTS.map((product) => (
+          <article
+            id={`c1-${product.id}`}
+            class="content-section ring-line/50 hover:border-blue/10 group relative scroll-mt-32 overflow-hidden rounded-[2.5rem] border border-transparent bg-white p-8 shadow-sm ring-1 transition-all duration-500 hover:shadow-brand-lg sm:p-12 xl:p-16"
+          >
+            {/* Decorative Elements */}
+            <div class="bg-blue/[0.03] group-hover:bg-blue/[0.05] pointer-events-none absolute -right-16 -top-16 h-80 w-80 rounded-full blur-3xl transition-colors duration-500" />
+
+            <Icon
+              name={product.icon as any}
+              size={280}
+              class="text-navy/[0.02] absolute -bottom-12 -right-12 transition-transform duration-[800ms] group-hover:-translate-x-4 group-hover:-translate-y-4 group-hover:scale-110"
+            />
+
+            <div class="relative z-10">
+              <div class="mb-10 flex flex-col gap-6 md:flex-row md:items-center">
+                <div class="shadow-blue/20 flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue to-[#0055A4] text-white shadow-xl">
+                  <Icon name={product.icon as any} size={36} />
+                </div>
+                <h3 class="font-display text-heading-3 tracking-tight text-navy lg:text-heading-2">
+                  {product.title}
+                </h3>
+              </div>
+
+              <p class="text-navy/60 mb-12 max-w-2xl text-body-base leading-relaxed">
+                {product.description}
+              </p>
+
+              <div class="border-line/50 relative overflow-hidden rounded-3xl border bg-surface p-8 sm:p-10">
+                <div class="absolute bottom-0 left-0 top-0 w-1.5 rounded-l-3xl bg-blue" />
+                <h4 class="text-navy/40 mb-8 text-xs font-bold uppercase tracking-widest">
+                  Включает в себя:
+                </h4>
+                <ul class="flex flex-col gap-5">
+                  {product.features.map((feature) => (
+                    <li class="flex items-start gap-5">
+                      <div class="bg-blue/10 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-blue shadow-inner">
+                        <Icon name="check" size={12} />
+                      </div>
+                      <span class="text-navy/80 text-base font-semibold leading-relaxed">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* MOBILE VIEW: Elegant Accordion */}
+  <div class="flex flex-col gap-4 lg:hidden">
+    {
+      SANDBOX_PRODUCTS.map((product, index) => (
+        <div class="accordion-item border-line/80 overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300">
+          <button
+            class="accordion-trigger group relative flex w-full items-center justify-between p-5 text-left sm:p-6"
+            aria-expanded={index === 0 ? "true" : "false"}
+          >
+            {/* Subtle hover background */}
+            <div class="bg-blue/5 absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <div class="relative z-10 flex items-center gap-4 sm:gap-5">
+              <div class="ring-line/50 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-surface text-blue shadow-sm ring-1 transition-all duration-300 group-hover:bg-blue group-hover:text-white">
+                <Icon name={product.icon as any} size={24} />
+              </div>
+              <h4 class="pr-4 font-display text-lg font-bold tracking-tight text-navy sm:text-xl">
+                {product.title}
+              </h4>
+            </div>
+            <div
+              class={`accordion-icon text-navy/40 relative z-10 shrink-0 transition-transform duration-300 ${index === 0 ? "rotate-90" : "rotate-0"} group-hover:text-blue`}
+            >
+              {/* Arrow right acts as chevron down when rotated 90deg */}
+              <Icon name="arrow-right" size={24} />
+            </div>
+          </button>
+          <div
+            class="accordion-content grid transition-all duration-300 ease-in-out"
+            style={
+              index === 0
+                ? "grid-template-rows: 1fr; margin-bottom: 24px;"
+                : "grid-template-rows: 0fr; margin-bottom: 0;"
+            }
+          >
+            <div class="overflow-hidden">
+              <div class="px-5 pb-2 sm:px-6">
+                <div class="bg-line/80 mb-6 h-px w-full" />
+
+                <p class="text-navy/60 mb-8 text-[15px] leading-relaxed">
+                  {product.description}
+                </p>
+
+                <div class="border-line/50 rounded-2xl border bg-surface p-5 sm:p-6">
+                  <h4 class="text-navy/40 mb-5 text-[10px] font-bold uppercase tracking-widest">
+                    Возможности:
+                  </h4>
+                  <ul class="flex flex-col gap-4">
+                    {product.features.map((feature) => (
+                      <li class="flex items-start gap-4">
+                        <div class="bg-blue/10 mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-blue">
+                          <Icon name="check" size={10} />
+                        </div>
+                        <span class="text-navy/80 text-[14px] font-semibold leading-snug">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const initConcept1 = () => {
+    // DESKTOP: Intersection Observer
+    const sections = document.querySelectorAll(".content-section");
+    const navItems = document.querySelectorAll(".nav-item");
+
+    if (sections.length && navItems.length) {
+      // Set initial styles for inactive nav items
+      navItems.forEach((item, index) => {
+        if (index !== 0) {
+          const indicator = item.querySelector(".nav-indicator");
+          const innerDot = item.querySelector(".inner-dot");
+          indicator?.classList.replace("shadow-md", "border");
+          indicator?.classList.replace("ring-2", "border-line");
+          indicator?.classList.replace("ring-blue", "text-navy/30");
+          indicator?.classList.replace("text-blue", "group-hover:text-navy/60");
+          innerDot?.classList.replace("scale-100", "scale-50");
+          innerDot?.classList.replace("opacity-100", "opacity-0");
+        }
+      });
+
+      const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            navItems.forEach((item) => {
+              const indicator = item.querySelector(".nav-indicator");
+              const innerDot = item.querySelector(".inner-dot");
+
+              if (item.getAttribute("data-target") === id) {
+                // Active state
+                item.classList.add("text-navy");
+                item.classList.remove("text-navy/50");
+
+                indicator?.classList.add(
+                  "shadow-md",
+                  "ring-2",
+                  "ring-blue",
+                  "text-blue",
+                );
+                indicator?.classList.remove(
+                  "border",
+                  "border-line",
+                  "text-navy/30",
+                  "group-hover:text-navy/60",
+                );
+
+                innerDot?.classList.add("scale-100", "opacity-100");
+                innerDot?.classList.remove("scale-50", "opacity-0");
+              } else {
+                // Inactive state
+                item.classList.remove("text-navy");
+                item.classList.add("text-navy/50");
+
+                indicator?.classList.remove(
+                  "shadow-md",
+                  "ring-2",
+                  "ring-blue",
+                  "text-blue",
+                );
+                indicator?.classList.add(
+                  "border",
+                  "border-line",
+                  "text-navy/30",
+                  "group-hover:text-navy/60",
+                );
+
+                innerDot?.classList.remove("scale-100", "opacity-100");
+                innerDot?.classList.add("scale-50", "opacity-0");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach((section) => observer.observe(section));
+
+      // Smooth scroll for nav clicks
+      navItems.forEach((item) => {
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = item.getAttribute("href");
+          if (!targetId) return;
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    }
+
+    // MOBILE: Accordion logic
+    const triggers = document.querySelectorAll(".accordion-trigger");
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const isExpanded = trigger.getAttribute("aria-expanded") === "true";
+        const content = trigger.nextElementSibling as HTMLElement;
+        const icon = trigger.querySelector(".accordion-icon");
+
+        // Close all other accordions
+        triggers.forEach((t) => {
+          if (t !== trigger) {
+            t.setAttribute("aria-expanded", "false");
+            const c = t.nextElementSibling as HTMLElement;
+            if (c) {
+              c.style.gridTemplateRows = "0fr";
+              c.style.marginBottom = "0px";
+            }
+            const i = t.querySelector(".accordion-icon");
+            if (i) {
+              i.classList.remove("rotate-90");
+              i.classList.add("rotate-0");
+            }
+          }
+        });
+
+        // Toggle current accordion
+        if (isExpanded) {
+          trigger.setAttribute("aria-expanded", "false");
+          if (content) {
+            content.style.gridTemplateRows = "0fr";
+            content.style.marginBottom = "0px";
+          }
+          if (icon) {
+            icon.classList.remove("rotate-90");
+            icon.classList.add("rotate-0");
+          }
+        } else {
+          trigger.setAttribute("aria-expanded", "true");
+          if (content) {
+            content.style.gridTemplateRows = "1fr";
+            content.style.marginBottom = "24px";
+          }
+          if (icon) {
+            icon.classList.remove("rotate-0");
+            icon.classList.add("rotate-90");
+          }
+        }
+      });
+    });
+  };
+
+  initConcept1();
+  document.addEventListener("astro:page-load", initConcept1);
+</script>

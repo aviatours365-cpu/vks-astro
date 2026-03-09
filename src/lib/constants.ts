@@ -14,6 +14,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { label: "Услуги", href: "/uslugi" },
+  { label: "Решения", href: "/resheniya" },
   { label: "О компании", href: "/o-kompanii" },
   { label: "Контакты", href: "/kontakty" },
 ] as const;

@@ -17,10 +17,9 @@ const { slug, icon, title, description, full, className } = Astro.props;
 const textSuffix = full.startsWith(",") ? full : " " + full;
 ---
 
-<a
-  href={url(`/uslugi/${slug}`)}
+<div
   class={cn(
-    "service-card group relative w-full z-10 hover:z-50 block text-left",
+    "service-card group relative w-full z-10 hover:z-50 block text-left cursor-default",
     "h-auto md:h-[340px]",
     className,
   )}
@@ -29,7 +28,7 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
     class={cn(
       "service-card-inner",
       "md:absolute md:top-0 md:left-0 w-full bg-white rounded-xl p-8 lg:p-10 border border-[#e1e1e1] overflow-hidden",
-      "transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-top",
+      "transform-gpu will-change-transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-top",
       "md:group-hover:shadow-[0_20px_50px_rgba(0,123,255,0.15)] md:group-hover:border-transparent md:group-hover:-translate-y-3",
       "md:min-h-full md:max-h-[340px] md:group-hover:max-h-[800px]",
     )}
@@ -47,14 +46,14 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
 
     {/* Title */}
     <h3
-      class="mb-4 pr-8 font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors duration-500 group-hover:text-blue"
+      class="backface-hidden mb-4 transform-gpu pr-8 font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors duration-500 group-hover:text-blue"
     >
       {title}
     </h3>
 
     {/* Single continuous paragraph — no text breaks */}
     <p
-      class="service-card-text text-navy/60 mb-0 font-sans text-[15px] font-light leading-relaxed"
+      class="service-card-text text-navy/60 backface-hidden mb-0 transform-gpu font-sans text-[15px] font-light leading-relaxed"
     >
       {description}<span
         class="service-card-full md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100"
@@ -62,4 +61,4 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
       >
     </p>
   </div>
-</a>
+</div>

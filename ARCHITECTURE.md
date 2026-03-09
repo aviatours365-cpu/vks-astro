@@ -70,24 +70,25 @@ sections/* → ui/*
 
 Любой хардкод (статичный текст, заголовки, описания) внутри HTML-тегов папок `src/components/sections/` и `src/components/ui/` **КАТЕГОРИЧЕСКИ ЗАПРЕЩЕН**.
 Все компоненты должны быть "Глупыми" (Presentational Components). Они обязаны получать контент исключительно через:
+
 1. `Astro.props` (передается от Страницы, которая формирует данные).
 2. `getCollection(...)` (динамическая загрузка из Collections API).
 3. `src/lib/constants.ts` (глобальные элементы UI — кнопки меню, подвал).
 
 ### 3.4 Запреты
 
-| ❌ Запрещено                 | ✅ Правильно                              |
-| ---------------------------- | ----------------------------------------- |
-| Хардкод контента в UI        | `Astro.props` или `Content Collections`   |
-| `<style>` внутри компонента  | Tailwind-классы или `@layer` в `main.css` |
-| Несортированные Tailwind классы | Использование Prettier (`npm run format`) |
-| `<script is:inline>`         | Bundled `<script>` с TypeScript           |
-| `<img>` тег                  | `<Image>` или `<Picture>` из `astro:assets`|
-| Изображения в LCP (Hero)     | Строго `<Picture formats={['avif', 'webp']}>` |
-| Inline SVG иконки            | `Icon.astro` компонент                    |
-| Хардкоженные строки UI       | `lib/constants.ts`                        |
-| Хардкоженные цвета `#007BFF` | CSS-переменные → Tailwind токены          |
-| `@import` в CSS              | `@font-face` + Tailwind directives        |
+| ❌ Запрещено                    | ✅ Правильно                                  |
+| ------------------------------- | --------------------------------------------- |
+| Хардкод контента в UI           | `Astro.props` или `Content Collections`       |
+| `<style>` внутри компонента     | Tailwind-классы или `@layer` в `main.css`     |
+| Несортированные Tailwind классы | Использование Prettier (`npm run format`)     |
+| `<script is:inline>`            | Bundled `<script>` с TypeScript               |
+| `<img>` тег                     | `<Image>` или `<Picture>` из `astro:assets`   |
+| Изображения в LCP (Hero)        | Строго `<Picture formats={['avif', 'webp']}>` |
+| Inline SVG иконки               | `Icon.astro` компонент                        |
+| Хардкоженные строки UI          | `lib/constants.ts`                            |
+| Хардкоженные цвета `#007BFF`    | CSS-переменные → Tailwind токены              |
+| `@import` в CSS                 | `@font-face` + Tailwind directives            |
 
 ---
 
@@ -147,6 +148,7 @@ import { SITE } from "@/lib/constants";
 > **Запрещено:** Импортировать `RootLayout`, `Header`, `Footer` напрямую в pages. Только через `PageLayout`.
 
 ### Динамические маршруты (SSG)
+
 - Для генерации страниц из коллекций (например, `/uslugi/[slug].astro` или правовых документов `/[...slug].astro`) **обязательно** использование функции `getStaticPaths()`. Проект собирается в режиме Static, поэтому все URL должны быть известны на этапе сборки.
 
 ---
