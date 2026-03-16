@@ -4,11 +4,12 @@ import { Image } from "astro:assets";
 import belarusMapBg from "@/assets/belarus-map-bg.png";
 import MapMarker from "@/components/ui/MapMarker.astro";
 import MapMobileSlider from "@/components/ui/MapMobileSlider.astro";
+import { SECTIONS } from "@/lib/constants";
 
 export interface Props {
-  titleHTML: string;
-  descriptionHTML: string;
-  counters: {
+  titleHTML?: string;
+  descriptionHTML?: string;
+  counters?: {
     target: number;
     prefix?: string;
     suffix?: string;
@@ -16,31 +17,27 @@ export interface Props {
   }[];
 }
 
-const { titleHTML, descriptionHTML, counters } = Astro.props;
+const {
+  titleHTML = SECTIONS.map.titleHTML,
+  descriptionHTML = SECTIONS.map.descriptionHTML,
+  counters = SECTIONS.map.defaultCounters as any,
+} = Astro.props;
 
 // For mobile slider rendering
-const mobileStats = [
-  ...MAP_HOTSPOTS,
-  {
-    id: "all",
-    city: "Вся Беларусь",
-    projects: 500,
-    color: "blue",
-  },
-];
+const mobileStats = [...MAP_HOTSPOTS, SECTIONS.map.allRegionsHotspot];
 ---
 
 <section
   id="simple-map"
-  class="relative flex min-h-[800px] overflow-hidden bg-white md:items-center"
+  class="relative overflow-hidden bg-white py-16 md:py-24"
   aria-label="Карта внедрений"
 >
   <div
-    class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-4 md:px-6 lg:grid-cols-12"
+    class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-12"
   >
     {/* ЛЕВАЯ ЧАСТЬ: Текст и Счетчики */}
     <div
-      class="flex flex-col justify-center space-y-12 lg:col-span-5 xl:col-span-4"
+      class="flex flex-col justify-center space-y-10 lg:col-span-5 xl:col-span-4"
     >
       <div>
         <h2
@@ -55,7 +52,7 @@ const mobileStats = [
 
       <div class="grid grid-cols-2 gap-x-8 gap-y-10" id="map-counters">
         {
-          counters.map((counter) => (
+          counters.map((counter: any) => (
             <div>
               <div class="font-display text-4xl font-black tracking-tighter text-navy lg:text-5xl">
                 {counter.prefix && (

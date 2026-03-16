@@ -33,11 +33,18 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
       "shadow-[0_4px_20px_rgba(0,0,0,0.03)] focus-within:shadow-[0_20px_50px_rgba(0,123,255,0.15)]",
       "md:group-hover:shadow-[0_20px_50px_rgba(0,123,255,0.15)] md:group-hover:border-transparent md:group-hover:-translate-y-3",
       "md:min-h-full md:max-h-[340px] md:group-hover:max-h-[800px]",
+      // Mobile active state
+      "max-md:[.service-card.is-active_&]:shadow-[0_20px_50px_rgba(0,123,255,0.15)] max-md:[.service-card.is-active_&]:border-transparent max-md:[.service-card.is-active_&]:-translate-y-3",
     )}
   >
     {/* Icon */}
     <div
-      class="relative mb-6 w-max overflow-hidden rounded-md transition-transform duration-500 ease-out after:absolute after:-left-[150%] after:top-0 after:h-[150%] after:w-[150%] after:-skew-x-[20deg] after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:content-[''] group-hover:after:animate-[shine_1s_ease-out_forwards]"
+      class={cn(
+        "relative mb-6 w-max overflow-hidden rounded-md transition-transform duration-500 ease-out",
+        "after:absolute after:-left-[150%] after:top-0 after:h-[150%] after:w-[150%] after:-skew-x-[20deg] after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:content-['']",
+        "group-hover:after:animate-[shine_1s_ease-out_forwards]",
+        "max-md:[.service-card.is-active_&]:after:animate-[shine_1s_ease-out_forwards]",
+      )}
     >
       <Icon
         name={icon as any}
@@ -48,7 +55,11 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
 
     {/* Title */}
     <h3
-      class="backface-hidden mb-4 transform-gpu pr-8 font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors duration-500 group-hover:text-blue"
+      class={cn(
+        "backface-hidden mb-4 transform-gpu pr-8 font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors duration-500",
+        "group-hover:text-blue",
+        "max-md:[.service-card.is-active_&]:text-blue",
+      )}
     >
       {title}
     </h3>
@@ -58,8 +69,10 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
       class="service-card-text text-navy/60 backface-hidden mb-0 transform-gpu font-sans text-[15px] font-light leading-relaxed"
     >
       {description}<span
-        class="service-card-full md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100"
-        >{textSuffix}</span
+        class={cn(
+          "service-card-full md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100",
+          "max-md:[.service-card.is-active_&]:opacity-100",
+        )}>{textSuffix}</span
       >
     </p>
   </div>

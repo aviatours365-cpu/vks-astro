@@ -1,4 +1,5 @@
 ---
+import { SECTIONS } from "@/lib/constants";
 import { getCollection } from "astro:content";
 import Icon from "@/components/ui/Icon.astro";
 import SolutionCard from "@/components/ui/SolutionCard.astro";
@@ -15,13 +16,9 @@ interface Props {
 }
 
 const {
-  title = "Решения",
-  subtitle,
-  labels = {
-    directions: "Направления",
-    solution: "Решение",
-    features: "Ключевые возможности",
-  },
+  title = SECTIONS.solutions.title,
+  subtitle = SECTIONS.solutions.subtitle,
+  labels = SECTIONS.solutions.labels,
 } = Astro.props;
 
 const solutions = (await getCollection("solutions")).sort(

@@ -1,20 +1,22 @@
 ---
 import ServiceCard from "@/components/ui/ServiceCard.astro";
+import { SECTIONS } from "@/lib/constants";
 import { getCollection } from "astro:content";
 
 interface Props {
-  title: string;
+  title?: string;
   subtitle?: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title = SECTIONS.services.title, subtitle = SECTIONS.services.subtitle } =
+  Astro.props;
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---
 
-<section id="services" class="relative overflow-hidden py-16 md:py-32">
+<section id="services" class="relative overflow-hidden py-16 md:py-24">
   <div class="container relative z-10 mx-auto px-4 md:px-6">
     <div class="mx-auto max-w-7xl">
       <div class="mb-10 max-w-3xl md:mb-16">
@@ -33,7 +35,8 @@ const services = (await getCollection("services")).sort(
       </div>
 
       <div
-        class="-mx-4 flex items-stretch w-full snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-8 md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+        id="services-slider"
+        class="-mx-4 flex w-full snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 pb-8 pt-10 md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 md:pt-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
       >
         {
           services.map((s) => (
@@ -43,7 +46,21 @@ const services = (await getCollection("services")).sort(
               title={s.data.title}
               description={s.data.description}
               full={s.data.full}
-              className="w-[280px] shrink-0 snap-center md:w-full"
+              className="service-card-mobile w-[280px] shrink-0 snap-center snap-always md:w-full"
+            />
+          ))
+        }
+      </div>
+
+      {/* Pagination Dots for Mobile */}
+      <div class="mt-4 flex justify-center gap-3 md:hidden">
+        {
+          services.map((_, i) => (
+            <button
+              class="service-dot h-2 w-2 rounded-full bg-navy opacity-20 transition-all duration-300 aria-selected:w-6 aria-selected:bg-blue aria-selected:opacity-100"
+              data-index={i}
+              aria-label={`Slide ${i + 1}`}
+              aria-selected={i === 0 ? "true" : "false"}
             />
           ))
         }
@@ -51,3 +68,86 @@ const services = (await getCollection("services")).sort(
     </div>
   </div>
 </section>
+
+<script>
+  function updateDots(
+    index: number,
+    dots: NodeListOf<Element>,
+    cards: NodeListOf<Element>,
+  ) {
+    dots.forEach((dot, i) => {
+      dot.setAttribute("aria-selected", i === index ? "true" : "false");
+    });
+    cards.forEach((card, i) => {
+      card.classList.toggle("is-active", i === index);
+    });
+  }
+
+  function handleScroll(
+    slider: HTMLElement,
+    cards: NodeListOf<Element>,
+    dots: NodeListOf<Element>,
+    onUpdate: (index: number) => void,
+  ) {
+    let isScrolling: any;
+    slider.addEventListener(
+      "scroll",
+      () => {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(() => {
+          const scrollLeft = slider.scrollLeft;
+          const firstCard = cards[0] as HTMLElement;
+          const cardWidth = firstCard.offsetWidth + 24;
+          const index = Math.round(scrollLeft / cardWidth);
+          if (index >= 0 && index < dots.length) {
+            onUpdate(index);
+          }
+        }, 100);
+      },
+      { passive: true },
+    );
+  }
+
+  function initServicesSlider() {
+    const slider = document.getElementById("services-slider");
+    const dots = document.querySelectorAll(".service-dot");
+    const cards = document.querySelectorAll(".service-card-mobile");
+
+    if (!slider || dots.length === 0 || cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries.reduce((prev, curr) =>
+          curr.intersectionRatio > prev.intersectionRatio ? curr : prev,
+        );
+        if (mostVisible && mostVisible.intersectionRatio > 0.5) {
+          const index = Array.from(cards).indexOf(mostVisible.target);
+          updateDots(index, dots, cards);
+        }
+      },
+      { root: slider, threshold: 0.6 },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        const targetCard = cards[i] as HTMLElement;
+        if (targetCard) {
+          slider.scrollTo({
+            left: targetCard.offsetLeft - slider.offsetLeft,
+            behavior: "smooth",
+          });
+          updateDots(i, dots, cards);
+        }
+      });
+    });
+
+    handleScroll(slider, cards, dots, (index) =>
+      updateDots(index, dots, cards),
+    );
+  }
+
+  document.addEventListener("astro:page-load", initServicesSlider);
+  initServicesSlider();
+</script>

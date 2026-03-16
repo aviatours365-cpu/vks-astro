@@ -76,3 +76,45 @@ export const UI = {
   privacyPolicy: "Политика конфиденциальности",
   cookiePolicy: "Cookie",
 } as const;
+
+export const SECTIONS = {
+  hero: {
+    titleHTML: "ПРОЕКТИРУЕМ <br /> ИНФРАСТРУКТУРУ <br /> БУДУЩЕГО",
+    subtitle:
+      "Проектируем и внедряем ИТ-системы любого масштаба. Инженерная точность и безопасность данных.",
+    primaryButtonText: "Начать проект",
+    secondaryButtonText: "Наши услуги",
+  },
+  services: {
+    title: "Наши услуги",
+    subtitle:
+      "Полный спектр ИТ-услуг: от аудита и проектирования до внедрения и круглосуточной поддержки.",
+  },
+  solutions: {
+    title: "Комплексные ИТ-решения",
+    subtitle:
+      "Мы создаем надежную цифровую и инженерную инфраструктуру, которая становится фундаментом для роста и безопасности вашего бизнеса.",
+    labels: {
+      directions: "Направления",
+      solution: "Решение",
+      features: "Ключевые возможности",
+    },
+  },
+  map: {
+    titleHTML: "Масштаб <br />Внедрений",
+    descriptionHTML:
+      "Мы реализуем проекты национального уровня во всех регионах страны. <br /> От построения ИТ-инфраструктуры до защиты государственных контуров.",
+    defaultCounters: [
+      { target: 500, suffix: "+", labelHTML: "Реализованных<br />проектов" },
+      { target: 15, labelHTML: "Лет успешной<br />экспертизы" },
+      { target: 50, suffix: "+", labelHTML: "Сертифицированных<br />инженеров" },
+      { target: 30, suffix: "+", labelHTML: "Вендоров<br />партнеров" },
+    ],
+    allRegionsHotspot: {
+      id: "all",
+      city: "Вся Беларусь",
+      projects: 500,
+      color: "blue" as const,
+    },
+  },
+} as const;

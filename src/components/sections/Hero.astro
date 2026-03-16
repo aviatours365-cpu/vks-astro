@@ -1,25 +1,26 @@
 ---
 import Button from "@/components/ui/Button.astro";
+import { SECTIONS } from "@/lib/constants";
 import { url } from "@/utils/url";
 import { Picture } from "astro:assets";
 import heroBg from "@/assets/hero-bg.webp";
 
 interface Props {
-  titleHTML: string;
-  subtitle: string;
-  primaryButtonText: string;
-  primaryButtonHref: string;
-  secondaryButtonText: string;
-  secondaryButtonHref: string;
+  titleHTML?: string;
+  subtitle?: string;
+  primaryButtonText?: string;
+  primaryButtonHref?: string;
+  secondaryButtonText?: string;
+  secondaryButtonHref?: string;
 }
 
 const {
-  titleHTML,
-  subtitle,
-  primaryButtonText,
-  primaryButtonHref,
-  secondaryButtonText,
-  secondaryButtonHref,
+  titleHTML = SECTIONS.hero.titleHTML,
+  subtitle = SECTIONS.hero.subtitle,
+  primaryButtonText = SECTIONS.hero.primaryButtonText,
+  primaryButtonHref = "/kontakty",
+  secondaryButtonText = SECTIONS.hero.secondaryButtonText,
+  secondaryButtonHref = "#services",
 } = Astro.props;
 ---
 
