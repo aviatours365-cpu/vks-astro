@@ -1,7 +1,6 @@
 ---
 import { cn } from "@/utils/cn";
 import Icon from "@/components/ui/Icon.astro";
-import { url } from "@/utils/url";
 
 interface Props {
   slug: string;
@@ -12,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const { slug, icon, title, description, full, className } = Astro.props;
+const { icon, title, description, full, className } = Astro.props;
 
 const textSuffix = full.startsWith(",") ? full : " " + full;
 ---

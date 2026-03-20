@@ -88,7 +88,7 @@
 
   /* ── Focus Ring (Accessibility — keyboard only) ── */
   :focus-visible {
-    outline: 1.5px solid rgba(0, 118, 255, 0.5);
+    outline: 1.5px solid rgb(0 118 255 / 50%);
     outline-offset: 3px;
     border-radius: 4px;
   }

@@ -13,157 +13,156 @@ const currentYear = new Date().getFullYear();
 >
   <div class="container relative z-10 mx-auto max-w-7xl px-4 md:px-6">
     {/* Upper Section: Grid Layout */}
-      <div
-        class="mb-16 grid grid-cols-[0.8fr_1.2fr] gap-x-6 gap-y-12 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] lg:gap-x-10 lg:gap-y-0 xl:mb-24"
-      >
-        {/* Column 1: Brand & Socials */}
-        <div class="order-1 col-span-2 flex flex-col lg:col-span-1">
-          <a href={url("/")} class="group mb-8 inline-block">
-            <Image
-              src={logoWhite}
-              alt="VKS Logo"
-              width={400}
-              height={100}
-              quality={90}
-              class="h-8 w-auto opacity-90 transition-opacity duration-300 group-hover:opacity-100 lg:h-9"
-              loading="lazy"
-            />
-          </a>
-          <p
-            class="mb-8 pr-4 text-[13px] font-light leading-relaxed text-white/50 lg:pr-8 lg:text-[14px]"
-          >
-            {SITE.description}
-          </p>
-          <div class="flex items-center gap-4">
-            {
-              CONTACTS.socials.map((social) => (
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:bg-blue/20 hover:border-blue/40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/40 transition-all duration-300 hover:text-white"
-                  aria-label={social.label}
-                >
-                  <Icon name={social.name} size={18} class="fill-current" />
-                </a>
-              ))
-            }
-          </div>
-        </div>
-
-        {/* Column 2: Navigation */}
-        <div class="order-2 col-span-1 flex flex-col">
-          <h4
-            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
-          >
-            {UI.navigation}
-          </h4>
-          <ul class="flex flex-col gap-4">
-            {
-              NAV_LINKS.map((link) => (
-                <li>
-                  <a
-                    href={url(link.href)}
-                    class="inline-block text-[13px] font-light text-white/50 transition-all duration-300 hover:translate-x-1 hover:text-white lg:text-[14px]"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        {/* Column 3: Phones */}
-        <div class="order-3 col-span-1 flex flex-col">
-          <h4
-            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
-          >
-            {UI.phones}
-          </h4>
-          <ul class="flex flex-col gap-4">
-            {
-              CONTACTS.phones.map((phone) => (
-                <li class="flex items-baseline gap-2 xl:gap-3">
-                  <span class="w-9 shrink-0 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:w-10 lg:text-[10px]">
-                    {phone.label}
-                  </span>
-                  <a
-                    href={`tel:${phone.value.replace(/[^\+\d]/g, "")}`}
-                    class="whitespace-nowrap text-[12px] font-light tracking-wide text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
-                  >
-                    {phone.value}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        {/* Column 4: Contacts */}
-        <div
-          class="order-4 col-span-2 mt-2 flex flex-col border-t border-white/5 pt-8 lg:col-span-1 lg:mt-0 lg:border-none lg:pt-0"
+    <div
+      class="mb-16 grid grid-cols-[0.8fr_1.2fr] gap-x-6 gap-y-12 lg:grid-cols-[1.2fr_0.8fr_1fr_1.2fr] lg:gap-x-10 lg:gap-y-0 xl:mb-24"
+    >
+      {/* Column 1: Brand & Socials */}
+      <div class="order-1 col-span-2 flex flex-col lg:col-span-1">
+        <a href={url("/")} class="group mb-8 inline-block">
+          <Image
+            src={logoWhite}
+            alt="VKS Logo"
+            width={400}
+            height={100}
+            quality={90}
+            class="h-8 w-auto opacity-90 transition-opacity duration-300 group-hover:opacity-100 lg:h-9"
+            loading="lazy"
+          />
+        </a>
+        <p
+          class="mb-8 pr-4 text-[13px] font-light leading-relaxed text-white/50 lg:pr-8 lg:text-[14px]"
         >
-          <h4
-            class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
-          >
-            {UI.contacts}
-          </h4>
-          <div class="flex flex-col gap-6 lg:gap-4">
-            <div>
-              <p
-                class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
-              >
-                {UI.office}
-              </p>
-              <address
-                class="text-[13px] font-light not-italic leading-[1.6] text-white/50 lg:text-[14px]"
-              >
-                {CONTACTS.address.full.join(", ")}
-              </address>
-            </div>
-            <div>
-              <p
-                class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
-              >
-                {UI.email}
-              </p>
+          {SITE.description}
+        </p>
+        <div class="flex items-center gap-4">
+          {
+            CONTACTS.socials.map((social) => (
               <a
-                href={`mailto:${CONTACTS.email}`}
-                class="text-[13px] font-light text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:bg-blue/20 hover:border-blue/40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/40 transition-all duration-300 hover:text-white"
+                aria-label={social.label}
               >
-                {CONTACTS.email}
+                <Icon name={social.name} size={18} class="fill-current" />
               </a>
-            </div>
-          </div>
+            ))
+          }
         </div>
       </div>
 
-      {/* Lower Section: Copyright & Legal */}
-      <div
-        class="flex flex-col items-start justify-between gap-6 border-t border-white/10 pb-4 pt-8 lg:flex-row lg:items-center"
-      >
-        <div class="flex flex-col gap-3">
-          <p class="text-[11px] tracking-wide text-white/40 lg:text-xs">
-            &copy; {currentYear}
-            {SITE.name}. {UI.allRightsReserved}
-          </p>
-        </div>
+      {/* Column 2: Navigation */}
+      <div class="order-2 col-span-1 flex flex-col">
+        <h4
+          class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
+        >
+          {UI.navigation}
+        </h4>
+        <ul class="flex flex-col gap-4">
+          {
+            NAV_LINKS.map((link) => (
+              <li>
+                <a
+                  href={url(link.href)}
+                  class="inline-block text-[13px] font-light text-white/50 transition-all duration-300 hover:translate-x-1 hover:text-white lg:text-[14px]"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
 
-        <div class="flex shrink-0 items-center gap-6 lg:gap-8">
-          <a
-            href={url("/privacy")}
-            class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
-          >
-            {UI.privacyPolicy}
-          </a>
-          <a
-            href={url("/cookie")}
-            class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
-          >
-            {UI.cookiePolicy}
-          </a>
+      {/* Column 3: Phones */}
+      <div class="order-3 col-span-1 flex flex-col">
+        <h4
+          class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
+        >
+          {UI.phones}
+        </h4>
+        <ul class="flex flex-col gap-4">
+          {
+            CONTACTS.phones.map((phone) => (
+              <li class="flex items-baseline gap-2 xl:gap-3">
+                <span class="w-9 shrink-0 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:w-10 lg:text-[10px]">
+                  {phone.label}
+                </span>
+                <a
+                  href={`tel:${phone.value.replace(/[^\+\d]/g, "")}`}
+                  class="whitespace-nowrap text-[12px] font-light tracking-wide text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
+                >
+                  {phone.value}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Column 4: Contacts */}
+      <div
+        class="order-4 col-span-2 mt-2 flex flex-col border-t border-white/5 pt-8 lg:col-span-1 lg:mt-0 lg:border-none lg:pt-0"
+      >
+        <h4
+          class="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 lg:mb-8 lg:text-[11px]"
+        >
+          {UI.contacts}
+        </h4>
+        <div class="flex flex-col gap-6 lg:gap-4">
+          <div>
+            <p
+              class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
+            >
+              {UI.office}
+            </p>
+            <address
+              class="text-[13px] font-light not-italic leading-[1.6] text-white/50 lg:text-[14px]"
+            >
+              {CONTACTS.address.full.join(", ")}
+            </address>
+          </div>
+          <div>
+            <p
+              class="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/40 lg:text-[10px]"
+            >
+              {UI.email}
+            </p>
+            <a
+              href={`mailto:${CONTACTS.email}`}
+              class="text-[13px] font-light text-white/50 transition-all duration-300 hover:text-white lg:text-[14px]"
+            >
+              {CONTACTS.email}
+            </a>
+          </div>
         </div>
+      </div>
+    </div>
+
+    {/* Lower Section: Copyright & Legal */}
+    <div
+      class="flex flex-col items-start justify-between gap-6 border-t border-white/10 pb-4 pt-8 lg:flex-row lg:items-center"
+    >
+      <div class="flex flex-col gap-3">
+        <p class="text-[11px] tracking-wide text-white/40 lg:text-xs">
+          &copy; {currentYear}
+          {SITE.name}. {UI.allRightsReserved}
+        </p>
+      </div>
+
+      <div class="flex shrink-0 items-center gap-6 lg:gap-8">
+        <a
+          href={url("/privacy")}
+          class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
+        >
+          {UI.privacyPolicy}
+        </a>
+        <a
+          href={url("/cookie")}
+          class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
+        >
+          {UI.cookiePolicy}
+        </a>
       </div>
     </div>
   </div>

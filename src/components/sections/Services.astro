@@ -18,7 +18,10 @@ const services = (await getCollection("services")).sort(
 );
 ---
 
-<section id="services" class="relative overflow-hidden bg-surface py-12 md:py-16 lg:py-20">
+<section
+  id="services"
+  class="relative overflow-hidden bg-surface py-12 md:py-16 lg:py-20"
+>
   <div class="container mx-auto max-w-7xl px-4 md:px-6">
     <div class="mb-10 md:mb-12 lg:mb-14">
       <h2
@@ -35,38 +38,41 @@ const services = (await getCollection("services")).sort(
       }
     </div>
 
-      <div
-        id="services-slider"
-        class="-mx-4 flex w-full snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 pb-8 pt-10 md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 md:pt-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
-      >
-        {
-          services.map((s) => (
-            <ServiceCard
-              slug={s.id}
-              icon={s.data.icon}
-              title={s.data.title}
-              description={s.data.description}
-              full={s.data.full}
-              className="service-card-mobile w-[280px] shrink-0 snap-center snap-always md:w-full"
-            />
-          ))
-        }
-      </div>
+    <div
+      id="services-slider"
+      class="-mx-4 flex w-full snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 pb-8 pt-10 md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 md:pt-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+    >
+      {
+        services.map((s) => (
+          <ServiceCard
+            slug={s.id}
+            icon={s.data.icon}
+            title={s.data.title}
+            description={s.data.description}
+            full={s.data.full}
+            className="service-card-mobile w-[280px] shrink-0 snap-center snap-always md:w-full"
+          />
+        ))
+      }
+    </div>
 
-      {/* Pagination Dots for Mobile */}
-      <div class="mt-4 flex justify-center gap-3 md:hidden" role="tablist" aria-label="Навигация по услугам">
-        {
-          services.map((_, i) => (
-            <button
-              class="service-dot h-2 w-2 rounded-full bg-navy opacity-20 transition-all duration-300 aria-selected:w-6 aria-selected:bg-blue aria-selected:opacity-100"
-              data-index={i}
-              role="tab"
-              aria-label={`Слайд ${i + 1}`}
-              aria-selected={i === 0 ? "true" : "false"}
-            />
-          ))
-        }
-      </div>
+    {/* Pagination Dots for Mobile */}
+    <div
+      class="mt-4 flex justify-center gap-3 md:hidden"
+      role="tablist"
+      aria-label="Навигация по услугам"
+    >
+      {
+        services.map((_, i) => (
+          <button
+            class="service-dot h-2 w-2 rounded-full bg-navy opacity-20 transition-all duration-300 aria-selected:w-6 aria-selected:bg-blue aria-selected:opacity-100"
+            data-index={i}
+            role="tab"
+            aria-label={`Слайд ${i + 1}`}
+            aria-selected={i === 0 ? "true" : "false"}
+          />
+        ))
+      }
     </div>
   </div>
 </section>

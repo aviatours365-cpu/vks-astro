@@ -157,7 +157,7 @@ const hexPath =
       progressBar.style.transform = `scaleY(${scrollProgress})`;
 
       // Activate steps based on their position relative to viewport center
-      steps.forEach((step, index) => {
+      steps.forEach((step) => {
         const stepRect = step.getBoundingClientRect();
         const stepCenter = stepRect.top + stepRect.height / 2;
 

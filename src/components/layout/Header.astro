@@ -1,7 +1,7 @@
 ---
 import { cn } from "@/utils/cn";
 import { url } from "@/utils/url";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, UI } from "@/lib/constants";
 import Button from "@/components/ui/Button.astro";
 import MobileMenu from "@/components/layout/MobileMenu.astro";
 import logo from "@/assets/logo.webp";
@@ -60,7 +60,7 @@ const { className } = Astro.props;
           size="md"
           className="h-10 rounded-full px-8 text-xs font-bold uppercase tracking-[0.1em]"
         >
-          Обсудить проект
+          {UI.discussProject}
         </Button>
       </nav>
 
@@ -96,7 +96,6 @@ const { className } = Astro.props;
     const burgerIcon = menuToggle?.querySelector("svg:first-of-type");
     const closeIcon = menuToggle?.querySelector("svg:last-of-type");
     const mobileLinks = document.querySelectorAll(".mobile-link");
-    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
 
     let isMenuOpen = false;
 

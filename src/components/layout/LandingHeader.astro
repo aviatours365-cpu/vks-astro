@@ -1,6 +1,6 @@
 ---
 import { cn } from "@/utils/cn";
-import { url } from "@/utils/url";
+import { UI, NAV_ANCHORS } from "@/lib/constants";
 import logo from "@/assets/logo.webp";
 import { Image } from "astro:assets";
 import Button from "@/components/ui/Button.astro";
@@ -11,13 +11,6 @@ interface Props {
 }
 
 const { className } = Astro.props;
-
-// Landing-page anchor navigation — maps visual labels to on-page section IDs
-const NAV_ANCHORS = [
-  { label: "Услуги", href: "#services" },
-  { label: "Решения", href: "#solutions" },
-  { label: "О Компании", href: "#about" },
-] as const;
 ---
 
 <header
@@ -70,7 +63,7 @@ const NAV_ANCHORS = [
           size="md"
           className="landing-cta-btn h-10 rounded-full px-8 text-xs font-bold uppercase tracking-[0.1em]"
         >
-          Обсудить проект
+          {UI.discussProject}
         </Button>
       </nav>
 
