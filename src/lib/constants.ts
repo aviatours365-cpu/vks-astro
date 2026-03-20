@@ -41,12 +41,7 @@ export const CONTACTS = {
     {
       name: "telegram" as const,
       label: "Telegram",
-      href: "https://t.me/vksgroup",
-    },
-    {
-      name: "whatsapp" as const,
-      label: "WhatsApp",
-      href: "https://wa.me/375173709191",
+      href: "https://t.me/VKSsales_bot",
     },
   ],
 } as const;

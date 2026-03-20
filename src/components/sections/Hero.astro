@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button.astro";
 import { SECTIONS } from "@/lib/constants";
 import { url } from "@/utils/url";
 import { Picture } from "astro:assets";
-import heroBg from "@/assets/hero-bg.webp";
+import heroBg from "@/assets/bg-vks.png";
 
 interface Props {
   titleHTML?: string;
@@ -34,7 +34,8 @@ const {
       src={heroBg}
       alt="Hero Background"
       formats={["avif", "webp"]}
-      widths={[640, 1024, 1920]}
+      widths={[640, 1024, 1920, 2560, 3840]}
+      quality={100}
       class="absolute inset-0 h-full w-full scale-110 object-cover"
       loading="eager"
       fetchpriority="high"
