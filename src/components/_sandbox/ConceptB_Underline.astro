@@ -158,78 +158,7 @@ import Icon from "@/components/ui/Icon.astro";
 </section>
 
 <script>
-  const initAccordion = () => {
-    const slices = document.querySelectorAll(".c2-slice");
-    if (!slices.length) return;
-
-    // Use empty strings to let Tailwind classes handle the responsive widths
-    const collapsedWidth = "";
-    const expandedWidth = "";
-
-    slices.forEach((s) => {
-      s.addEventListener("click", () => {
-        // If already expanded, do nothing
-        if (s.classList.contains("c2-expanded")) return;
-
-        // Reset all slices
-        slices.forEach((s) => {
-          s.classList.remove(
-            "c2-expanded",
-            "bg-white",
-            "w-[55%]",
-            "xl:w-[60%]",
-          );
-          (s as HTMLElement).style.width = collapsedWidth;
-          s.classList.add("hover:bg-[#f1f3f5]", "w-[6.42%]", "xl:w-[5.71%]");
-
-          // Show vertical text
-          const collapsedContent = s.querySelector(".c2-collapsed-content");
-          if (collapsedContent) {
-            collapsedContent.classList.remove(
-              "opacity-0",
-              "pointer-events-none",
-            );
-            collapsedContent.classList.add("opacity-100");
-          }
-
-          // Hide expanded content
-          const expandedContent = s.querySelector(".c2-expanded-content");
-          if (expandedContent) {
-            expandedContent.classList.remove("opacity-100", "translate-x-0");
-            expandedContent.classList.add(
-              "opacity-0",
-              "translate-x-8",
-              "pointer-events-none",
-            );
-          }
-        });
-
-        // Expand clicked slice
-        s.classList.add("c2-expanded", "bg-white", "w-[55%]", "xl:w-[60%]");
-        s.classList.remove("hover:bg-[#f1f3f5]", "w-[6.42%]", "xl:w-[5.71%]");
-        (s as HTMLElement).style.width = expandedWidth;
-
-        // Hide vertical text
-        const activeCollapsed = s.querySelector(".c2-collapsed-content");
-        if (activeCollapsed) {
-          activeCollapsed.classList.remove("opacity-100");
-          activeCollapsed.classList.add("opacity-0", "pointer-events-none");
-        }
-
-        // Show expanded text (delay added by CSS class transition-all duration-700 delay-100)
-        const activeExpanded = s.querySelector(".c2-expanded-content");
-        if (activeExpanded) {
-          activeExpanded.classList.remove(
-            "opacity-0",
-            "translate-x-8",
-            "pointer-events-none",
-          );
-          activeExpanded.classList.add("opacity-100", "translate-x-0");
-        }
-      });
-    });
-  };
-
+  import { initAccordion } from "@/scripts/sandbox-concept-b";
   initAccordion();
   document.addEventListener("astro:page-load", initAccordion);
 </script>
