@@ -36,7 +36,7 @@ const {
       formats={["avif", "webp"]}
       widths={[640, 1024, 1920, 2560, 3840]}
       quality={100}
-      class="absolute inset-0 h-full w-full scale-110 object-cover"
+      class="absolute inset-0 h-full w-full object-cover object-[75%_center]"
       loading="eager"
       fetchpriority="high"
     />
@@ -139,11 +139,12 @@ const {
           if (Math.abs(diffX) > 0.1 || Math.abs(diffY) > 0.1) {
             currentX = lerp(currentX, targetX, 0.05);
             currentY = lerp(currentY, targetY, 0.05);
-            heroBg.style.transform = `scale(1.1) translate(${-currentX}px, ${-currentY}px)`;
+            // Reduced scale to minimize cropping while keeping motion smooth
+            heroBg.style.transform = `scale(1.03) translate(${-currentX}px, ${-currentY}px)`;
           }
         } else {
           // Reset on mobile
-          heroBg.style.transform = "scale(1.1) translate(0, 0)";
+          heroBg.style.transform = "scale(1.03) translate(0, 0)";
         }
         rafId = requestAnimationFrame(animate);
       };
