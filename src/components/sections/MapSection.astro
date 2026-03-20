@@ -28,27 +28,26 @@ const mobileStats = [...MAP_HOTSPOTS, SECTIONS.map.allRegionsHotspot];
 ---
 
 <section
-  id="simple-map"
-  class="relative overflow-hidden bg-white py-16 md:py-24"
+  id="map"
+  class="relative overflow-hidden bg-white py-12 md:py-16 lg:py-0"
   aria-label="Карта внедрений"
 >
-  <div
-    class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-12"
-  >
-    {/* ЛЕВАЯ ЧАСТЬ: Текст и Счетчики */}
-    <div
-      class="flex flex-col justify-center space-y-10 lg:col-span-5 xl:col-span-4"
-    >
-      <div>
-        <h2
-          class="font-display text-3xl font-bold uppercase leading-none tracking-tight text-navy md:text-5xl"
-          set:html={titleHTML}
-        />
-        <p
-          class="text-navy/70 mt-6 max-w-md font-sans text-[16px] leading-[1.5] md:text-[18px]"
-          set:html={descriptionHTML}
-        />
-      </div>
+  <div class="container mx-auto max-w-7xl px-4 md:px-6">
+    <div class="grid w-full grid-cols-1 gap-10 lg:grid-cols-12">
+      {/* ЛЕВАЯ ЧАСТЬ: Текст и Счетчики */}
+      <div
+        class="flex flex-col justify-center space-y-10 lg:col-span-5 xl:col-span-4"
+      >
+        <div class="mb-2">
+          <h2
+            class="font-display text-3xl font-bold uppercase leading-[1.1] tracking-tight text-navy md:text-4xl lg:text-[2.75rem]"
+            set:html={titleHTML}
+          />
+          <p
+            class="text-navy/70 mt-6 max-w-md font-sans text-base leading-relaxed md:text-lg lg:text-xl"
+            set:html={descriptionHTML}
+          />
+        </div>
 
       <div class="grid grid-cols-2 gap-x-8 gap-y-10" id="map-counters">
         {

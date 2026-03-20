@@ -18,14 +18,15 @@ const {
   titleHTML = SECTIONS.hero.titleHTML,
   subtitle = SECTIONS.hero.subtitle,
   primaryButtonText = SECTIONS.hero.primaryButtonText,
-  primaryButtonHref = "/kontakty",
+  primaryButtonHref = "#contact",
   secondaryButtonText = SECTIONS.hero.secondaryButtonText,
   secondaryButtonHref = "#services",
 } = Astro.props;
 ---
 
 <section
-  class="relative flex min-h-screen items-center overflow-hidden bg-white pt-20"
+  id="hero"
+  class="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-navy pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-40 lg:pb-20"
 >
   <div class="absolute inset-0 z-0 select-none">
     <Picture
@@ -46,15 +47,13 @@ const {
     </div>
 
     <!-- Flickering Effect Overlay -->
-    <!-- Positioned to match the blue hexagon in the generated image (approximate, needs manual tuning based on image) -->
     <div
       class="bg-blue/40 absolute right-[18%] top-[48%] hidden h-[220px] w-[220px] -translate-y-1/2 animate-flicker rounded-full blur-[50px] md:block"
     >
     </div>
   </div>
-
   <div
-    class="container relative z-10 grid grid-cols-1 items-center gap-12 md:grid-cols-2"
+    class="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6"
   >
     {/* Text Content (Left) */}
     <div class="space-y-12 pt-12 md:pt-0">
@@ -64,7 +63,7 @@ const {
           set:html={titleHTML}
         />
         <p
-          class="text-navy/80 mt-6 max-w-[50ch] font-sans text-[16px] font-light leading-[1.5] md:text-2xl"
+          class="text-navy/70 mt-6 max-w-2xl font-sans text-base leading-relaxed md:text-lg lg:text-xl"
         >
           {subtitle}
         </p>
@@ -74,7 +73,9 @@ const {
         <Button
           variant="primary"
           size="lg"
-          href={url(primaryButtonHref)}
+          href={primaryButtonHref.startsWith("#")
+            ? primaryButtonHref
+            : url(primaryButtonHref)}
           className="rounded-full uppercase"
         >
           {primaryButtonText}

@@ -1,0 +1,153 @@
+---
+// CookieConsent.astro
+// Compliant with: Закон Республики Беларусь «О защите персональных данных»
+// № 99-З от 7 мая 2021 г.
+import Icon from "@/components/ui/Icon.astro";
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Уведомление об использовании cookies"
+  class="pointer-events-none fixed bottom-5 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 translate-y-4 opacity-0 transition-all duration-500 ease-out md:bottom-7"
+>
+  <div
+    class="relative overflow-hidden rounded-2xl border border-[#e1e1e1] bg-white shadow-[0_8px_40px_rgba(0,31,63,0.12)]"
+  >
+    {/* Blue top accent line */}
+    <div
+      class="via-blue/50 absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-blue to-transparent"
+    >
+    </div>
+
+    <div
+      class="flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:gap-6"
+    >
+      {/* Icon */}
+      <div class="shrink-0">
+        <Icon name="cookie" size={48} class="text-blue" />
+      </div>
+
+      {/* Text */}
+      <div class="min-w-0 flex-1">
+        <p
+          class="text-navy/40 font-display text-[11px] font-bold uppercase tracking-[0.18em]"
+        >
+          Политика cookies
+        </p>
+        <p
+          class="text-navy/40 mb-1 py-3 font-mono text-[10px] uppercase tracking-[0.2em]"
+        >
+          Мы используем cookie для работы сайта и аналитики согласно
+          <a
+            href="/politika-konfidentsialnosti"
+            class="text-blue underline-offset-2 hover:underline"
+            >Политике конфиденциальности</a
+          >
+          и Закону РБ
+          <abbr
+            title="«О защите персональных данных», № 99-З от 7 мая 2021 г."
+            class="border-navy/30 cursor-help border-b border-dashed no-underline"
+            >№ 99-З</abbr
+          >.
+        </p>
+      </div>
+
+      {/* Actions */}
+      <div class="flex shrink-0 flex-row gap-2.5">
+        <button
+          id="cookie-reject"
+          class="text-navy/50 hover:border-navy/30 focus-visible:ring-navy/20 inline-flex h-9 items-center justify-center whitespace-nowrap rounded-lg border border-[#e1e1e1] bg-transparent px-4 font-display text-[10px] font-bold uppercase tracking-[0.1em] transition-all duration-200 hover:text-navy focus-visible:ring-2 focus-visible:ring-offset-1"
+        >
+          Только нужные
+        </button>
+        <button
+          id="cookie-accept"
+          class="hover:bg-navy/90 focus-visible:ring-navy/40 inline-flex h-9 items-center justify-center whitespace-nowrap rounded-lg bg-navy px-5 font-display text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-[0_4px_14px_rgba(0,31,63,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(0,31,63,0.25)] focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-0"
+        >
+          Принять все
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "vks_cookie_consent";
+  const EXPIRY_DAYS = 365;
+
+  const setConsent = (value: "all" | "essential") => {
+    const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ value, expiry }));
+  };
+
+  const hasConsent = (): boolean => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const { expiry } = JSON.parse(raw);
+      return Date.now() < expiry;
+    } catch {
+      return false;
+    }
+  };
+
+  const hideBanner = (banner: HTMLElement) => {
+    banner.classList.add("translate-y-4", "opacity-0", "pointer-events-none");
+    banner.classList.remove(
+      "translate-y-0",
+      "opacity-100",
+      "pointer-events-auto",
+    );
+    setTimeout(() => banner.remove(), 500);
+  };
+
+  const showBanner = (banner: HTMLElement) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        banner.classList.remove(
+          "translate-y-4",
+          "opacity-0",
+          "pointer-events-none",
+        );
+        banner.classList.add(
+          "translate-y-0",
+          "opacity-100",
+          "pointer-events-auto",
+        );
+      });
+    });
+  };
+
+  const init = () => {
+    const banner = document.getElementById(
+      "cookie-banner",
+    ) as HTMLElement | null;
+    if (!banner) return;
+
+    if (hasConsent()) {
+      banner.remove();
+      return;
+    }
+
+    setTimeout(() => showBanner(banner), 1200);
+
+    document.getElementById("cookie-accept")?.addEventListener("click", () => {
+      setConsent("all");
+      hideBanner(banner);
+    });
+
+    document.getElementById("cookie-reject")?.addEventListener("click", () => {
+      setConsent("essential");
+      hideBanner(banner);
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+  document.addEventListener("astro:page-load", init);
+</script>

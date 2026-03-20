@@ -13,6 +13,7 @@ const { product, index } = Astro.props;
   <button
     class="editorial-trigger group flex w-full items-center gap-4 px-5 py-5 text-left transition-all duration-300"
     aria-expanded={index === 0 ? "true" : "false"}
+    aria-controls={`panel-${product.id}`}
   >
     <div
       class="bg-navy/[0.06] flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
@@ -44,6 +45,7 @@ const { product, index } = Astro.props;
   </button>
 
   <div
+    id={`panel-${product.id}`}
     class="editorial-panel grid transition-all duration-300 ease-in-out"
     style={index === 0
       ? "grid-template-rows: 1fr; opacity: 1;"

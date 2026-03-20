@@ -1,6 +1,6 @@
 ---
 import RootLayout from "./RootLayout.astro";
-import Header from "@/components/layout/Header.astro";
+import LandingHeader from "@/components/layout/LandingHeader.astro";
 import Footer from "@/components/layout/Footer.astro";
 
 interface Props {
@@ -13,7 +13,7 @@ const { title, description, schemaData } = Astro.props;
 ---
 
 <RootLayout title={title} description={description} schemaData={schemaData}>
-  <Header />
+  <LandingHeader />
   <main>
     <slot />
   </main>

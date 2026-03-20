@@ -92,10 +92,20 @@ export default {
           "50%": { opacity: "0.8", transform: "scale(1.1) translateY(-50%)" },
           "75%": { opacity: "0.9" },
         },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "bounce-subtle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-5px)" },
+        },
       },
       animation: {
         shine: "shine 1s",
         flicker: "flicker 3s infinite",
+        "spin-slow": "spin-slow 12s linear infinite",
+        "bounce-subtle": "bounce-subtle 4s ease-in-out infinite",
       },
     },
   },

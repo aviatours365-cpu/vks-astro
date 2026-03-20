@@ -1,0 +1,42 @@
+[2m07:11:46[22m [34m[content][39m Syncing content
+[2m07:11:46[22m [34m[content][39m Synced content
+[2m07:11:46[22m [34m[types][39m Generated [2m366ms[22m
+[2m07:11:46[22m [34m[check][39m Getting diagnostics for Astro files in D:\Projects\vks-site...
+[96mscripts/post-build.mjs[0m:[93m26[0m:[93m10[0m - [93mwarning[0m[90m ts(6133): [0m'match' is declared but its value is never read.
+
+[7m26[0m         (match, pre, post, body) => {
+[7m  [0m [93m         ~~~~~[0m
+
+[96msrc/components/sections/LeadGen.astro[0m:[93m225[0m:[93m27[0m - [91merror[0m[90m ts(2322): [0mType '"lg"' is not assignable to type '"md" | "sm" | undefined'.
+
+[7m225[0m                 <HexBadge size="lg" className="animate-spin-slow">
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/components/sections/Process.astro[0m:[93m128[0m:[93m28[0m - [93mwarning[0m[90m ts(6133): [0m'index' is declared but its value is never read.
+
+[7m128[0m       steps.forEach((step, index) => {
+[7m   [0m [93m                           ~~~~~[0m
+
+[96msrc/components/ui/ServiceCard.astro[0m:[93m15[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'slug' is declared but its value is never read.
+
+[7m15[0m const { slug, icon, title, description, full, className } = Astro.props;
+[7m  [0m [93m        ~~~~[0m
+[96msrc/components/ui/ServiceCard.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'url' is declared but its value is never read.
+
+[7m4[0m import { url } from "@/utils/url";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/RootLayout.astro[0m:[93m77[0m:[93m7[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m77[0m       type="application/ld+json"
+[7m  [0m [93m      ~~~~[0m
+
+Result (46 files): 
+- 1 error
+- 0 warnings
+- 5 hints
+

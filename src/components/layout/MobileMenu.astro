@@ -12,7 +12,9 @@ interface Props {
 <button
   id="menu-toggle"
   class="group relative z-50 flex items-center gap-3 text-navy transition-colors hover:text-blue md:hidden"
-  aria-label="Toggle Menu"
+  aria-label="Открыть меню"
+  aria-controls="mobile-menu"
+  aria-expanded="false"
 >
   <div class="relative flex h-7 w-7 items-center justify-center">
     <Icon
@@ -52,7 +54,8 @@ interface Props {
           NAV_LINKS.map((link) => (
             <a
               href={url(link.href)}
-              class="text-[18px] font-light text-white/90 transition-colors duration-300 hover:text-white"
+              class="mobile-nav-link text-[18px] font-light text-white/90 transition-colors duration-300 hover:text-white"
+              onclick="document.getElementById('menu-toggle')?.click()"
             >
               {link.label}
             </a>

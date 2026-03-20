@@ -3,6 +3,7 @@ import "@/styles/main.css";
 // import { ClientRouter } from "astro:transitions"; // Removed for file:// compatibility
 import { SITE, CONTACTS } from "@/lib/constants";
 import favicon from "@/assets/favicon.svg";
+import CookieConsent from "@/components/layout/CookieConsent.astro";
 
 interface Props {
   title?: string;
@@ -82,5 +83,6 @@ const jsonLdSchemas = schemaData ? [baseSchema, schemaData] : [baseSchema];
   </head>
   <body class="flex min-h-screen flex-col bg-white text-navy antialiased">
     <slot />
+    <CookieConsent />
   </body>
 </html>

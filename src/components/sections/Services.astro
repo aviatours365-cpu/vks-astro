@@ -8,31 +8,32 @@ interface Props {
   subtitle?: string;
 }
 
-const { title = SECTIONS.services.title, subtitle = SECTIONS.services.subtitle } =
-  Astro.props;
+const {
+  title = SECTIONS.services.title,
+  subtitle = SECTIONS.services.subtitle,
+} = Astro.props;
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---
 
-<section id="services" class="relative overflow-hidden py-16 md:py-24">
-  <div class="container relative z-10 mx-auto px-4 md:px-6">
-    <div class="mx-auto max-w-7xl">
-      <div class="mb-10 max-w-3xl md:mb-16">
-        <h2
-          class="font-display text-3xl font-bold uppercase leading-none tracking-tight text-navy md:text-5xl"
-        >
-          {title}
-        </h2>
-        {
-          subtitle && (
-            <p class="text-navy/70 mt-6 font-sans text-[16px] leading-[1.5] md:text-[18px]">
-              {subtitle}
-            </p>
-          )
-        }
-      </div>
+<section id="services" class="relative overflow-hidden bg-surface py-12 md:py-16 lg:py-20">
+  <div class="container mx-auto max-w-7xl px-4 md:px-6">
+    <div class="mb-10 md:mb-12 lg:mb-14">
+      <h2
+        class="font-display text-3xl font-bold uppercase leading-[1.1] tracking-tight text-navy md:text-4xl lg:text-[2.75rem]"
+      >
+        {title}
+      </h2>
+      {
+        subtitle && (
+          <p class="text-navy/70 mt-6 max-w-2xl font-sans text-base leading-relaxed md:text-lg lg:text-xl">
+            {subtitle}
+          </p>
+        )
+      }
+    </div>
 
       <div
         id="services-slider"
@@ -53,13 +54,14 @@ const services = (await getCollection("services")).sort(
       </div>
 
       {/* Pagination Dots for Mobile */}
-      <div class="mt-4 flex justify-center gap-3 md:hidden">
+      <div class="mt-4 flex justify-center gap-3 md:hidden" role="tablist" aria-label="Навигация по услугам">
         {
           services.map((_, i) => (
             <button
               class="service-dot h-2 w-2 rounded-full bg-navy opacity-20 transition-all duration-300 aria-selected:w-6 aria-selected:bg-blue aria-selected:opacity-100"
               data-index={i}
-              aria-label={`Slide ${i + 1}`}
+              role="tab"
+              aria-label={`Слайд ${i + 1}`}
               aria-selected={i === 0 ? "true" : "false"}
             />
           ))

@@ -61,6 +61,94 @@ You must run these explicitly:
 
 4.  **Static Build Verification:**
     `npm run build`
+# VKS-Group AI Developer Guidelines
+
+You are an expert AI software engineer, specifically tuned for Astro 5, Tailwind CSS, TypeScript, and strict MPA (Multi-Page Application) static architectures. You prioritize performance (Zero-JS by default), maintainability, and clean UI components over rapid, messy prototyping. 
+
+The human user will ask you to build, modify, or debug features in the `vks-astro` repository.
+
+**CRITICAL INSTRUCTION:** BEFORE generating or modifying ANY code in this repository, you MUST follow these absolute rules. Failure to comply is considered a failed response.
+
+## 1. Architectural Mandates (The "Zero Violations" Policy)
+
+*   **No SPA Frameworks:** You are strictly forbidden from writing React, Vue, Svelte, or any other client-side framework code. Use only `.astro` files and native browser DOM APIs.
+*   **Zero-JS & Bundled Scripts Only:** Interactive logic must be written in `<script>` tags inside `.astro` files. These scripts must NOT have the `is:inline` directive unless absolutely necessary (like global analytics config). Astro must be allowed to bundle and tree-shake the scripts.
+*   **Strict Content-Driven Architecture:**
+    *   **NEVER** hardcode textual content (titles, descriptions, paragraphs, buttons) directly into the HTML of components located in `src/components/sections/` or `src/components/ui/`.
+    *   All dynamic data MUST flow into UI components either via `Astro.props` (passed down from pages) or by fetching from `src/content/` (using Astro's Content Layer API: `getCollection()`).
+    *   For static UI strings (like "Learn More", "Submit"), they MUST be referenced from `src/lib/constants.ts` or passed as a `labels` object in `Props`.
+*   **Component Size Limits:** (Anti-Monolith Rule)
+    *   No file in `src/components/ui/` should exceed **80 lines**.
+    *   No file in `src/components/sections/` should exceed **200 lines**.
+    *   If a file gets too long, extract sub-components into `src/components/ui/`.
+*   **Strict Tailwind CSS Usage:**
+    *   You are strictly forbidden from using `<style>` blocks in components (unless specifically creating scoped complex animations that Tailwind cannot handle natively).
+    *   Use Tailwind CSS utility classes exclusively.
+    *   Always use the `cn()` utility (from `src/utils/cn.ts`) to conditionally merge tailwind classes (it wraps `clsx` and `tailwind-merge`).
+*   **Image Restrictions:**
+    *   NEVER use the raw HTML `<img>` tag.
+    *   You MUST use `<Picture>` or `<Image>` from `astro:assets` for all non-SVG media to prevent CLS and ensure optimization.
+    *   In the Hero section (LCP element), you MUST use `<Picture formats={['avif', 'webp']} loading="eager" />`.
+    *   Every image MUST have an `alt` attribute. No exceptions.
+
+## 2. Component Hierarchy Rules
+
+You must respect the Directory Hierarchy DAG (Directed Acyclic Graph):
+1.  **`src/pages/`**: File-based routing. Responsible for data fetching (`getCollection`), SEO meta tags, and passing data to the PageLayout.
+2.  **`src/layouts/`**: (`PageLayout.astro`, `RootLayout.astro`). Only pages import from here.
+3.  **`src/components/layout/`**: Structural components (`Header`, `Footer`).
+4.  **`src/components/sections/`**: Main content blocks (e.g., `Hero.astro`, `Solutions.astro`). They orchestrate `ui/` components.
+5.  **`src/components/ui/`**: "Dumb" presentational components (e.g., `Button.astro`, `Icon.astro`). They MUST declare a TypeScript `interface Props`.
+
+*Forbidden dependency paths:*
+*   `ui` -> `sections` (UI cannot depend on complex sections)
+*   `sections` -> `layout` (Sections cannot depend on Header/Footer wrappers)
+
+## 3. Mandatory Quality Gates (Automated Testing for AI)
+
+Whenever the user asks you to write code or complete a task, you CANNOT say "I am done" until you have executed the following verification scripts in your terminal tool and verified there are **zero errors**.
+
+You must run these explicitly:
+
+1.  **Typescript & Schema Validation:**
+    `npm run astro check`
+    *(Ensures all Zod schemas in `src/content/config.ts` are respected and Props are typed correctly. You must fix all TS errors.)*
+
+2.  **Linting & Anti-Monolith Checks:**
+    `npm run lint`
+    *(Runs ESLint and Stylelint. If you receive a "max-lines" or "max-lines-per-function" warning, you MUST refactor your code before concluding the task.)*
+
+3.  **Tailwind Class Sorting & Formatting:**
+    `npm run format`
+    *(Runs Prettier to format the file and auto-sort the Tailwind classes. You must run this before showing the final result to the user to prevent merge conflicts.)*
+
+4.  **Static Build Verification:**
+    `npm run build`
     *(Ensure the SSG process completes successfully without any missing prop, missing collection, or unresolved path errors.)*
 
 If any of these commands fail, you MUST proactively fix the errors without asking the user for permission. Only present the result to the user when the build is perfectly clean.
+
+## 4. VKS UI Standard (VKS SECTION SPEC v1.0)
+
+All new components MUST adhere to these### 2. Секции и Отступы (VKS SECTION SPEC v2.0)
+- **Вертикальные отступы (Section Padding)**:
+  - Mobile: `py-12`
+  - Tablet: `md:py-16`
+  - Desktop: `lg:py-20`
+- **Отступы заголовков (Header Margin Bottom)**:
+  - Mobile: `mb-10`
+  - Tablet: `md:mb-12`
+  - Desktop: `lg:mb-14`
+- **Исключения**:
+  - `MapSection.astro`: На Desktop (lg) использовать `lg:py-0`, на мобильных — стандарт `py-12`.
+  - `Hero.astro`: Custom compact padding `pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-40 lg:pb-20`.
+*   **Контейнеры (Containers)**: 
+  - ВСЕГДА использовать: `<div class="container mx-auto max-w-7xl px-4 md:px-6">`.
+  - Это закон для выравнивания контента по вертикали.
+  - Использовать `relative z-10` для контента поверх фоновых изображений.
+*   **Header Typography (H2)**: `font-display text-3xl font-bold uppercase leading-[1.1] tracking-tight text-navy md:text-4xl lg:text-[2.75rem]`.
+*   **Subtitle Typography (P)**: `text-navy/70 mt-6 font-sans text-base leading-relaxed md:text-lg lg:text-xl max-w-2xl`.
+*   **Card Typography (UI Components)**:
+    *   **H3**: `font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors group-hover:text-blue`.
+    *   **P**: `font-sans text-[15px] font-normal leading-relaxed text-navy/60`.
+*   **Background Rhythm**: Alternating `bg-white` and `bg-surface` (gray).
