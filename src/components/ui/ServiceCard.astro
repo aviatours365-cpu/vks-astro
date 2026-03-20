@@ -18,7 +18,7 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
 
 <div
   class={cn(
-    "service-card group relative w-full z-10 hover:z-50 block text-left cursor-default",
+    "service-card group relative w-full z-10 hover:z-40 block text-left cursor-default",
     "h-auto md:h-[340px]",
     className,
   )}
@@ -39,10 +39,8 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
     {/* Icon */}
     <div
       class={cn(
-        "relative mb-6 w-max overflow-hidden rounded-md transition-transform duration-500 ease-out",
-        "after:absolute after:-left-[150%] after:top-0 after:h-[150%] after:w-[150%] after:-skew-x-[20deg] after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent after:content-['']",
-        "group-hover:after:animate-[shine_1s_ease-out_forwards]",
-        "max-md:[.service-card.is-active_&]:after:animate-[shine_1s_ease-out_forwards]",
+        "icon-shine mb-6 transition-transform duration-500 ease-out",
+        "max-md:[.service-card.is-active_&]:after:animate-shine",
       )}
     >
       <Icon

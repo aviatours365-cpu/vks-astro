@@ -101,7 +101,22 @@
 }
 
 @layer components {
-  /* ── Reusable component classes will be defined here ── */
+  /* ── Icon Shine Effect ── */
+  .icon-shine {
+    @apply relative w-max overflow-hidden rounded-md;
+  }
+
+  .icon-shine::after {
+    @apply pointer-events-none absolute -left-[150%] top-0 h-[150%] w-[150%] -skew-x-[20deg] bg-gradient-to-r from-transparent via-white/70 to-transparent content-[''];
+  }
+
+  /* Trigger on hover of any parent .group, or if the element itself is .is-active */
+  .group:hover .icon-shine::after,
+  .group.is-active .icon-shine::after,
+  .is-active .icon-shine::after,
+  .icon-shine.is-active::after {
+    @apply animate-shine;
+  }
 }
 
 @layer utilities {
