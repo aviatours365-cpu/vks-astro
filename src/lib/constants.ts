@@ -22,7 +22,7 @@ export const NAV_LINKS = [
 export const CONTACTS = {
   email: "info@vksgroup.by",
   phones: [
-    { label: "Городской", value: "+375 (17) 370-91-91" },
+    { label: "Гор.", value: "+375 (17) 370-91-91" },
     { label: "МТС", value: "+375 (33) 315-91-91" },
     { label: "A1", value: "+375 (29) 670-91-91" },
     { label: "Life", value: "+375 (25) 770-91-91" },

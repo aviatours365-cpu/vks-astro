@@ -52,17 +52,17 @@ const jsonLdSchemas = schemaData ? [baseSchema, schemaData] : [baseSchema];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- SEO -->
+    {/* SEO */}
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Favicon -->
+    {/* Favicon */}
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
 
-    <!-- Fonts: self-hosted via @font-face in main.css -->
+    {/* Fonts: self-hosted via @font-face in main.css */}
 
-    <!-- Open Graph -->
+    {/* Open Graph */}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -70,10 +70,10 @@ const jsonLdSchemas = schemaData ? [baseSchema, schemaData] : [baseSchema];
     <meta property="og:locale" content={SITE.locale} />
     <meta property="og:site_name" content={SITE.name} />
 
-    <!-- View Transitions (SPA-like navigation) removed for file:// compatibility -->
-    <!-- <ClientRouter /> -->
+    {/* View Transitions (SPA-like navigation) removed for file:// compatibility */}
+    {/* <ClientRouter /> */}
 
-    <!-- Schema.org JSON-LD -->
+    {/* Schema.org JSON-LD */}
     <script
       type="application/ld+json"
       set:html={JSON.stringify(jsonLdSchemas)}
