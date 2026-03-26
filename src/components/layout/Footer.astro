@@ -152,7 +152,9 @@ const currentYear = new Date().getFullYear();
 
       <div class="flex shrink-0 items-center gap-6 lg:gap-8">
         <a
-          href={url("/privacy")}
+          href={url(SITE.privacyPolicyUrl)}
+          target="_blank"
+          rel="noopener noreferrer"
           class="text-[11px] tracking-wide text-white/30 transition-all duration-300 hover:text-white lg:text-xs"
         >
           {UI.privacyPolicy}

@@ -27,13 +27,8 @@ export const SECTIONS = {
       "Мы реализуем проекты национального уровня во всех регионах страны. <br /> От построения ИТ-инфраструктуры до защиты государственных контуров.",
     defaultCounters: [
       { target: 500, suffix: "+", labelHTML: "Реализованных<br />проектов" },
-      { target: 15, labelHTML: "Лет успешной<br />экспертизы" },
-      {
-        target: 50,
-        suffix: "+",
-        labelHTML: "Сертифицированных<br />инженеров",
-      },
-      { target: 30, suffix: "+", labelHTML: "Вендоров<br />партнеров" },
+      { target: 10, suffix: "+", labelHTML: "Лет успешной<br />экспертизы у специалистов" },
+      { target: 50, suffix: "+", labelHTML: "Вендоров<br />партнеров" },
     ],
     allRegionsHotspot: {
       id: "all",

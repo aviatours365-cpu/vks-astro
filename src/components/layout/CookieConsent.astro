@@ -3,6 +3,7 @@
 // Compliant with: Закон Республики Беларусь «О защите персональных данных»
 // № 99-З от 7 мая 2021 г.
 import Icon from "@/components/ui/Icon.astro";
+import { SITE } from "@/lib/constants";
 ---
 
 <div
@@ -41,7 +42,9 @@ import Icon from "@/components/ui/Icon.astro";
         >
           Мы используем cookie для работы сайта и аналитики согласно
           <a
-            href="/politika-konfidentsialnosti"
+            href={SITE.privacyPolicyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             class="text-blue underline-offset-2 hover:underline"
             >Политике конфиденциальности</a
           >
@@ -60,7 +63,7 @@ import Icon from "@/components/ui/Icon.astro";
           id="cookie-reject"
           class="text-navy/50 hover:border-navy/30 focus-visible:ring-navy/20 inline-flex h-9 items-center justify-center whitespace-nowrap rounded-full border border-[#e1e1e1] bg-transparent px-4 font-display text-[10px] font-bold uppercase tracking-[0.1em] transition-all duration-200 hover:text-navy focus-visible:ring-2 focus-visible:ring-offset-1"
         >
-          Только нужные
+          Отказаться
         </button>
         <button
           id="cookie-accept"

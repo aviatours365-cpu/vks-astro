@@ -10,6 +10,7 @@ export const SITE = {
   locale: "ru-BY",
   description:
     "Проектируем и внедряем ИТ-системы любого масштаба. Инженерная точность и безопасность данных.",
+  privacyPolicyUrl: "/VKS_PPD.pdf",
 } as const;
 
 export const NAV_LINKS = [
