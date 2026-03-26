@@ -1,9 +1,7 @@
 ---
-// CookieConsent.astro
-// Compliant with: Закон Республики Беларусь «О защите персональных данных»
-// № 99-З от 7 мая 2021 г.
 import Icon from "@/components/ui/Icon.astro";
 import { SITE } from "@/lib/constants";
+import { url } from "@/utils/url";
 ---
 
 <div
@@ -42,7 +40,7 @@ import { SITE } from "@/lib/constants";
         >
           Мы используем cookie для работы сайта и аналитики согласно
           <a
-            href={SITE.privacyPolicyUrl}
+            href={url(SITE.privacyPolicyUrl)}
             target="_blank"
             rel="noopener noreferrer"
             class="text-blue underline-offset-2 hover:underline"

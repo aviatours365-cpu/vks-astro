@@ -59,6 +59,14 @@ function processFile(filePath) {
     // Convert href="/" (home link) to href="./index.html"
     content = content.replace(/href="\/"/g, 'href="./index.html"');
 
+    // --- 4. Validation: Check for remaining absolute paths ---
+    // Links starting with / but NOT followed by the project's subfolder or external protocols
+    const absoluteMatches = content.match(/(src|href)="\/(?!(vks-astro\/|#|http|mailto|tel))/g);
+    if (absoluteMatches && absoluteMatches.length > 0) {
+        console.warn(`! Warning: Found ${absoluteMatches.length} absolute paths in ${path.basename(filePath)}.`);
+        absoluteMatches.forEach(m => console.warn(`   → ${m}"`));
+    }
+
     fs.writeFileSync(filePath, content);
     console.log(`✓ Fixed paths in ${path.basename(filePath)}`);
 }
