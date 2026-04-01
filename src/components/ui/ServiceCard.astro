@@ -18,8 +18,9 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
 
 <div
   class={cn(
-    "service-card group relative w-full z-10 hover:z-40 block text-left cursor-default",
+    "service-card group relative w-full block text-left cursor-default",
     "h-auto md:h-[340px]",
+    "z-10 hover:z-50 transition-[z-index] duration-0 delay-500 hover:delay-0",
     className,
   )}
 >
