@@ -1,6 +1,6 @@
 ---
 import "@/styles/main.css";
-// import { ClientRouter } from "astro:transitions"; // Removed for file:// compatibility
+import { ClientRouter } from "astro:transitions";
 import { SITE, CONTACTS } from "@/lib/constants";
 import favicon from "@/assets/favicon.svg";
 import CookieConsent from "@/components/layout/CookieConsent.astro";
@@ -70,11 +70,11 @@ const jsonLdSchemas = schemaData ? [baseSchema, schemaData] : [baseSchema];
     <meta property="og:locale" content={SITE.locale} />
     <meta property="og:site_name" content={SITE.name} />
 
-    {/* View Transitions (SPA-like navigation) removed for file:// compatibility */}
-    {/* <ClientRouter /> */}
+    <ClientRouter />
 
     {/* Schema.org JSON-LD */}
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify(jsonLdSchemas)}
     />

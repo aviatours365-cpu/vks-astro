@@ -180,8 +180,7 @@ const hexPath =
     updateProgress(); // Run once to check visibility
   };
 
-  // Support for both Astro Page Load and standard DOM Load
-  document.addEventListener("DOMContentLoaded", initProcessInteraction);
+  // Handle Astro view transitions
   document.addEventListener("astro:page-load", initProcessInteraction);
 </script>
 

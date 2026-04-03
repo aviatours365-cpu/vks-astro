@@ -1,15 +1,17 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 
-const isGitHubPages = !!process.env.GITHUB_ACTIONS;
-
 export default defineConfig({
-  site: isGitHubPages
-    ? "https://aviatours365-cpu.github.io"
-    : "https://vksgroup.by",
-  base: isGitHubPages ? "/vks-astro/" : "/",
+  site: process.env.PUBLIC_SITE_URL || "https://vksgroup.by",
+  base: process.env.BASE_PATH || "/",
+  env: {
+    schema: {
+      PUBLIC_SITE_URL: envField.string({ context: "client", access: "public", default: "https://vksgroup.by" }),
+      BASE_PATH: envField.string({ context: "client", access: "public", default: "/" }),
+    }
+  },
   output: "static",
   compressHTML: true,
   build: {

@@ -15,6 +15,7 @@ const { className } = Astro.props;
 
 <header
   id="main-header"
+  transition:name="main-header"
   class={cn(
     "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-2",
     className,
@@ -200,12 +201,6 @@ const { className } = Astro.props;
     initSmoothScroll();
     initActiveSection();
   };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeader);
-  } else {
-    initHeader();
-  }
 
   document.addEventListener("astro:page-load", initHeader);
 </script>

@@ -1,6 +1,6 @@
 ---
 import { MAP_HOTSPOTS } from "@/lib/map-data";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import belarusMapBg from "@/assets/belarus-map-bg.png";
 import MapMarker from "@/components/ui/MapMarker.astro";
 import MapMobileSlider from "@/components/ui/MapMobileSlider.astro";
@@ -81,9 +81,13 @@ const mobileStats = [...MAP_HOTSPOTS, SECTIONS.map.allRegionsHotspot];
         {/* Контейнер Карты (строго по размеру изображения) */}
         <div class="relative w-full max-w-[900px]">
           {/* Картинка подложки - mix-blend-multiply убирает белый фон! */}
-          <Image
+          <Picture
             src={belarusMapBg}
             alt="Карта Беларуси"
+            formats={["avif", "webp"]}
+            widths={[640, 1024, 1920, 2560]}
+            quality={100}
+            fallbackFormat="png"
             class="pointer-events-none block h-auto w-full opacity-90 mix-blend-multiply"
             loading="lazy"
           />
@@ -156,12 +160,6 @@ const mobileStats = [...MAP_HOTSPOTS, SECTIONS.map.allRegionsHotspot];
     }
   }
 
-  // Handle Astro view transitions if they are used
+  // Handle Astro view transitions
   document.addEventListener("astro:page-load", initCounters);
-  // Also run on DOMContentLoaded for initial load
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initCounters);
-  } else {
-    initCounters();
-  }
 </script>

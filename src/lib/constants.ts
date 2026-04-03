@@ -14,10 +14,10 @@ export const SITE = {
 } as const;
 
 export const NAV_LINKS = [
-  { label: "Услуги", href: "#services" },
-  { label: "Решения", href: "#solutions" },
-  { label: "О компании", href: "#about" },
-  { label: "Контакты", href: "#contact" },
+  { label: "Услуги", href: "/uslugi" },
+  { label: "Решения", href: "/resheniya" },
+  { label: "О компании", href: "/o-kompanii" },
+  { label: "Контакты", href: "/kontakty" },
 ] as const;
 
 export const CONTACTS = {

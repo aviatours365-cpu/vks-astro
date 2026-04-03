@@ -165,6 +165,5 @@ const { form, success } = Astro.props;
 
 <script>
   import { initLeadForm } from "@/scripts/form-init";
-  document.addEventListener("DOMContentLoaded", initLeadForm);
   document.addEventListener("astro:page-load", initLeadForm);
 </script>

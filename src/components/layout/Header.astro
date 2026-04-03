@@ -16,6 +16,8 @@ const { className } = Astro.props;
 
 <header
   id="main-header"
+  transition:name="main-header"
+  transition:persist="main-header"
   class={cn(
     "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-2",
     className,
@@ -147,13 +149,6 @@ const { className } = Astro.props;
     handleScroll();
   };
 
-  // Run on first load
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeader);
-  } else {
-    initHeader();
-  }
-
-  // Support for Astro View Transitions (if re-enabled in the future)
+  // Support for Astro View Transitions
   document.addEventListener("astro:page-load", initHeader);
 </script>

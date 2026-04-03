@@ -1,7 +1,9 @@
 ---
 import RootLayout from "./RootLayout.astro";
 import LandingHeader from "@/components/layout/LandingHeader.astro";
+import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
+import { url } from "@/utils/url";
 
 interface Props {
   title?: string;
@@ -10,11 +12,12 @@ interface Props {
 }
 
 const { title, description, schemaData } = Astro.props;
+const isHomePage = Astro.url.pathname === url("/") || Astro.url.pathname === "/" || Astro.url.pathname === url("") || Astro.url.pathname === "";
 ---
 
 <RootLayout title={title} description={description} schemaData={schemaData}>
-  <LandingHeader />
-  <main>
+  {isHomePage ? <LandingHeader /> : <Header />}
+  <main transition:animate="fade">
     <slot />
   </main>
   <Footer />
