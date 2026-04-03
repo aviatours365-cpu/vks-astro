@@ -8,5 +8,6 @@
       "@components/*": ["src/components/*"],
       "@assets/*": ["src/assets/*"]
     }
-  }
+  },
+  "exclude": ["_sandbox"]
 }

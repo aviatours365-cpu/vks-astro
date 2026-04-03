@@ -23,7 +23,7 @@ function processFile(filePath) {
     // Wrap content in IIFE to prevent "Identifier already declared" errors.
     content = content.replace(
         /<script([^>]*) type="module"([^>]*)>([\s\S]*?)<\/script>/g,
-        (match, pre, post, body) => {
+        (_match, pre, post, body) => {
             const wrapped = body.trim() ? `(function(){${body}})();` : body;
             return `<script${pre} defer${post}>${wrapped}</script>`;
         }
