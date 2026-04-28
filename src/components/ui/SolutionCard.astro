@@ -8,6 +8,8 @@ interface Props {
   };
 }
 
+import { url } from "@/utils/url";
+
 const { product, index, labels } = Astro.props;
 ---
 
@@ -86,7 +88,7 @@ const { product, index, labels } = Astro.props;
                   <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
                   {isLink ? (
                     <a
-                      href={`/resheniya/${feature.slug}`}
+                      href={url(`/resheniya/${feature.slug}`)}
                       class="group/link text-navy/70 flex items-center gap-1.5 text-[13px] font-medium leading-snug transition-colors hover:text-blue"
                     >
                       {text}

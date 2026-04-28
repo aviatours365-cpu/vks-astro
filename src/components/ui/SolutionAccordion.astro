@@ -4,6 +4,8 @@ interface Props {
   index: number;
 }
 
+import { url } from "@/utils/url";
+
 const { product, index } = Astro.props;
 ---
 
@@ -70,7 +72,7 @@ const { product, index } = Astro.props;
                     <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
                     {isLink ? (
                       <a
-                        href={`/resheniya/${feature.slug}`}
+                        href={url(`/resheniya/${feature.slug}`)}
                         class="text-navy/70 text-[13px] font-medium leading-snug transition-colors hover:text-blue hover:underline"
                       >
                         {text}
