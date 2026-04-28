@@ -1,0 +1,287 @@
+---
+import { getCollection, render } from "astro:content";
+import PageLayout from "@/layouts/PageLayout.astro";
+import LeadGen from "@/components/sections/LeadGen.astro";
+import ServiceCard from "@/components/ui/ServiceCard.astro";
+import Process from "@/components/sections/Process.astro";
+import { Picture } from "astro:assets";
+import heroBg from "@/assets/bg-vks.png";
+
+// 1. Generate static paths for every equipment in the `equipment` collection
+export async function getStaticPaths() {
+  const equipmentEntries = await getCollection("equipment");
+  return equipmentEntries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+// 2. Fetch the props passed by getStaticPaths
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<PageLayout title={`${entry.data.seoTitle || entry.data.title} | VKS Group`}>
+  {/* Hero Section (Replicated exactly from index) */}
+  <section
+    class="relative flex min-h-[60vh] flex-col justify-center overflow-hidden pb-16 pt-32 md:pb-24 md:pt-40"
+  >
+    <div class="absolute inset-0 z-0 select-none">
+      <Picture
+        id="hero-bg"
+        src={heroBg}
+        alt="Hero Background"
+        formats={["avif", "webp"]}
+        widths={[640, 1024, 1920, 2560]}
+        quality={100}
+        class="absolute inset-0 h-full w-full object-cover object-[75%_center]"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 w-full bg-gradient-to-r from-white/95 via-white/80 to-transparent md:w-[70%]"
+      >
+      </div>
+    </div>
+
+    <div
+      class="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6"
+    >
+      <div class="space-y-8 pt-12 md:pt-0">
+        {/* Breadcrumbs */}
+        <nav
+          class="text-navy/40 flex flex-wrap items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.1em]"
+        >
+          <a href="/" class="transition-colors hover:text-blue">Главная</a>
+          <span>/</span>
+          <a href="/resheniya" class="transition-colors hover:text-blue"
+            >Решения</a
+          >
+          <span>/</span>
+          <span class="text-navy">{entry.data.title}</span>
+        </nav>
+
+        <div>
+          <h1
+            class="font-display text-4xl font-bold uppercase leading-none tracking-tight text-navy sm:text-5xl md:text-6xl md:leading-[0.9] lg:text-5xl"
+          >
+            {entry.data.title}
+          </h1>
+          <p
+            class="text-navy/70 mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed md:text-lg lg:text-xl"
+          >
+            {entry.data.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Content Section */}
+  <section class="bg-white pt-12 pb-8 md:pt-16 md:pb-8">
+    <div class="container mx-auto max-w-7xl px-4 md:px-6">
+      {/* Ключевые преимущества (Стиль главной страницы) */}
+      {
+        entry.data.features && entry.data.features.length > 0 && (
+          <div class="mb-10 md:mb-12 lg:mb-16">
+            <div class="mb-8 md:mb-10 lg:mb-12">
+              <h2 class="font-display text-2xl font-bold uppercase leading-[1.1] tracking-tight text-navy md:text-3xl lg:text-4xl">
+                Ключевые преимущества
+              </h2>
+              <div class="text-navy/70 mt-4 max-w-3xl font-sans text-base leading-relaxed md:text-lg">
+                <Content />
+              </div>
+            </div>
+
+            <div
+              id="features-slider"
+              class="-mx-4 mt-8 flex w-full snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 pb-8 md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-2 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+            >
+              {entry.data.features.map((feature) => (
+                <ServiceCard
+                  slug=""
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  full=""
+                  className="service-card-mobile w-[280px] shrink-0 snap-center snap-always md:w-full"
+                />
+              ))}
+            </div>
+
+            {/* Pagination Dots for Mobile */}
+            <div
+              class="mt-4 flex justify-center gap-3 md:hidden"
+              role="tablist"
+              aria-label="Навигация по преимуществам"
+            >
+              {entry.data.features.map((_, i) => (
+                <button
+                  class="service-dot h-2 w-2 rounded-full bg-navy opacity-20 transition-all duration-300 aria-selected:w-6 aria-selected:bg-blue aria-selected:opacity-100"
+                  data-index={i}
+                  role="tab"
+                  aria-label={`Слайд ${i + 1}`}
+                  aria-selected={i === 0 ? "true" : "false"}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {/* Наши услуги (Оригинальный компонент Process.astro) */}
+  {
+    entry.data.services && entry.data.services.length > 0 && (
+      <Process
+        title="Наши услуги"
+        description="Мы обеспечиваем полный жизненный цикл работы с системами хранения данных: от аудита до технической поддержки."
+        steps={entry.data.services}
+      />
+    )
+  }
+
+  <LeadGen />
+</PageLayout>
+
+<script>
+  // Hero Background Parallax
+  let isMouseAttached = false;
+  let rafId: number | null = null;
+  let currentX = 0;
+  let currentY = 0;
+  let targetX = 0;
+  let targetY = 0;
+
+  const lerp = (start: number, end: number, factor: number) =>
+    start + (end - start) * factor;
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (window.innerWidth < 768) return;
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const sensitivity = 0.01;
+    targetX = (clientX - innerWidth / 2) * sensitivity;
+    targetY = (clientY - innerHeight / 2) * sensitivity;
+  };
+
+  // Mobile Slider Logic for Features
+  function updateDots(
+    index: number,
+    dots: NodeListOf<Element>,
+    cards: NodeListOf<Element>,
+  ) {
+    dots.forEach((dot, i) => {
+      dot.setAttribute("aria-selected", i === index ? "true" : "false");
+    });
+    cards.forEach((card, i) => {
+      card.classList.toggle("is-active", i === index);
+    });
+  }
+
+  function handleScroll(
+    slider: HTMLElement,
+    cards: NodeListOf<Element>,
+    dots: NodeListOf<Element>,
+    onUpdate: (index: number) => void,
+  ) {
+    let isScrolling: any;
+    slider.addEventListener(
+      "scroll",
+      () => {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(() => {
+          const scrollLeft = slider.scrollLeft;
+          const firstCard = cards[0] as HTMLElement;
+          const cardWidth = firstCard.offsetWidth + 24;
+          const index = Math.round(scrollLeft / cardWidth);
+          if (index >= 0 && index < dots.length) {
+            onUpdate(index);
+          }
+        }, 100);
+      },
+      { passive: true },
+    );
+  }
+
+  function initFeaturesSlider() {
+    const slider = document.getElementById("features-slider");
+    const dots = document.querySelectorAll(".service-dot");
+    const cards = document.querySelectorAll(".service-card-mobile");
+
+    if (!slider || dots.length === 0 || cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries.reduce((prev, curr) =>
+          curr.intersectionRatio > prev.intersectionRatio ? curr : prev,
+        );
+        if (mostVisible && mostVisible.intersectionRatio > 0.5) {
+          const index = Array.from(cards).indexOf(mostVisible.target);
+          updateDots(index, dots, cards);
+        }
+      },
+      { root: slider, threshold: 0.6 },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        const targetCard = cards[i] as HTMLElement;
+        if (targetCard) {
+          slider.scrollTo({
+            left: targetCard.offsetLeft - slider.offsetLeft,
+            behavior: "smooth",
+          });
+          updateDots(i, dots, cards);
+        }
+      });
+    });
+
+    handleScroll(slider, cards, dots, (index) =>
+      updateDots(index, dots, cards),
+    );
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    initFeaturesSlider();
+
+    const heroBg = document.getElementById("hero-bg");
+    if (heroBg) {
+      if (rafId) cancelAnimationFrame(rafId);
+      currentX = 0;
+      currentY = 0;
+      targetX = 0;
+      targetY = 0;
+
+      const animate = () => {
+        if (window.innerWidth >= 768) {
+          const diffX = targetX - currentX;
+          const diffY = targetY - currentY;
+          if (Math.abs(diffX) > 0.1 || Math.abs(diffY) > 0.1) {
+            currentX = lerp(currentX, targetX, 0.05);
+            currentY = lerp(currentY, targetY, 0.05);
+            heroBg.style.transform = `scale(1.03) translate(${-currentX}px, ${-currentY}px)`;
+          }
+        } else {
+          heroBg.style.transform = "scale(1.03) translate(0, 0)";
+        }
+        rafId = requestAnimationFrame(animate);
+      };
+
+      animate();
+
+      if (!isMouseAttached) {
+        window.addEventListener("mousemove", handleMouseMove);
+        isMouseAttached = true;
+      }
+    } else {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+  });
+</script>

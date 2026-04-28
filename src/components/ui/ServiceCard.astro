@@ -19,7 +19,7 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
 <div
   class={cn(
     "service-card group relative w-full block text-left cursor-default",
-    "h-auto md:h-[340px]",
+    "h-auto md:h-[270px]",
     "z-10 hover:z-50 transition-[z-index] duration-0 delay-500 hover:delay-0",
     className,
   )}
@@ -27,12 +27,12 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
   <div
     class={cn(
       "service-card-inner",
-      "w-full max-md:h-full bg-white rounded-xl p-8 lg:p-10 border border-[#e1e1e1] overflow-hidden",
+      "w-full max-md:h-full bg-white rounded-xl p-5 lg:p-6 border border-[#e1e1e1] overflow-hidden",
       "md:absolute md:top-0 md:left-0",
       "transform-gpu will-change-transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] origin-top",
       "shadow-[0_4px_20px_rgba(0,0,0,0.03)] focus-within:shadow-[0_20px_50px_rgba(0,123,255,0.15)]",
       "md:group-hover:shadow-[0_20px_50px_rgba(0,123,255,0.15)] md:group-hover:border-transparent md:group-hover:-translate-y-3",
-      "md:min-h-full md:max-h-[340px] md:group-hover:max-h-[800px]",
+      "md:min-h-full md:max-h-[270px] md:group-hover:max-h-[800px]",
       // Mobile active state
       "max-md:[.service-card.is-active_&]:shadow-[0_20px_50px_rgba(0,123,255,0.15)] max-md:[.service-card.is-active_&]:border-transparent max-md:[.service-card.is-active_&]:-translate-y-3",
     )}
@@ -40,21 +40,21 @@ const textSuffix = full.startsWith(",") ? full : " " + full;
     {/* Icon */}
     <div
       class={cn(
-        "icon-shine mb-6 transition-transform duration-500 ease-out",
+        "icon-shine mb-3 transition-transform duration-500 ease-out",
         "max-md:[.service-card.is-active_&]:after:animate-shine",
       )}
     >
       <Icon
         name={icon as any}
-        size={48}
-        class="text-blue transition-colors duration-500 md:h-16 md:w-16"
+        size={40}
+        class="text-blue transition-colors duration-500 md:h-12 md:w-12"
       />
     </div>
 
     {/* Title */}
     <h3
       class={cn(
-        "backface-hidden mb-4 transform-gpu pr-8 font-display text-xl font-bold uppercase tracking-wider text-navy transition-colors duration-500",
+        "backface-hidden mb-2 transform-gpu pr-0 font-display text-lg font-bold uppercase tracking-wider text-navy transition-colors duration-500 break-words",
         "group-hover:text-blue",
         "max-md:[.service-card.is-active_&]:text-blue",
       )}

@@ -80,8 +80,15 @@ const initDesktopSpy = () => {
 
 const initMobileAccordion = () => {
   const triggers = document.querySelectorAll(".editorial-trigger");
+  if (!triggers.length) return;
+
   triggers.forEach((trigger) => {
-    trigger.addEventListener("click", () => {
+    // Prevent double listeners
+    if (trigger.hasAttribute("data-js-init")) return;
+    trigger.setAttribute("data-js-init", "true");
+
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
       const isExp = trigger.getAttribute("aria-expanded") === "true";
       const wrapper = trigger.closest(".editorial-accordion");
 
@@ -89,10 +96,11 @@ const initMobileAccordion = () => {
 
       trigger.setAttribute("aria-expanded", String(!isExp));
       const panel = trigger.nextElementSibling as HTMLElement;
-      if (panel)
+      if (panel) {
         panel.style.cssText = !isExp
-          ? "grid-template-rows: 1fr; opacity: 1; transition: all 300ms ease-in-out;"
-          : "grid-template-rows: 0fr; opacity: 0; transition: all 300ms ease-in-out;";
+          ? "grid-template-rows: 1fr; opacity: 1; transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);"
+          : "grid-template-rows: 0fr; opacity: 0; transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);";
+      }
 
       trigger
         .querySelector(".editorial-chevron")
@@ -105,8 +113,13 @@ const initMobileAccordion = () => {
           !isExp,
         );
         wrapper.classList.toggle("border-[#e1e1e1]", isExp);
-        if (!isExp)
-          setTimeout(() => wrapper.scrollIntoView({ behavior: "smooth" }), 320);
+        
+        if (!isExp) {
+          // Allow panel to start opening before scrolling
+          setTimeout(() => {
+            wrapper.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }, 350);
+        }
       }
     });
   });

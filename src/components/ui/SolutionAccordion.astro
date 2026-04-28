@@ -62,14 +62,27 @@ const { product, index } = Astro.props;
         <div class="border-t border-[#e1e1e1]/60 pt-4">
           <ul class="flex flex-col gap-3">
             {
-              product.features.map((feature: string) => (
-                <li class="flex items-start gap-2.5">
-                  <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
-                  <span class="text-navy/55 text-[13px] font-normal leading-snug">
-                    {feature}
-                  </span>
-                </li>
-              ))
+              product.features.map((feature: any) => {
+                const isLink = typeof feature === "object" && feature !== null;
+                const text = isLink ? feature.title : feature;
+                return (
+                  <li class="flex items-start gap-2.5">
+                    <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
+                    {isLink ? (
+                      <a
+                        href={`/resheniya/${feature.slug}`}
+                        class="text-navy/70 text-[13px] font-medium leading-snug transition-colors hover:text-blue hover:underline"
+                      >
+                        {text}
+                      </a>
+                    ) : (
+                      <span class="text-navy/55 text-[13px] font-normal leading-snug">
+                        {text}
+                      </span>
+                    )}
+                  </li>
+                );
+              })
             }
           </ul>
         </div>

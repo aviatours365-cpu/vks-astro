@@ -4,8 +4,10 @@
  * Future localization: swap this file or add RU/BY dictionaries.
  */
 
+import { url } from "zod/v4";
+
 export const SITE = {
-  name: "VKS Group",
+  name: 'ООО "ВКС Технологии и системы"',
   url: "https://vksgroup.by",
   locale: "ru-BY",
   description:
@@ -16,17 +18,16 @@ export const SITE = {
 export const NAV_LINKS = [
   { label: "Услуги", href: "/uslugi" },
   { label: "Решения", href: "/resheniya" },
-  { label: "О компании", href: "/o-kompanii" },
   { label: "Контакты", href: "/kontakty" },
 ] as const;
 
 export const CONTACTS = {
   email: "info@vksgroup.by",
   phones: [
-    { label: "Гор.", value: "+375 (17) 370-91-91" },
-    { label: "МТС", value: "+375 (33) 315-91-91" },
-    { label: "A1", value: "+375 (29) 670-91-91" },
-    { label: "Life", value: "+375 (25) 770-91-91" },
+    { label: "", value: "+375 (17) 370-91-91" },
+    { label: "", value: "+375 (33) 315-91-91" },
+    { label: "", value: "+375 (29) 670-91-91" },
+    { label: "", value: "+375 (25) 770-91-91" },
   ],
   address: {
     short: "г. Минск, ул.Казинца, 11а, оф. A806",
@@ -56,7 +57,7 @@ export const UI = {
   allRightsReserved: "Все права защищены",
   privacyPolicy: "Политика конфиденциальности",
   cookiePolicy: "Файлы cookie",
-  discussProject: "Обсудить проект",
+  discussProject: "Консультация",
   menu: "Меню",
   openMenu: "Открыть меню",
   closeMenu: "Закрыть меню",
@@ -65,7 +66,7 @@ export const UI = {
 export const NAV_ANCHORS = [
   { label: "Услуги", href: "#services" },
   { label: "Решения", href: "#solutions" },
-  { label: "О компании", href: "#about" },
+  { label: "Контакты", href: "#contact" },
 ] as const;
 
 export * from "./sections";

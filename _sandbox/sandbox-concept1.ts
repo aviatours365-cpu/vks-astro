@@ -29,7 +29,9 @@ const initDesktopNav = (navItems: NodeListOf<Element>) => {
       e.preventDefault();
       const targetId = item.getAttribute("href");
       if (targetId)
-        document.querySelector(targetId)?.scrollIntoView({ behavior: "smooth" });
+        document
+          .querySelector(targetId)
+          ?.scrollIntoView({ behavior: "smooth" });
     });
   });
 };

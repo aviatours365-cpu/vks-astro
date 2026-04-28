@@ -78,14 +78,41 @@ const { product, index, labels } = Astro.props;
         </p>
         <div class="grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
           {
-            product.features.map((feature: string) => (
-              <div class="flex items-start gap-3">
-                <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
-                <span class="text-navy/55 text-[13px] font-normal leading-snug">
-                  {feature}
-                </span>
-              </div>
-            ))
+            product.features.map((feature: any) => {
+              const isLink = typeof feature === "object" && feature !== null;
+              const text = isLink ? feature.title : feature;
+              return (
+                <div class="flex items-start gap-3">
+                  <div class="mt-[6px] h-[6px] w-[6px] shrink-0 rounded-full bg-blue" />
+                  {isLink ? (
+                    <a
+                      href={`/resheniya/${feature.slug}`}
+                      class="group/link text-navy/70 flex items-center gap-1.5 text-[13px] font-medium leading-snug transition-colors hover:text-blue"
+                    >
+                      {text}
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="-translate-x-2 opacity-0 transition-all duration-300 group-hover/link:translate-x-0 group-hover/link:opacity-100"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <span class="text-navy/55 text-[13px] font-normal leading-snug">
+                      {text}
+                    </span>
+                  )}
+                </div>
+              );
+            })
           }
         </div>
       </div>

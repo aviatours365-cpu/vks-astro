@@ -8,9 +8,17 @@ export default defineConfig({
   base: process.env.BASE_PATH || "/",
   env: {
     schema: {
-      PUBLIC_SITE_URL: envField.string({ context: "client", access: "public", default: "https://vksgroup.by" }),
-      BASE_PATH: envField.string({ context: "client", access: "public", default: "/" }),
-    }
+      PUBLIC_SITE_URL: envField.string({
+        context: "client",
+        access: "public",
+        default: "https://vksgroup.by",
+      }),
+      BASE_PATH: envField.string({
+        context: "client",
+        access: "public",
+        default: "/",
+      }),
+    },
   },
   output: "static",
   compressHTML: true,

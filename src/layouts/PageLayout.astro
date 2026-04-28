@@ -12,7 +12,11 @@ interface Props {
 }
 
 const { title, description, schemaData } = Astro.props;
-const isHomePage = Astro.url.pathname === url("/") || Astro.url.pathname === "/" || Astro.url.pathname === url("") || Astro.url.pathname === "";
+const isHomePage =
+  Astro.url.pathname === url("/") ||
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === url("") ||
+  Astro.url.pathname === "";
 ---
 
 <RootLayout title={title} description={description} schemaData={schemaData}>
