@@ -79,10 +79,12 @@ interface Props {
         <ul class="flex flex-col gap-4">
           {
             CONTACTS.phones.map((phone) => (
-              <li class="flex items-baseline gap-3">
-                <span class="w-9 shrink-0 text-[10px] font-semibold uppercase tracking-widest text-white/40">
-                  {phone.label}
-                </span>
+              <li class="flex items-center gap-4">
+                <Icon
+                  name="phone"
+                  size={16}
+                  class="shrink-0 text-white/40"
+                />
                 <a
                   href={`tel:${phone.value.replace(/[^+\d]/g, "")}`}
                   class="whitespace-nowrap text-[16px] font-light tracking-wide text-white/90 transition-colors hover:text-white"

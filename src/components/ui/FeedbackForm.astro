@@ -26,7 +26,7 @@ const { form, success } = Astro.props;
 
 <div class="group/form relative min-h-[500px]">
   <div
-    class="h-full rounded-2xl bg-white p-8 shadow-[0_2px_12px_rgba(0,31,63,0.06)] transition-all duration-500 ease-out group-hover/form:-translate-y-1 group-hover/form:shadow-[0_12px_40px_rgba(0,123,255,0.15)] md:p-12 lg:p-14"
+    class="h-full rounded-2xl bg-white p-6 shadow-brand transition-all duration-500 ease-out group-hover/form:-translate-y-1 group-hover/form:shadow-brand-lg md:p-12 lg:p-14"
   >
     <div
       id="form-container"
@@ -51,7 +51,7 @@ const { form, success } = Astro.props;
             >
             </div>
             <p
-              class="error-message pointer-events-none absolute right-0 top-3 translate-x-2 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-error opacity-0 transition-all duration-300"
+              class="error-message pointer-events-none absolute right-0 top-3 translate-x-2 font-sans text-[9px] font-bold uppercase tracking-[0.2em] text-error opacity-0 transition-all duration-300"
             >
               {form.errors.required}
             </p>
@@ -83,7 +83,7 @@ const { form, success } = Astro.props;
           >
           </div>
           <p
-            class="error-message pointer-events-none absolute right-0 top-3 translate-x-2 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-error opacity-0 transition-all duration-300"
+            class="error-message pointer-events-none absolute right-0 top-3 translate-x-2 font-sans text-[9px] font-bold uppercase tracking-[0.2em] text-error opacity-0 transition-all duration-300"
           >
             {form.errors.required}
           </p>
@@ -113,7 +113,7 @@ const { form, success } = Astro.props;
           </Button>
 
           <p
-            class="text-navy/40 mb-1 py-3 text-center font-mono text-[10px] uppercase tracking-[0.2em]"
+            class="text-navy/40 mb-1 py-3 text-center font-sans text-[10px] uppercase tracking-[0.2em]"
           >
             {form.agreement}
           </p>
@@ -145,7 +145,7 @@ const { form, success } = Astro.props;
 
         <button
           id="form-reset-minimal"
-          class="text-navy/30 mt-14 font-mono text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-300 hover:tracking-[0.4em] hover:text-blue"
+          class="text-navy/30 mt-14 font-sans text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-300 hover:tracking-[0.4em] hover:text-blue"
         >
           Вернуться назад
         </button>

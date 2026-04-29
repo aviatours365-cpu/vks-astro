@@ -4,9 +4,6 @@
  * Future localization: swap this file or add RU/BY dictionaries.
  */
 
-
-
-
 export const SITE = {
   name: 'ООО "ВКС Технологии и системы"',
   url: "https://vksgroup.by",

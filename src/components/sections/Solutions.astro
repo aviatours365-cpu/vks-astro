@@ -112,12 +112,15 @@ const solutions = (await getCollection("solutions")).sort(
 
 <script>
   import { initSolutionsEditorial } from "@/scripts/solutions-init";
-  
+
   // Run on initial load and after each navigation
   document.addEventListener("astro:page-load", initSolutionsEditorial);
-  
+
   // Fallback for cases where astro:page-load might not trigger as expected on first hit
-  if (document.readyState === "complete" || document.readyState === "interactive") {
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
     initSolutionsEditorial();
   } else {
     document.addEventListener("DOMContentLoaded", initSolutionsEditorial);

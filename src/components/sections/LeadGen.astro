@@ -60,43 +60,47 @@ const { form, success } = SECTIONS.leadGen;
       </div>
 
       {/* ── 3. Contact Info (Email, Phones, Address) ── */}
-      <div class="order-3 lg:mt-12 lg:self-start">
-        <div class="space-y-6 lg:space-y-10">
-          <div class="group flex items-start gap-5">
+      <div class="order-3 lg:mt-8 lg:self-start">
+        <div class="space-y-4 lg:space-y-6">
+          <div class="group flex items-start gap-4">
             <div class="icon-shine shrink-0">
               <Icon
                 name="mail-hex"
-                size={56}
-                class="text-blue transition-colors duration-500"
+                size={32}
+                class="text-blue transition-colors duration-500 md:h-12 md:w-12"
               />
             </div>
-            <div class="flex flex-col justify-center min-h-[56px]">
+            <div
+              class="flex min-h-[32px] flex-col justify-center md:min-h-[56px]"
+            >
               <a
                 href={`mailto:${CONTACTS.email}`}
-                class="font-display text-xl font-bold text-navy transition-colors duration-300 hover:text-blue md:text-2xl"
+                class="font-sans text-base font-normal text-navy transition-colors duration-300 hover:text-blue md:font-display md:text-xl md:font-bold"
               >
                 {CONTACTS.email}
               </a>
             </div>
           </div>
 
-          <div class="group flex items-start gap-5">
+          <div class="group flex items-start gap-4">
             <div class="icon-shine shrink-0">
               <Icon
                 name="phone-hex"
-                size={56}
-                class="text-blue transition-colors duration-500"
+                size={32}
+                class="text-blue transition-colors duration-500 md:h-12 md:w-12"
               />
             </div>
-            <div class="flex flex-col justify-center min-h-[56px]">
+            <div
+              class="flex min-h-[32px] flex-col justify-center md:min-h-[56px]"
+            >
               <div
-                class="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+                class="grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
               >
                 {
                   CONTACTS.phones.map((phone) => (
                     <a
                       href={`tel:${phone.value.replace(/\D/g, "")}`}
-                      class="whitespace-nowrap font-display text-lg font-bold text-navy transition-colors duration-300 hover:text-blue md:text-xl"
+                      class="whitespace-nowrap font-sans text-base font-normal text-navy transition-colors duration-300 hover:text-blue md:font-display md:text-xl md:font-bold"
                     >
                       {phone.value}
                     </a>
@@ -105,37 +109,41 @@ const { form, success } = SECTIONS.leadGen;
               </div>
             </div>
           </div>
-          
-          <div class="group flex items-start gap-5">
+
+          <div class="group flex items-start gap-4">
             <div class="icon-shine shrink-0">
               <Icon
                 name="telegram-hex"
-                size={56}
-                class="text-blue transition-colors duration-500"
+                size={32}
+                class="text-blue transition-colors duration-500 md:h-12 md:w-12"
               />
             </div>
-            <div class="flex flex-col justify-center min-h-[56px]">
+            <div
+              class="flex min-h-[32px] flex-col justify-center md:min-h-[56px]"
+            >
               <a
                 href={CONTACTS.socials[0].href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-display text-xl font-bold text-navy transition-colors duration-300 hover:text-blue md:text-2xl"
+                class="font-sans text-base font-normal text-navy transition-colors duration-300 hover:text-blue md:font-display md:text-xl md:font-bold"
               >
-                Telegram: @VKSsales_bot
+                Telegram
               </a>
             </div>
           </div>
-          <div class="group flex items-start gap-5">
+          <div class="group flex items-start gap-4">
             <div class="icon-shine shrink-0">
               <Icon
                 name="map-pin-hex"
-                size={56}
-                class="text-blue transition-colors duration-500"
+                size={32}
+                class="text-blue transition-colors duration-500 md:h-12 md:w-12"
               />
             </div>
-            <div class="flex flex-col justify-center min-h-[56px]">
+            <div
+              class="flex min-h-[32px] flex-col justify-center md:min-h-[56px]"
+            >
               <address
-                class="text-base not-italic leading-relaxed text-navy/70 md:text-lg"
+                class="text-navy/70 font-sans text-base not-italic leading-relaxed md:font-display md:text-lg md:font-bold md:text-navy"
               >
                 {CONTACTS.address.full.join(", ")}
               </address>
